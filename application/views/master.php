@@ -57,7 +57,7 @@
                     <?php $this->load->view('nav_sidebar');?>
                     <div class="pcoded-content">
                         <div class="pcoded-inner-content">
-                        <?php isset($content)?$this->load->view($content):NULL;?>
+                        <?php isset($content)?$this->load->view($content):NULL;?> 
                         </div>
                     </div>
                 </div>
