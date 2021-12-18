@@ -10,4 +10,5 @@ class Welcome extends My_Controller {
 		$data['content']	='index';
 		$this->load->view($this->layout,$data);
 	}
+
 }
