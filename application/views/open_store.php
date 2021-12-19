@@ -85,52 +85,7 @@
 				<a data-toggle="modal" href="#large-Modal" class="col-md-12 btn btn-danger btn-block"
 					style="margin:1%;">Create Store</a>
 
-				<div class="card col-md-12" style="margin:1%;">
-					<div class="card-header">
-						<h5>Stores</h5>
-						<span>List of All Store</span>
-
-					</div>
-					<div class="card-block">
-						<table id="demo-foo-filtering"
-							class="table table-striped footable footable-1 footable-paging footable-paging-center breakpoint-lg"
-							style="">
-							<thead>
-								<tr class="footable-header">
-
-
-
-
-
-									<th class="footable-sortable footable-first-visible" style="display: table-cell;">
-										First Name<span class="fooicon fooicon-sort"></span></th>
-									<th data-breakpoints="xs" class="footable-sortable" style="display: table-cell;">
-										Last Name<span class="fooicon fooicon-sort"></span></th>
-									<th data-breakpoints="xs" class="footable-sortable" style="display: table-cell;">Job
-										Title<span class="fooicon fooicon-sort"></span></th>
-									<th data-breakpoints="xs" class="footable-sortable" style="display: table-cell;">
-										BOB<span class="fooicon fooicon-sort"></span></th>
-									<th class="footable-sortable footable-last-visible" style="display: table-cell;">
-										Status<span class="fooicon fooicon-sort"></span></th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-
-									<td class="footable-first-visible" style="display: table-cell;">Tiger Nixon</td>
-									<td style="display: table-cell;">System Architect</td>
-									<td style="display: table-cell;">Edinburgh</td>
-									<td style="display: table-cell;">61</td>
-									<td class="footable-last-visible" style="display: table-cell;"><span
-											class="tag tag-danger"> Suspended</span>
-									</td>
-								</tr>
-								<tr>
-
-							</tbody>
-						</table>
-					</div>
-				</div>
+				<div class="col-md-12" id="slideshow">Loading....</div>
 
 			</div>
 		</div>
@@ -148,12 +103,18 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title">Create Store</h4>
+
+
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">×</span>
 				</button>
 			</div>
 			<form id="uploadForm" enctype="multipart/form-data">
 				<div class="modal-body">
+					<!-- <div class="progress" style="margin-top:1.5%;">
+                        <div class="progress-bar"></div>
+                    </div> -->
+					<!-- <div id="uploadStatus" style="margin-top:1.5%;"></div> -->
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label">Store Name</label>
 						<div class="col-sm-10">
@@ -161,7 +122,7 @@
 						</div>
 					</div>
 
-                    <div class="form-group row">
+					<div class="form-group row">
 						<label class="col-sm-2 col-form-label">Store Logo</label>
 						<div class="col-sm-10">
 							<input type="file" name="file" id="fileInput" class="form-control">
@@ -179,64 +140,122 @@
 </div>
 
 
+
+
+
 <script type="text/javascript" src="<?php echo base_url();?>files/bower_components/jquery/dist/jquery.min.js"></script>
+
 <script type="text/javascript">
-    $(document).ready(function() {
-        $("#uploadForm").on('submit', function(e) {
-            e.preventDefault();
-            $.ajax({
-                xhr: function() {
-                    var xhr = new window.XMLHttpRequest();
-                    xhr.upload.addEventListener("progress", function(evt) {
-                        if (evt.lengthComputable) {
-                            var percentComplete = Math.round((evt.loaded / evt.total) * 100);
-                            $(".progress-bar").width(percentComplete + '%');
-                            $(".progress-bar").html(percentComplete + '%');
-                        }
-                    }, false);
-                    return xhr;
-                },
-                type: 'POST',
-                url: '<?php echo base_url();?>Office/create_store',
-                data: new FormData(this),
-                contentType: false,
-                cache: false,
-                timeout: 1000 * 100,
-                processData: false,
-                beforeSend: function() {
-                    $(".progress-bar").width('0%');
-                    $('#uploadStatus').html('<img src="<?php echo base_url();?>logo/loading_icon.gif" style="width: 200px; height: 100px;" />');
-                },
-                error: function() {
-                    $('#uploadStatus').html('<div class="alert alert-danger">File upload failed, please try again.</div>');
-                },
-                success: function(resp) {
-					alert(resp);
-                    if (resp == 'ok') {
-                        $('#uploadForm')[0].reset();
-                        $('#uploadStatus').html('<div class="alert alert-success">File has uploaded successfully!</div>');
-                    } else if (resp == 'err') {
-                        $('#uploadStatus').html('<div class="alert alert-danger">Database Could not upload this Picture to server</div>');
-                    } else {
+	$(document).ready(function () {
+		$("#uploadForm").on('submit', function (e) {
+			e.preventDefault();
+			$.ajax({
+				xhr: function () {
+					var xhr = new window.XMLHttpRequest();
+					xhr.upload.addEventListener("progress", function (evt) {
+						if (evt.lengthComputable) {
+							var percentComplete = Math.round((evt.loaded / evt.total) *
+								100);
+							$(".progress-bar").width(percentComplete + '%');
+							$(".progress-bar").html(percentComplete + '%');
+						}
+					}, false);
+					return xhr;
+				},
+				type: 'POST',
+				url: '<?php echo base_url();?>Office/create_store',
+				data: new FormData(this),
+				contentType: false,
+				cache: false,
+				timeout: 1000 * 100,
+				processData: false,
+				beforeSend: function () {
+					$(".progress-bar").width('0%');
+					$('#uploadStatus').html(
+						'<img src="<?php echo base_url();?>logo/loading_icon.gif" style="width: 200px; height: 100px;" />'
+					);
+				},
+				error: function () {
+					$('#uploadStatus').html(
+						'<div class="alert alert-danger"></div>'
+					);
+					swal({
+						title: "Oops!",
+						text: "fail to perform operation, please try again.",
+						icon: "error",
+						closeOnClickOutside: false,
 
-                        $('#uploadStatus').html('<div class="alert alert-danger">' + resp + '</div>');
-                    }
-                }
-            });
-        });
+					});
+				},
+				success: function (resp) {
+					if (resp == 'ok') {
+						$('#uploadForm')[0].reset();
+						$('#slideshow').load('<?php echo base_url();?>Office/list_store').fadeIn(1000);
+						swal({
+							title: "Success",
+							text: "Office Store has been created successfully!",
+							icon: "success",
+							closeOnClickOutside: false,
+
+						});
+
+					} else if (resp == 'err') {
+
+						swal({
+							title: "Oops!",
+							text: "Database Could not connect to server!",
+							icon: "info",
+							closeOnClickOutside: false,
+
+						});
+
+					} else {
 
 
-        $("#fileInput").change(function() {
-            var allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
-            var file = this.files[0];
-            var fileType = file.type;
-            if (!allowedTypes.includes(fileType)) {
-                //                alert('Please select a valid file (JPEG/JPG/PNG/GIF).');
-                $('#uploadStatus').html('<div class="alert alert-danger">Please select a valid file (JPEG/JPG/PNG/GIF.</div>');
-                $("#fileInput").val('');
-                return false;
-            }
-        });
-    });
+						swal({
+							title: "Oops!",
+							text: resp,
+							icon: "warning",
+							closeOnClickOutside: false,
+
+						});
+					}
+				}
+			});
+		});
+
+
+		$("#fileInput").change(function () {
+			var allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
+			var file = this.files[0];
+			var fileType = file.type;
+			if (!allowedTypes.includes(fileType)) {
+				//                alert('Please select a valid file (JPEG/JPG/PNG/GIF).');
+
+				swal({
+					title: "Oops!",
+					text: "Please select a valid file (JPEG/JPG/PNG/GIF.",
+					icon: "error",
+					closeOnClickOutside: false,
+
+				});
+				$("#fileInput").val('');
+				return false;
+			}
+		});
+	});
 
 </script>
+
+
+<script>
+	$(document).ready(function () {
+		//setInterval(function() { 
+		$('#slideshow').load('<?php echo base_url();?>Office/list_store')
+			.fadeIn(1000);
+		//},3000);
+	});
+
+</script>
+
+

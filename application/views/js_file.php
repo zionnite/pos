@@ -19,3 +19,9 @@
 <script src="<?php echo base_url();?>files/assets/js/vartical-layout.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>files/assets/pages/dashboard/custom-dashboard.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>files/assets/js/script.min.js"></script>
+
+
+    <!-- sweet alert js -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>files/assets/js/modal.js"></script> 
+    <!-- sweet alert modal.js intialize js -->

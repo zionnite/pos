@@ -21,6 +21,8 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
     <!-- Required Fremwork -->
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>files/bower_components/bootstrap/dist/css/bootstrap.min.css">
+     <!-- sweet alert framework -->
+     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>files/assets/css/sweetalert.css">
     <!-- feather Awesome -->
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>files/assets/icon/feather/css/feather.css">
     <!-- Style.css -->
