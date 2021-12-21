@@ -25,3 +25,7 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url();?>files/assets/js/modal.js"></script> 
     <!-- sweet alert modal.js intialize js -->
+
+    <!-- modalEffects js nifty modal window effects -->
+    <script type="text/javascript" src="<?php echo base_url();?>files/assets/js/modalEffects.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>files/assets/js/classie.js"></script>
