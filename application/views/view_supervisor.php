@@ -68,6 +68,7 @@
 								$id				        =$row['id'];
 								$store_id		        =$row['store_id'];
 								$store_owner_id	        =$row['store_owner_id'];
+                                
 								$store_name 	        =$row['store_name'];
                                 $branch_name            =$row['branch_store_name'];
                                 $branch_store_id        =$row['branch_store_id'];
@@ -78,11 +79,18 @@
 
 								$date			=$row['date_created'];
 								$time			=$row['time'];
+
+
+                                $store_logo             =$this->Action->get_store_logo_by_store_id($store_id);
+                                $store_name_2           =$this->Action->get_store_name_2_by_store_id($store_id);
 					?>
 
 									<tr>
 										<td><?php echo $i++;?></td>
-										<td><?php echo $store_name;?></td>
+										<td>
+                                            <img style="height:100px;width:100px" src="<?php echo base_url();?>store_img/<?php echo $store_name_2;?>/images/<?php echo $store_logo;?>" alt="">
+                                            <br /><?php echo $store_name;?>
+                                        </td>
 										<td><?php echo $branch_name;?></td>
 										<td><?php echo $sub_name;?></td>
 										<td><?php echo $sub_email;?></td>
@@ -182,7 +190,7 @@
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">Create Branch Store</h4>
+				<h4 class="modal-title">Create Branch Supervisor</h4>
 
 
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
