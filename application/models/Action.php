@@ -83,6 +83,16 @@ class Action extends My_Model{
 		}
 		return false;
 	}
+	public function get_store_owner_id_by_store_id($store_id){
+		$this->db->where('id',$store_id);
+		$query		=$this->db->get('office_store');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['store_owner_id'];
+			}
+		}
+		return false;
+	}
 
 	public function edit_store_logo($img_file_name,$store_id){
 		$data	= array('store_img'=>$img_file_name);
@@ -129,6 +139,25 @@ class Action extends My_Model{
 		}
 		return false;
 	}
+
+	public function get_store_branches_by_store_id($store_id){
+		$this->db->where(array('store_id'=>$store_id));
+		$query	=$this->db->get('branch_office');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
+	public function get_branch_name_by_branch_id($branch_id){
+		$this->db->where(array('id'=>$branch_id));
+		$query	=$this->db->get('branch_office');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['branch_name'];
+			}
+		}
+		return false;
+	}
 	
 	public function delete_branch_store($id){
 		$this->db->where('id',$id);
@@ -144,6 +173,38 @@ class Action extends My_Model{
 		$query		=$this->db->get('supervisor');
 		if($query->num_rows() > 0){
 			return $query->result_array();
+		}
+		return false;
+	}
+
+	public function create_supervisor($store_id,$branch_id,$name,$email,$phone){
+		$store_owner_id 			=$this->get_store_owner_id_by_store_id($store_id);
+		$store_name					=$this->get_store_name_by_store_id($store_id);
+		$branch_name				=$this->get_branch_name_by_branch_id($branch_id);
+		$data	=array('store_id'=>$store_id,
+					   'store_owner_id'=>$store_owner_id,
+					   'store_name'=>$store_name,
+					   'branch_store_id'=>$branch_id,
+					   'branch_store_name'=>$branch_name,
+					   'name'=>$name,
+					   'email'=>$email,
+					   'phone_no'=>$phone,
+					   'date_created'=>date('Y-m-d'),
+					   'time'=>time(),
+					);
+		$this->db->set($data);
+		$this->db->insert('supervisor');
+		if($this->db->affected_rows() > 0){
+			return true;
+		}
+		return false;
+	}
+
+	public function delete_supervisor($id){
+		$this->db->where('id',$id);
+		$this->db->delete('supervisor');
+		if($this->db->affected_rows() > 0){
+			return true;
 		}
 		return false;
 	}

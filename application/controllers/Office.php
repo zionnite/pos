@@ -218,6 +218,7 @@ class Office extends My_Controller {
         }
     }
 
+
     /*Create Supervisor*/
     public function view_supervisor(){
         $user_id        		        =$this->session->userdata('user_id');
@@ -232,14 +233,41 @@ class Office extends My_Controller {
 
     public function get_store_branch_name(){
 		$store_id	=$this->input->post('store_id');
-		$get_sub_cat_name	=$this->Admin_db->get_sub_cat_from_cat_id($store_id);
+		$get_sub_cat_name	=$this->Action->get_store_branches_by_store_id($store_id);
 		if(is_array($get_sub_cat_name)){
 			foreach($get_sub_cat_name as $row){
-				$sub_cat_id	=$row['sub_cat_id'];
-				$sub_cat_name	=$row['sub_cat_name'];
-				echo '<option value="'.$sub_cat_id.'">'.$sub_cat_name.'</option>';
+				$branch_id	    =$row['id'];
+				$branch_name	=$row['branch_name'];
+				echo '<option value="'.$branch_id.'">'.$branch_name.'</option>';
 			}
-		}
+		}else{
+            echo '<option>This store does not have a Branch Yet!</option>';
+        }
 	}
+
+    public function create_supervisor(){
+        $store_id               =$this->input->post('store_id');
+        $branch_id              =$this->input->post('branch_name');
+        $name                   =$this->input->post('name');
+        $email                  =$this->input->post('email');
+        $phone                  =$this->input->post('phone');
+
+        $action    =$this->Action->create_supervisor($store_id,$branch_id,$name,$email,$phone);
+        if($action){
+            echo 'ok';
+        }else{
+            echo 'err';
+        }
+
+    }
+
+    public function delete_supervisor($id){
+        $action    =$this->Action->delete_supervisor($id);
+        if($action){
+            echo 'ok';
+        }else{
+            echo 'err';
+        }
+    }
 
 }

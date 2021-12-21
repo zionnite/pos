@@ -90,7 +90,7 @@
 										<td><?php echo $date;?></td>
 										<td>
 											<a href="javascript:;" id="delete_branch_<?php echo $id;?>"
-												data-branch_id="<?php echo $id;?>"
+												data-id="<?php echo $id;?>"
 												class="btn btn-danger btn-sm">Delete</a>
 										</td>
 									</tr>
@@ -103,10 +103,9 @@
 										$(document).ready(function () {
 											$('#delete_branch_<?php echo $id;?>').click(function (e) {
 												e.preventDefault();
-												var id = $(this).data('branch_id');
+												var id = $(this).data('id');
 												swal({
-														title: "Are you sure you want to DELETE this Branch Store?",
-														text: "Once deleted, you will not be able to recover data relating to this Branch store",
+														title: "Are you sure you want to DELETE this Supervisor?",
 														icon: "warning",
 														buttons: true,
 														dangerMode: true,
@@ -116,7 +115,7 @@
 
 															$.ajax({
 																type: 'POST',
-																url: '<?php echo base_url();?>Office/delete_branch_store/' +
+																url: '<?php echo base_url();?>Office/delete_supervisor/' +
 																	id,
 
 																success: function (resp) {
@@ -124,7 +123,7 @@
 
 																		swal({
 																			title: "Success",
-																			text: "Branch Store has been Deleted successfully!",
+																			text: "Branch Supervisor has been been removed from List!",
 																			icon: "success",
 																			closeOnClickOutside: false,
 
@@ -190,7 +189,7 @@
 					<span aria-hidden="true">×</span>
 				</button>
 			</div>
-			<form id="create_branch_store" enctype="multipart/form-data">
+			<form id="create_supervisor" enctype="multipart/form-data">
 				<div class="modal-body">
 
 
@@ -275,11 +274,11 @@
 <script type="text/javascript">
 	$(document).ready(function () {
 
-		$('#create_branch_store').submit(function (e) {
+		$('#create_supervisor').submit(function (e) {
 			e.preventDefault();
 
 			$.ajax({
-				url: '<?php echo base_url();?>Office/create_branch_store',
+				url: '<?php echo base_url();?>Office/create_supervisor',
 				type: "post",
 				data: new FormData(this),
 				processData: false,
@@ -293,7 +292,7 @@
 
 						swal({
 							title: "Success",
-							text: "Branch store created",
+							text: "Supervisor Added to List",
 							icon: "success",
 							closeOnClickOutside: false,
 						});
