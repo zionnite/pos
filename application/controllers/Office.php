@@ -488,7 +488,7 @@ class Office extends My_Controller {
         $phone                  =$this->input->post('phone');
 
         $action    =$this->Action->create_customer($store_id,$branch_id,$name,$email,$phone);
-        if($action ==true){
+        if($action){
             echo 'ok';
         }else{
             echo 'err';

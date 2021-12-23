@@ -179,7 +179,7 @@
 					<span aria-hidden="true">×</span>
 				</button>
 			</div>
-			<form id="create_supervisor" enctype="multipart/form-data">
+			<form id="create_customer" enctype="multipart/form-data">
 				<div class="modal-body">
 
 
@@ -262,9 +262,10 @@
 <script type="text/javascript">
 	$(document).ready(function () {
 
-		$('#create_supervisor').submit(function (e) {
+		$('#create_customer').submit(function (e) {
 			e.preventDefault();
 
+			// alert('let');
 			
 			$.ajax({
 				url: '<?php echo base_url();?>Office/create_customer',
@@ -276,7 +277,8 @@
 				async: false,
 				success: function (data) {
 					$('#large-Modal').modal('hide');
-					alert(data);
+					// alert(data);
+					console.log(data);
 					if (data == 'ok') {
 
 

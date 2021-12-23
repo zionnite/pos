@@ -94,7 +94,7 @@
 
 											swal({
 												title: "Success",
-												text: "Branch Supervisor has been been removed from List!",
+												text: "Customer has been been removed from List!",
 												icon: "success",
 												closeOnClickOutside: false,
 
@@ -126,9 +126,6 @@
 
 		<?php
                                             }
-                                        }else{?>
-		<div class="alert alert-warning" style="margin-top:4%;">No Customer has been added to Database yet!</div>
-		<?php
                                         }
                                         ?>
 	</tbody>
@@ -137,6 +134,13 @@
 	</tfoot>
 </table>
 
+<?php 
+    if(!is_array($get_info)){
+?>
+    <div class="alert alert-warning" style="margin-top:1%;">No Customer has been added to Database yet!</div>
+<?php
+    }
+?>
 
 <ul class="pagination">
 		<?php echo $pagelinks ?>
