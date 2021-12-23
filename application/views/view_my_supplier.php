@@ -38,7 +38,7 @@
 							<form>
 								<input type="text" class="form-control" name="keywords" id="keywords"
 									onkeyup="searchFilter();" />
-								<small style="color:red;"><b>search with customer name, email or phone number</b></small>
+								<small style="color:red;"><b>search with supplier name, email or phone number</b></small>
 							</form>
 						</div>
 					</div>
@@ -47,7 +47,7 @@
 				<div class="col-md-12" id="slideshow">
 					<div class="card" id="slide_show">
 						<div class="card-header">
-							<h5>List Off Customers</h5>
+							<h5>List Off Supplier</h5>
 
 						</div>
 
@@ -91,7 +91,7 @@
 												
 										?>
 												<a id="filter_by_store" data-store_id="<?php echo $store_id;?>" class="dropdown-item waves-light waves-effect"
-													href="<?php echo base_url();?>Office/filter_customer/store/<?php echo $store_id;?>">
+													href="<?php echo base_url();?>Office/filter_supplier/store/<?php echo $store_id;?>">
 													<?php echo $store_name;?></a>
 												<?php
 												}
@@ -120,7 +120,7 @@
 												
 										?>
 												<a id="filter_by_branch" data-branch_id="<?php echo $branch_id;?>" class="dropdown-item waves-light waves-effect"
-													href="<?php echo base_url();?>Office/filter_customer/branch/<?php echo $branch_id;?>"><?php echo $get_store_name;?>
+													href="<?php echo base_url();?>Office/filter_supplier/branch/<?php echo $branch_id;?>"><?php echo $get_store_name;?>
 													(<?php echo $branch_name;?> Branch)</a>
 												<?php
 												}
@@ -138,7 +138,7 @@
 							</div>
                             
                             <a data-toggle="modal" href="#large-Modal" class="btn btn-danger btn-block"
-								style="margin-bottom:1%; float:left;">Add Customer</a>
+								style="margin-bottom:1%; float:left;">Add Supplier</a>
 
                             <div id="dataList">
                                 
@@ -164,7 +164,7 @@
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">Add Customer To List</h4>
+				<h4 class="modal-title">Add Supplier To List</h4>
 
 
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -214,21 +214,21 @@
 
 
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label">Customer Name</label>
+						<label class="col-sm-2 col-form-label">Supplier Name</label>
 						<div class="col-sm-10">
 							<input type="text" id="name" name="name" class="form-control" required>
 						</div>
 					</div>
 
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label">Customer Email</label>
+						<label class="col-sm-2 col-form-label">Supplier Email</label>
 						<div class="col-sm-10">
 							<input type="email" id="email" name="email" class="form-control" required>
 						</div>
 					</div>
 
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label">Customer Phone</label>
+						<label class="col-sm-2 col-form-label">Supplier Phone</label>
 						<div class="col-sm-10">
 							<input type="number" id="phone" name="phone" class="form-control" required>
 						</div>
@@ -239,7 +239,7 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Close</button>
 					<input type="submit" class="btn btn-primary waves-effect waves-light"
-						value="Add Customer">
+						value="Add Supplier">
 				</div>
 			</form>
 		</div>
@@ -251,6 +251,7 @@
 
 
 <script type="text/javascript" src="<?php echo base_url();?>files/bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>files/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
 	$(document).ready(function () {
@@ -258,9 +259,10 @@
 		$('#create_customer').submit(function (e) {
 			e.preventDefault();
 
+            
 			
 			$.ajax({
-				url: '<?php echo base_url();?>Office/create_customer',
+				url: '<?php echo base_url();?>Office/create_supplier',
 				type: "post",
 				data: new FormData(this),
 				processData: false,
@@ -289,6 +291,7 @@
 						});
 
 					}
+                    
 				}
 			});
 		});
@@ -379,7 +382,7 @@
 			
 			var dataString = 'search_key=' + search_key + '&sortBy=' + sortBy;
           
-			var base_url = '<?php echo site_url('Office/view_my_contact_ajax/') ?>';
+			var base_url = '<?php echo site_url('Office/view_my_supplier_ajax/') ?>';
 			
 			if(page_url == false) {
 				var page_url = base_url;

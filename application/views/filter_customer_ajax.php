@@ -1,8 +1,14 @@
 <table class="table table-striped footable footable-1 footable-paging footable-paging-center breakpoint-lg" style="">
-	<thead>
+<thead>
 		<tr class="footable-header">
 			<th class="footable-sortable footable-first-visible" style="display: table-cell;">
 				S/N<span class="fooicon fooicon-sort"></span></th>
+
+			<th class="footable-sortable footable-first-visible" style="display: table-cell;">Store
+				<span class="fooicon fooicon-sort"></span></th>
+
+			<th class="footable-sortable footable-first-visible" style="display: table-cell;">Branch
+				<span class="fooicon fooicon-sort"></span></th>
 
 
 
@@ -16,8 +22,6 @@
 					class="fooicon fooicon-sort"></span></th>
 
 			<th data-breakpoints="xs" class="footable-sortable" style="display: table-cell;">Date Created</th>
-			<th data-breakpoints="xs" class="footable-sortable" style="display: table-cell;"></th>
-			<th data-breakpoints="xs" class="footable-sortable" style="display: table-cell;"></th>
 			<th data-breakpoints="xs" class="footable-sortable" style="display: table-cell;"></th>
 		</tr>
 	</thead>

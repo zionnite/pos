@@ -1,5 +1,5 @@
 <table class="table table-striped footable footable-1 footable-paging footable-paging-center breakpoint-lg" style="">
-	<thead>
+<thead>
 		<tr class="footable-header">
 			<th class="footable-sortable footable-first-visible" style="display: table-cell;">
 				S/N<span class="fooicon fooicon-sort"></span></th>
@@ -12,13 +12,13 @@
 
 
 
-			<th data-breakpoints="xs" class="footable-sortable" style="display: table-cell;">Customer Name<span
+			<th data-breakpoints="xs" class="footable-sortable" style="display: table-cell;">Supplier Name<span
 					class="fooicon fooicon-sort"></span></th>
 
-			<th data-breakpoints="xs" class="footable-sortable" style="display: table-cell;">Customer Email<span
+			<th data-breakpoints="xs" class="footable-sortable" style="display: table-cell;">Supplier Email<span
 					class="fooicon fooicon-sort"></span></th>
 
-			<th data-breakpoints="xs" class="footable-sortable" style="display: table-cell;">Customer Phone No<span
+			<th data-breakpoints="xs" class="footable-sortable" style="display: table-cell;">Supplier Phone No<span
 					class="fooicon fooicon-sort"></span></th>
 
 			<th data-breakpoints="xs" class="footable-sortable" style="display: table-cell;">Date Created</th>
@@ -80,7 +80,7 @@
 					e.preventDefault();
 					var id = $(this).data('id');
 					swal({
-							title: "Are you sure you want to DELETE this Customer?",
+							title: "Are you sure you want to DELETE this Supplier?",
 							icon: "warning",
 							buttons: true,
 							dangerMode: true,
@@ -90,7 +90,7 @@
 
 								$.ajax({
 									type: 'POST',
-									url: '<?php echo base_url();?>Office/delete_customer/' +
+									url: '<?php echo base_url();?>Office/delete_supplier/' +
 										id,
 
 									success: function (resp) {
@@ -98,7 +98,7 @@
 
 											swal({
 												title: "Success",
-												text: "Customer has been been removed from List!",
+												text: "Supplier has been been removed from List!",
 												icon: "success",
 												closeOnClickOutside: false,
 
@@ -141,10 +141,11 @@
 <?php 
     if(!is_array($get_info)){
 ?>
-    <div class="alert alert-warning" style="margin-top:1%;">No Customer has been added to Database yet!</div>
+    <div class="alert alert-warning" style="margin-top:1%;">No Supplier has been added to Database yet!</div>
 <?php
     }
 ?>
+  
 
 <ul class="pagination">
 		<?php echo $pagelinks ?>

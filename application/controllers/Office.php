@@ -438,10 +438,6 @@ class Office extends My_Controller {
 
         $store_id   = $this->input->post('store_id');
         $type       = $this->input->post('type');
-
-        // $type='store';
-        // $store_id ='101';
-
 		
 		$this->load->library('pagination');
 		
@@ -494,5 +490,163 @@ class Office extends My_Controller {
             echo 'err';
         }
 
+    }
+
+    /*View My Supplier*/
+
+    public function view_my_supplier(){
+         
+        // Load the list page view 
+        $data['user_id']    =1;
+        $data['user_name']  ='zionnite';
+        $data['content']    ='view_my_supplier';
+
+        
+        $this->load->view($this->layout, $data); 
+    }
+
+
+
+    public function view_my_supplier_ajax($offset=null)
+	{
+		$search = array(
+			'keyword' => trim($this->input->post('search_key')),
+            'sort_by'  => $this->input->post('sortBy'),
+		);
+
+		
+		$this->load->library('pagination');
+		
+		$limit = 100;
+		$offset = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+		
+		$config['base_url'] = site_url('Office/view_my_supplier_ajax/');
+		$config['total_rows'] = $this->Action->count_supplier($search);
+		$config['per_page'] = $limit;
+		$config['uri_segment'] = 3;
+		$config['num_links'] = 3;
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+		$config['cur_tag_open'] = '<li><a href="" class="current_page">';
+		$config['cur_tag_close'] = '</a></li>';
+		$config['next_link'] = 'Next';
+		$config['next_tag_open'] = '<li>';
+		$config['next_tag_close'] = '</li>';
+		$config['prev_link'] = 'Previous';
+		$config['prev_tag_open'] = '<li>';
+		$config['prev_tag_close'] = '</li>';
+		$config['first_link'] = 'First';
+		$config['first_tag_open'] = '<li>';
+		$config['first_tag_close'] = '</li>';
+		$config['last_link'] = 'Last';
+		$config['last_tag_open'] = '<li>';
+		$config['last_tag_close'] = '</li>';
+		
+		$this->pagination->initialize($config);
+
+		$data['get_info'] = $this->Action->get_my_supplier($search, $limit, $offset);
+	
+		$data['pagelinks'] = $this->pagination->create_links();
+		
+		$this->load->view('my_supplier_ajax', $data);
+	}
+
+    public function delete_supplier($id){
+        $action    =$this->Action->delete_supplier($id);
+        if($action){
+            echo 'ok';
+        }else{
+            echo 'err';
+        }
+    }
+
+    public function filter_supplier($type =NULL,$store_id =NULL){
+         
+        // Load the list page view 
+        $data['user_id']    =1;
+        $data['user_name']  ='zionnite';
+        $data['content']    ='filter_supplier';
+
+        $data['dis_store_id']   =$store_id;
+        $data['type']           =$type;
+        $this->load->view($this->layout, $data); 
+    }
+
+    public function filter_supplier_ajax($offset=null)
+	{
+		$search = array(
+			'keyword' => trim($this->input->post('search_key')),
+            'sort_by'  => $this->input->post('sortBy'),
+		);
+
+        $store_id   = $this->input->post('store_id');
+        $type       = $this->input->post('type');
+		
+		$this->load->library('pagination');
+		
+		$limit = 100;
+		$offset = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+		
+		$config['base_url'] = site_url('Office/filter_supplier_ajax/');
+		$config['total_rows'] = $this->Action->count_filter_supplier($search, $store_id, $type);
+		$config['per_page'] = $limit;
+		$config['uri_segment'] = 3;
+		$config['num_links'] = 3;
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+		$config['cur_tag_open'] = '<li><a href="" class="current_page">';
+		$config['cur_tag_close'] = '</a></li>';
+		$config['next_link'] = 'Next';
+		$config['next_tag_open'] = '<li>';
+		$config['next_tag_close'] = '</li>';
+		$config['prev_link'] = 'Previous';
+		$config['prev_tag_open'] = '<li>';
+		$config['prev_tag_close'] = '</li>';
+		$config['first_link'] = 'First';
+		$config['first_tag_open'] = '<li>';
+		$config['first_tag_close'] = '</li>';
+		$config['last_link'] = 'Last';
+		$config['last_tag_open'] = '<li>';
+		$config['last_tag_close'] = '</li>';
+		
+		$this->pagination->initialize($config);
+        $this->pagination->cur_page = $offset;
+
+		$data['get_info'] = $this->Action->get_filter_supplier($search, $store_id, $type, $limit, $offset);
+	
+		$data['pagelinks'] = $this->pagination->create_links();
+		
+		$this->load->view('filter_supplier_ajax', $data);
+	}
+
+    public function create_supplier(){
+        $store_id               =$this->input->post('store_id');
+        $branch_id              =$this->input->post('branch_name');
+        $name                   =$this->input->post('name');
+        $email                  =$this->input->post('email');
+        $phone                  =$this->input->post('phone');
+
+        $action    =$this->Action->create_supplier($store_id,$branch_id,$name,$email,$phone);
+        if($action){
+            echo 'ok';
+        }else{
+            echo 'err';
+        }
+
+    }
+
+
+    /*Stock Product*/
+    public function add_stock(){
+        $user_id        		        =$this->session->userdata('user_id');
+        $user_name         		        =$this->session->userdata('user_name');
+
+        $data['user_id'] 	            = 1;
+        $data['user_name']	            ='zionnite';
+
+        $data['type']                   ='default';
+
+        $data['content']	            ='add_stock';
+		$this->load->view($this->layout, $data);
     }
 }

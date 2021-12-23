@@ -39,6 +39,9 @@
 								<input type="text" class="form-control" name="keywords" id="keywords"
 									onkeyup="searchFilter();" />
 								<small style="color:red;"><b>search with customer name, email or phone number</b></small>
+
+								<input type="hidden" name="dis_store_id" id="dis_store_id" value="<?php echo $dis_store_id;?>" />
+								<input type="hidden" name="type" id="type" value="<?php echo $type;?>" />
 							</form>
 						</div>
 					</div>
@@ -48,6 +51,8 @@
 					<div class="card" id="slide_show">
 						<div class="card-header">
 							<h5>List Off Customers</h5>
+							<?php $get_store_or_branch_name		=$this->Action->get_store_or_branch_name($type,$dis_store_id);?> 		
+							<h6>Filtering By <?php echo $type;?> Name (<?php echo $get_store_or_branch_name;?>)</h6>
 
 						</div>
 
@@ -91,8 +96,9 @@
 												
 										?>
 												<a id="filter_by_store" data-store_id="<?php echo $store_id;?>" class="dropdown-item waves-light waves-effect"
-													href="<?php echo base_url();?>Office/filter_customer/store/<?php echo $store_id;?>">
+													href="<?php echo base_url();?>Office/filter_supplier/store/<?php echo $store_id;?>">
 													<?php echo $store_name;?></a>
+
 												<?php
 												}
 											}
@@ -120,8 +126,10 @@
 												
 										?>
 												<a id="filter_by_branch" data-branch_id="<?php echo $branch_id;?>" class="dropdown-item waves-light waves-effect"
-													href="<?php echo base_url();?>Office/filter_customer/branch/<?php echo $branch_id;?>"><?php echo $get_store_name;?>
+													href="<?php echo base_url();?>Office/filter_supplier/branch/<?php echo $branch_id;?>"><?php echo $get_store_name;?>
 													(<?php echo $branch_name;?> Branch)</a>
+
+
 												<?php
 												}
 											}
@@ -138,7 +146,7 @@
 							</div>
                             
                             <a data-toggle="modal" href="#large-Modal" class="btn btn-danger btn-block"
-								style="margin-bottom:1%; float:left;">Add Customer</a>
+								style="margin-bottom:1%; float:left;">Add Supplier</a>
 
                             <div id="dataList">
                                 
@@ -164,7 +172,7 @@
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">Add Customer To List</h4>
+				<h4 class="modal-title">Add Supplier To List</h4>
 
 
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -214,21 +222,21 @@
 
 
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label">Customer Name</label>
+						<label class="col-sm-2 col-form-label">Supplier Name</label>
 						<div class="col-sm-10">
 							<input type="text" id="name" name="name" class="form-control" required>
 						</div>
 					</div>
 
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label">Customer Email</label>
+						<label class="col-sm-2 col-form-label">Supplier Email</label>
 						<div class="col-sm-10">
 							<input type="email" id="email" name="email" class="form-control" required>
 						</div>
 					</div>
 
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label">Customer Phone</label>
+						<label class="col-sm-2 col-form-label">Supplier Phone</label>
 						<div class="col-sm-10">
 							<input type="number" id="phone" name="phone" class="form-control" required>
 						</div>
@@ -239,7 +247,7 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Close</button>
 					<input type="submit" class="btn btn-primary waves-effect waves-light"
-						value="Add Customer">
+						value="Add Supplier">
 				</div>
 			</form>
 		</div>
@@ -251,16 +259,16 @@
 
 
 <script type="text/javascript" src="<?php echo base_url();?>files/bower_components/jquery/dist/jquery.min.js"></script>
-
 <script type="text/javascript">
 	$(document).ready(function () {
 
 		$('#create_customer').submit(function (e) {
 			e.preventDefault();
 
+			// alert('let');
 			
 			$.ajax({
-				url: '<?php echo base_url();?>Office/create_customer',
+				url: '<?php echo base_url();?>Office/create_supplier',
 				type: "post",
 				data: new FormData(this),
 				processData: false,
@@ -269,12 +277,14 @@
 				async: false,
 				success: function (data) {
 					$('#large-Modal').modal('hide');
+					// alert(data);
+					console.log(data);
 					if (data == 'ok') {
 
 
 						swal({
 							title: "Success",
-							text: "Sales Rep. Added to List",
+							text: "Supplier Added to List",
 							icon: "success",
 							closeOnClickOutside: false,
 						});
@@ -321,28 +331,6 @@
 </script>
 
 
-<!-- <script>
-	function searchFilter(page_num) {
-		page_num = page_num ? page_num : 0;
-		var keywords = $('#keywords').val();
-		var sortBy = $('#sortBy').val();
-
-		$.ajax({
-			type: 'POST',
-			url: '<?php echo base_url('Office/customerPaginationData/'); ?>'+page_num,
-			data: 'page=' + page_num + '&keywords=' + keywords + '&sortBy=' + sortBy,
-			beforeSend: function () {
-				$('.loading').show();
-			},
-			success: function (html) {
-				$('#dataList').html(html);
-				$('.loading').fadeOut("slow");
-			}
-		});
-	}
-
-</script> -->
-
 <script>
 	
 	$(function() {
@@ -373,13 +361,17 @@
 		/*-- create function ajaxlist --*/
 		function ajaxlist(page_url = false)
 		{
-			var search_key = $("#keywords").val();
-            var sortBy = $('#sortBy').val();
+			var search_key  = $("#keywords").val();
+            var sortBy      = $('#sortBy').val();
+            var store_id      = $('#dis_store_id').val();
+            var type      = $('#type').val();;
 
 			
-			var dataString = 'search_key=' + search_key + '&sortBy=' + sortBy;
+			// var dataString = 'search_key=' + search_key + '&sortBy=' + sortBy;
+
+			var dataString = 'search_key=' + search_key + '&sortBy=' + sortBy +'&store_id=' + store_id + '&type=' + type;
           
-			var base_url = '<?php echo site_url('Office/view_my_contact_ajax/') ?>';
+			var base_url = '<?php echo site_url('Office/filter_supplier_ajax/') ?>';
 			
 			if(page_url == false) {
 				var page_url = base_url;
@@ -391,8 +383,8 @@
 				url: page_url,
 				data: dataString,
 				success: function(response) {
-                    // alert(response);
-					console.log(response);
+					// alert(response);
+					// console.log(response);
 					$("#dataList").html(response);
 				}
 			});

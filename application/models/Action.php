@@ -5,6 +5,7 @@ class Action extends My_Model{
 	}
 	
 
+	/*Store & Branch*/
 	public function create_store($img_file_name,$store,$store_name,$user_id,$user_name){
 		$data		=array('store_name'=>$store,
 						   'store_name_2'=>$store_name,
@@ -177,6 +178,8 @@ class Action extends My_Model{
 		return false;
 	}
 
+	/*Supervisor*/
+
 	public function get_my_store_supervisor($user_id){
 		$this->db->where('store_owner_id',$user_id);
 		$query		=$this->db->get('supervisor');
@@ -250,6 +253,7 @@ class Action extends My_Model{
 		return false;
 	}
 
+	/*Sales Rep*/
 	public function create_sales_rep($store_id,$branch_id,$name,$email,$phone,$password){
 		$store_owner_id 			=$this->get_store_owner_id_by_store_id($store_id);
 		$store_name					=$this->get_store_name_by_store_id($store_id);
@@ -310,6 +314,7 @@ class Action extends My_Model{
 	}
 
 
+	/*Customer*/
 	public function count_customers($search){
 
 		$keyword = $search['keyword'];
@@ -342,8 +347,7 @@ class Action extends My_Model{
 		return false;
 	}
 
-	public function delete_customer($id)
-	{
+	public function delete_customer($id){
 		# code...
 		$this->db->where('id',$id);
 		$this->db->delete('customers_tbl');
@@ -442,4 +446,133 @@ class Action extends My_Model{
 		}
 		return false;
 	}
+
+	/*Supplier*/
+
+	public function count_supplier($search){
+
+		$keyword = $search['keyword'];
+		$sort_by = $search['sort_by'];
+
+		$this->db->like('name',$this->db->escape_like_str($keyword,'both'));
+		$this->db->or_like('email', $this->db->escape_like_str($keyword,'both'));
+    	$this->db->or_like('phone',$this->db->escape_like_str($keyword,'both'));
+        $this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+        $this->db->or_like('branch_store_name', $this->db->escape_like_str($keyword,'both'));
+		return $this->db->from('suppliers_tbl')->count_all_results();
+	}
+
+	public function get_my_supplier($search,$limit, $offset){
+		$keyword = $search['keyword'];
+		$sort_by = $search['sort_by'];
+
+		$this->db->like('name',$this->db->escape_like_str($keyword,'both'));
+		$this->db->or_like('email', $this->db->escape_like_str($keyword,'both'));
+    	$this->db->or_like('phone',$this->db->escape_like_str($keyword,'both'));
+        $this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+        $this->db->or_like('branch_store_name', $this->db->escape_like_str($keyword,'both'));
+		$this->db->limit($limit, $offset);
+		$this->db->order_by('name',$sort_by);
+		$query		=$this->db->get('suppliers_tbl');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+
+		return false;
+	}
+
+	public function delete_supplier($id){
+		# code...
+		$this->db->where('id',$id);
+		$this->db->delete('suppliers_tbl');
+		if($this->db->affected_rows() > 0){
+			return true;
+		}
+		return false;
+	}
+
+	public function count_filter_supplier($search, $store_id, $type){
+
+		$keyword = $search['keyword'];
+		$sort_by = $search['sort_by'];
+
+		
+
+		if($type =='store'){
+
+			$this->db->where('store_id',$store_id);
+		}else if($type =='branch'){
+
+			$this->db->where('branch_store_id', $store_id);
+		}
+
+		
+		if(!empty($keyword)){
+			$this->db->like('name',$this->db->escape_like_str($keyword,'both'));
+			$this->db->or_like('email', $this->db->escape_like_str($keyword,'both'));
+			$this->db->or_like('phone',$this->db->escape_like_str($keyword,'both'));
+			$this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->or_like('branch_store_name', $this->db->escape_like_str($keyword,'both'));
+		}
+	
+		return $this->db->from('suppliers_tbl')->count_all_results();
+	}
+
+	public function get_filter_supplier($search, $store_id, $type, $limit, $offset){
+		$keyword = $search['keyword'];
+		$sort_by = $search['sort_by'];
+
+		if($type =='store'){
+
+			$this->db->where('store_id',$store_id);
+		}else if($type =='branch'){
+
+			$this->db->where('branch_store_id', $store_id);
+		}
+
+		if(!empty($keyword)){
+			$this->db->like('name',$this->db->escape_like_str($keyword,'both'));
+			$this->db->or_like('email', $this->db->escape_like_str($keyword,'both'));
+			$this->db->or_like('phone',$this->db->escape_like_str($keyword,'both'));
+			$this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->or_like('branch_store_name', $this->db->escape_like_str($keyword,'both'));
+		}
+
+		
+		
+		$this->db->limit($limit, $offset);
+		$this->db->order_by('name',$sort_by);
+		$query		=$this->db->get('suppliers_tbl');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+
+		return false;
+	}
+
+
+
+	public function create_supplier($store_id,$branch_id,$name,$email,$phone){
+		$store_owner_id 			=$this->get_store_owner_id_by_store_id($store_id);
+		$store_name					=$this->get_store_name_by_store_id($store_id);
+		$branch_name				=$this->get_branch_name_by_branch_id($branch_id);
+		$data	=array('store_id'=>$store_id,
+					   'store_owner_id'=>$store_owner_id,
+					   'store_name'=>$store_name,
+					   'branch_store_id'=>$branch_id,
+					   'branch_store_name'=>$branch_name,
+					   'name'=>$name,
+					   'email'=>$email,
+					   'phone'=>$phone,
+					   'date_created'=>date('Y-m-d'),
+					   'time'=>time(),
+					);
+		$this->db->set($data);
+		$this->db->insert('suppliers_tbl');
+		if($this->db->affected_rows() > 0){
+			return true;
+		}
+		return false;
+	}
+
 }

@@ -38,7 +38,7 @@
 							<form>
 								<input type="text" class="form-control" name="keywords" id="keywords"
 									onkeyup="searchFilter();" />
-								<small style="color:red;"><b>seach with customer name, email or phone number</b></small>
+								<small style="color:red;"><b>search with customer name, email or phone number</b></small>
 
 								<input type="hidden" name="dis_store_id" id="dis_store_id" value="<?php echo $dis_store_id;?>" />
 								<input type="hidden" name="type" id="type" value="<?php echo $type;?>" />
