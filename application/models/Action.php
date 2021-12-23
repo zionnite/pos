@@ -148,6 +148,15 @@ class Action extends My_Model{
 		}
 		return false;
 	}
+
+	public function get_store_branches_by_owner_id($owner_id){
+		$this->db->where(array('store_owner_id'=>$owner_id));
+		$query	=$this->db->get('branch_office');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
 	public function get_branch_name_by_branch_id($branch_id){
 		$this->db->where(array('id'=>$branch_id));
 		$query	=$this->db->get('branch_office');
@@ -176,8 +185,25 @@ class Action extends My_Model{
 		}
 		return false;
 	}
+	
+	public function get_my_store_supervisor_filter_by_store_id($user_id,$store_id){
+		$this->db->where(array('store_owner_id'=>$user_id,'store_id'=>$store_id));
+		$query		=$this->db->get('supervisor');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
+	public function get_my_store_supervisor_filter_by_branch_id($user_id,$dis_branch_id){
+		$this->db->where(array('store_owner_id'=>$user_id,'branch_store_id'=>$dis_branch_id));
+		$query		=$this->db->get('supervisor');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
 
-	public function create_supervisor($store_id,$branch_id,$name,$email,$phone){
+	public function create_supervisor($store_id,$branch_id,$name,$email,$phone,$password){
 		$store_owner_id 			=$this->get_store_owner_id_by_store_id($store_id);
 		$store_name					=$this->get_store_name_by_store_id($store_id);
 		$branch_name				=$this->get_branch_name_by_branch_id($branch_id);
@@ -191,6 +217,7 @@ class Action extends My_Model{
 					   'phone_no'=>$phone,
 					   'date_created'=>date('Y-m-d'),
 					   'time'=>time(),
+					   'password'=>md5($password),
 					);
 		$this->db->set($data);
 		$this->db->insert('supervisor');
@@ -199,10 +226,217 @@ class Action extends My_Model{
 		}
 		return false;
 	}
+	
 
 	public function delete_supervisor($id){
 		$this->db->where('id',$id);
 		$this->db->delete('supervisor');
+		if($this->db->affected_rows() > 0){
+			return true;
+		}
+		return false;
+	}
+
+
+	public function get_store_name_by_branch_id($branch_id){
+		$this->db->where('id',$branch_id);
+		$query		=$this->db->get('branch_office');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				$store_id		=$row['store_id'];
+				return $this->get_store_name_by_store_id($store_id);
+			}
+		}
+		return false;
+	}
+
+	public function create_sales_rep($store_id,$branch_id,$name,$email,$phone,$password){
+		$store_owner_id 			=$this->get_store_owner_id_by_store_id($store_id);
+		$store_name					=$this->get_store_name_by_store_id($store_id);
+		$branch_name				=$this->get_branch_name_by_branch_id($branch_id);
+		$data	=array('store_id'=>$store_id,
+					   'store_owner_id'=>$store_owner_id,
+					   'store_name'=>$store_name,
+					   'branch_store_id'=>$branch_id,
+					   'branch_store_name'=>$branch_name,
+					   'name'=>$name,
+					   'email'=>$email,
+					   'phone_no'=>$phone,
+					   'date_created'=>date('Y-m-d'),
+					   'time'=>time(),
+					   'password'=>md5($password),
+					);
+		$this->db->set($data);
+		$this->db->insert('sales_rep');
+		if($this->db->affected_rows() > 0){
+			return true;
+		}
+		return false;
+	}
+
+	public function get_my_store_sales_rep($user_id){
+		$this->db->where('store_owner_id',$user_id);
+		$query		=$this->db->get('sales_rep');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
+	
+	public function get_my_store_sales_rep_filter_by_store_id($user_id,$store_id){
+		$this->db->where(array('store_owner_id'=>$user_id,'store_id'=>$store_id));
+		$query		=$this->db->get('sales_rep');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
+	public function get_my_store_sales_rep_filter_by_branch_id($user_id,$dis_branch_id){
+		$this->db->where(array('store_owner_id'=>$user_id,'branch_store_id'=>$dis_branch_id));
+		$query		=$this->db->get('sales_rep');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
+
+	public function delete_sales_rep($id){
+		$this->db->where('id',$id);
+		$this->db->delete('sales_rep');
+		if($this->db->affected_rows() > 0){
+			return true;
+		}
+		return false;
+	}
+
+
+	public function count_customers($search){
+
+		$keyword = $search['keyword'];
+		$sort_by = $search['sort_by'];
+
+		$this->db->like('name',$this->db->escape_like_str($keyword,'both'));
+		$this->db->or_like('email', $this->db->escape_like_str($keyword,'both'));
+    	$this->db->or_like('phone',$this->db->escape_like_str($keyword,'both'));
+        $this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+        $this->db->or_like('branch_store_name', $this->db->escape_like_str($keyword,'both'));
+		return $this->db->from('customers_tbl')->count_all_results();
+	}
+
+	public function get_my_customer($search,$limit, $offset){
+		$keyword = $search['keyword'];
+		$sort_by = $search['sort_by'];
+
+		$this->db->like('name',$this->db->escape_like_str($keyword,'both'));
+		$this->db->or_like('email', $this->db->escape_like_str($keyword,'both'));
+    	$this->db->or_like('phone',$this->db->escape_like_str($keyword,'both'));
+        $this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+        $this->db->or_like('branch_store_name', $this->db->escape_like_str($keyword,'both'));
+		$this->db->limit($limit, $offset);
+		$this->db->order_by('name',$sort_by);
+		$query		=$this->db->get('customers_tbl');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+
+		return false;
+	}
+
+	public function delete_customer($id)
+	{
+		# code...
+		$this->db->where('id',$id);
+		$this->db->delete('customers_tbl');
+		if($this->db->affected_rows() > 0){
+			return true;
+		}
+		return false;
+	}
+
+	public function count_filter_customers($search, $store_id, $type){
+
+		$keyword = $search['keyword'];
+		$sort_by = $search['sort_by'];
+
+		
+
+		if($type =='store'){
+
+			$this->db->where('store_id',$store_id);
+		}else if($type =='branch'){
+
+			$this->db->where('branch_store_id', $store_id);
+		}
+
+		
+		if(!empty($keyword)){
+			$this->db->like('name',$this->db->escape_like_str($keyword,'both'));
+			$this->db->or_like('email', $this->db->escape_like_str($keyword,'both'));
+			$this->db->or_like('phone',$this->db->escape_like_str($keyword,'both'));
+			$this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->or_like('branch_store_name', $this->db->escape_like_str($keyword,'both'));
+		}
+	
+		return $this->db->from('customers_tbl')->count_all_results();
+	}
+
+	public function get_filter_customer($search, $store_id, $type, $limit, $offset){
+		$keyword = $search['keyword'];
+		$sort_by = $search['sort_by'];
+
+		if($type =='store'){
+
+			$this->db->where('store_id',$store_id);
+		}else if($type =='branch'){
+
+			$this->db->where('branch_store_id', $store_id);
+		}
+
+		if(!empty($keyword)){
+			$this->db->like('name',$this->db->escape_like_str($keyword,'both'));
+			$this->db->or_like('email', $this->db->escape_like_str($keyword,'both'));
+			$this->db->or_like('phone',$this->db->escape_like_str($keyword,'both'));
+			$this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->or_like('branch_store_name', $this->db->escape_like_str($keyword,'both'));
+		}
+
+		
+		
+		$this->db->limit($limit, $offset);
+		$this->db->order_by('name',$sort_by);
+		$query		=$this->db->get('customers_tbl');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+
+		return false;
+	}
+
+	public function get_store_or_branch_name($type,$id){
+		if($type =='store'){
+			return $this->get_store_name_by_store_id($id);
+		}else if($type =='branch'){
+			return $this->get_branch_name_by_branch_id($id);
+		}
+	}
+
+	public function create_customer($store_id,$branch_id,$name,$email,$phone){
+		$store_owner_id 			=$this->get_store_owner_id_by_store_id($store_id);
+		$store_name					=$this->get_store_name_by_store_id($store_id);
+		$branch_name				=$this->get_branch_name_by_branch_id($branch_id);
+		$data	=array('store_id'=>$store_id,
+					   'store_owner_id'=>$store_owner_id,
+					   'store_name'=>$store_name,
+					   'branch_store_id'=>$branch_id,
+					   'branch_store_name'=>$branch_name,
+					   'name'=>$name,
+					   'email'=>$email,
+					   'phone'=>$phone,
+					   'date_created'=>date('Y-m-d'),
+					   'time'=>time(),
+					);
+		$this->db->set($data);
+		$this->db->insert('customers_tbl');
 		if($this->db->affected_rows() > 0){
 			return true;
 		}

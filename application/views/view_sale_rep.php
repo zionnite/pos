@@ -8,12 +8,12 @@
 				<!-- task, page, download counter  end -->
 
 				<a data-toggle="modal" href="#large-Modal" class="col-md-12 btn btn-danger btn-block"
-					style="margin:1%;">Create Branch Supervisor</a>
+					style="margin:1%;">Create Sales Rep.</a>
 
 				<div class="col-md-12" id="slideshow">
 					<div class="card" id="slide_show">
 						<div class="card-header">
-							<h5>List Off All Supervisor</h5>
+							<h5>List Off All Sales Rep.</h5>
 
 						</div>
 
@@ -40,14 +40,16 @@
 													$store_id		=$row['id'];
 												
 										?>
-											<a class="dropdown-item waves-light waves-effect" href="<?php echo base_url();?>Office/get_supervisor_by_store_id/<?php echo $store_id;?>"> <?php echo $store_name;?></a>
+										<a class="dropdown-item waves-light waves-effect"
+											href="<?php echo base_url();?>Office/get_supervisor_by_store_id/<?php echo $store_id;?>">
+											<?php echo $store_name;?></a>
 										<?php
 												}
 											}
 										?>
 									</div>
 								</div>
-								
+
 								<div class="dropdown-inverse dropdown open">
 									<button class="btn btn-primary dropdown-toggle waves-effect waves-light "
 										type="button" id="dropdown-7" data-toggle="dropdown" aria-haspopup="true"
@@ -64,7 +66,9 @@
 													$get_store_name		=$this->Action->get_store_name_by_branch_id($branch_id);
 												
 										?>
-											<a class="dropdown-item waves-light waves-effect" href="<?php echo base_url();?>Office/get_supervisor_by_store_branch_id/<?php echo $branch_id;?>"><?php echo $get_store_name;?> (<?php echo $branch_name;?> Branch)</a>
+										<a class="dropdown-item waves-light waves-effect"
+											href="<?php echo base_url();?>Office/get_supervisor_by_store_branch_id/<?php echo $branch_id;?>"><?php echo $get_store_name;?>
+											(<?php echo $branch_name;?> Branch)</a>
 										<?php
 												}
 											}
@@ -73,7 +77,6 @@
 								</div>
 
 							</div>
-
 							<table id="demo-foo-filtering"
 								class="table table-striped footable footable-1 footable-paging footable-paging-center breakpoint-lg"
 								style="">
@@ -98,15 +101,15 @@
 
 
 										<th data-breakpoints="xs" class="footable-sortable"
-											style="display: table-cell;">Supervisor Name<span
+											style="display: table-cell;">Rep. Name<span
 												class="fooicon fooicon-sort"></span></th>
 
 										<th data-breakpoints="xs" class="footable-sortable"
-											style="display: table-cell;">Supervisor Email<span
+											style="display: table-cell;">Rep. Email<span
 												class="fooicon fooicon-sort"></span></th>
 
 										<th data-breakpoints="xs" class="footable-sortable"
-											style="display: table-cell;">Supervisor Phone No<span
+											style="display: table-cell;">Rep Phone No<span
 												class="fooicon fooicon-sort"></span></th>
 
 										<th data-breakpoints="xs" class="footable-sortable"
@@ -117,21 +120,18 @@
 								</thead>
 
 								<tbody>
+									<?php
+										
+									if($type =='default'){
+										$get_branch			=$this->Action->get_my_store_sales_rep($user_id);
+									}elseif($type =='store'){
+										$get_branch			=$this->Action->get_my_store_sales_rep_filter_by_store_id($user_id,$dis_store_id);
+
+										
+									}elseif($type =='branch'){
+										$get_branch			=$this->Action->get_my_store_sales_rep_filter_by_branch_id($user_id,$dis_branch_id);
+									}
 						
-
-
-						<?php
-							
-							if($type =='default'){
-								$get_branch			=$this->Action->get_my_store_supervisor($user_id);
-							}elseif($type =='store'){
-								$get_branch			=$this->Action->get_my_store_supervisor_filter_by_store_id($user_id,$dis_store_id);
-
-								
-							}elseif($type =='branch'){
-								$get_branch			=$this->Action->get_my_store_supervisor_filter_by_branch_id($user_id,$dis_branch_id);
-							}
-							
 						$i=1;
 						if(is_array($get_branch)){
 							foreach($get_branch as $row){
@@ -184,7 +184,7 @@
 												e.preventDefault();
 												var id = $(this).data('id');
 												swal({
-														title: "Are you sure you want to DELETE this Supervisor?",
+														title: "Are you sure you want to DELETE this SALE'S REP?",
 														icon: "warning",
 														buttons: true,
 														dangerMode: true,
@@ -194,7 +194,7 @@
 
 															$.ajax({
 																type: 'POST',
-																url: '<?php echo base_url();?>Office/delete_supervisor/' +
+																url: '<?php echo base_url();?>Office/delete_sales_rep/' +
 																	id,
 
 																success: function (resp) {
@@ -235,7 +235,7 @@
 									<?php
 							}
 						}else{?>
-									<div class="alert alert-warning" style="margin-top:4%;">No Supervisor has been added to Database yet!</div>
+									<div class="alert alert-warning" style="margin-top:4%;">No Sales Rep. has been added to Database yet!</div>
 									<?php
 						}
 					?>
@@ -261,7 +261,7 @@
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">Create Branch Supervisor</h4>
+				<h4 class="modal-title">Create Sales Rep</h4>
 
 
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -311,28 +311,28 @@
 
 
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label">Supervisor Name</label>
+						<label class="col-sm-2 col-form-label">Rep. Name</label>
 						<div class="col-sm-10">
 							<input type="text" id="name" name="name" class="form-control" required>
 						</div>
 					</div>
 
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label">Supervisor Email</label>
+						<label class="col-sm-2 col-form-label">Rep. Email</label>
 						<div class="col-sm-10">
 							<input type="email" id="email" name="email" class="form-control" required>
 						</div>
 					</div>
 
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label">Supervisor Phone</label>
+						<label class="col-sm-2 col-form-label">Rep. Phone</label>
 						<div class="col-sm-10">
 							<input type="number" id="phone" name="phone" class="form-control" required>
 						</div>
 					</div>
 
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label">Supervisor Password</label>
+						<label class="col-sm-2 col-form-label">Rep. Password</label>
 						<div class="col-sm-10">
 							<input type="text" id="password" name="password" class="form-control" required>
 						</div>
@@ -365,7 +365,7 @@
 			e.preventDefault();
 
 			$.ajax({
-				url: '<?php echo base_url();?>Office/create_supervisor',
+				url: '<?php echo base_url();?>Office/create_sales_rep',
 				type: "post",
 				data: new FormData(this),
 				processData: false,
@@ -379,7 +379,7 @@
 
 						swal({
 							title: "Success",
-							text: "Supervisor Added to List",
+							text: "Sales Rep. Added to List",
 							icon: "success",
 							closeOnClickOutside: false,
 						});
