@@ -1,4 +1,3 @@
-
 <head>
     <title>Adminty - Premium Admin Template by Colorlib </title>
     <!-- HTML5 Shim and Respond.js IE10 support of HTML5 elements and media queries -->
@@ -18,14 +17,18 @@
     <!-- Favicon icon -->
     <link rel="icon" href="<?php echo base_url();?>files/assets/images/favicon.ico" type="image/x-icon">
     <!-- Google font-->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800" rel="stylesheet">
     <!-- Required Fremwork -->
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>files/bower_components/bootstrap/dist/css/bootstrap.min.css">
-     <!-- sweet alert framework -->
-     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>files/assets/css/sweetalert.css">
-     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>files/bower_components/jquery.steps/demo/css/jquery.steps.css">
+    <!-- themify-icons line icon -->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>files/assets/icon/themify-icons/themify-icons.css">
+    <!-- ico font -->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>files/assets/icon/icofont/css/icofont.css">
     <!-- feather Awesome -->
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>files/assets/icon/feather/css/feather.css">
+    <!--forms-wizard css-->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>files/bower_components/jquery.steps/demo/css/jquery.steps.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>files/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" />
     <!-- Style.css -->
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>files/assets/css/style.css">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>files/assets/css/jquery.mCustomScrollbar.css">

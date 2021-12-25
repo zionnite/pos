@@ -575,4 +575,70 @@ class Action extends My_Model{
 		return false;
 	}
 
+	public function create_product($img_file_name,$store_id,$store_name,$branch_id,$branch_name,$store_owner_id,$prod_name,$prod_size,$prod_bunk,$prod_cat,$prod_sub_cat,$prod_color,$prod_sup,/*$prod_brand,*/$prod_desc,$prod_cost,$prod_price,
+	$prod_whole,$prod_weight,$prod_discount,$metal_title,$metal_key,$metal_desc){
+
+		$data		=array('store_id'=>$store_id,
+			  			   'store_name'=>$store_name,
+						   'branch_id'=>$branch_id,
+						   'branch_name'=>$branch_name,
+						   'store_owner_id'=>$store_owner_id,
+						   'prod_name'=>$prod_name,
+						   'prod_size'=>$prod_size,
+						   'prod_bunk'=>$prod_bunk,
+						   'prod_cat'=>$prod_cat,
+						   'prod_sub_cat'=>$prod_sub_cat,
+						   'prod_color'=>$prod_color,
+						   'prod_supplier'=>$prod_sup,
+						//    'prod_brand'=>$prod_brand,
+						   'prod_desc'=>$prod_desc,
+						   'prod_cost'=>$prod_cost,
+						   'prod_price'=>$prod_price,
+						   'prod_whole'=>$prod_whole,
+						   'prod_weight'=>$prod_weight,
+						   'prod_discount'=>$prod_discount,
+						   'prod_image'=>$img_file_name,
+						   'meta_title'=>$metal_title,
+						   'meta_key'=>$metal_key,
+						   'meta_desc'=>$metal_key,
+						   'date_created'=>date('Y-m-d'),
+						   'time'=>time(),
+						);
+
+		$this->db->set($data);
+		$this->db->insert('product_tbl');
+		if($this->db->affected_rows() > 0){
+			return true;
+		}
+		return false;
+	}
+
+	public function get_store_supplier_by_branch_store_id($branch_id){
+		$this->db->where('branch_store_id',$branch_id);
+		$query		=$this->db->get('suppliers_tbl');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
+
+	public function get_product_category_by_store_N_branch_store_id($store_id,$branch_id){
+		$this->db->where('store_id',$store_id);
+		$this->db->where('branch_store_id',$branch_id);
+		$query		=$this->db->get('product_category');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
+
+	public function get_product_sub_category_by_cat_id($cat_id){
+		$this->db->where('cat_id',$cat_id);
+		$query		=$this->db->get('product_sub_category');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
+
 }

@@ -267,12 +267,14 @@ class Office extends My_Controller {
 
     public function get_store_branch_name(){
 		$store_id	=$this->input->post('store_id');
+        //$output     ='';
+        //$output     .='<option>Select</option>';
 		$get_sub_cat_name	=$this->Action->get_store_branches_by_store_id($store_id);
 		if(is_array($get_sub_cat_name)){
 			foreach($get_sub_cat_name as $row){
 				$branch_id	    =$row['id'];
 				$branch_name	=$row['branch_name'];
-				echo '<option value="'.$branch_id.'">'.$branch_name.'</option>';
+				echo $output    ='<option value="'.$branch_id.'">'.$branch_name.'</option>';
 			}
 		}else{
             echo '<option>This store does not have a Branch Yet!</option>';
@@ -647,6 +649,131 @@ class Office extends My_Controller {
         $data['type']                   ='default';
 
         $data['content']	            ='add_stock';
-		$this->load->view($this->layout, $data);
+		$this->load->view($this->layout_2, $data);
     }
+
+
+    public function create_product(){
+        if(isset($_FILES["file"]["name"]))  {  
+
+            $user_id        		=$this->session->userdata('user_id');
+            $user_name         		=$this->session->userdata('user_name');
+
+            $user_id 	= 1;
+            $user_name	='zionnite';
+            
+            $store_id       	=$this->input->post('store_id');
+            $branch_id      	=$this->input->post('branch_id');
+
+            $prod_name              =$this->input->post('prod_name');
+            $prod_size              =$this->input->post('prod_size');
+            $prod_bunk              =$this->input->post('prod_bunk');
+            $prod_cat               =$this->input->post('prod_cat');
+            $prod_sub_cat               =$this->input->post('prod_sub_cat');
+            $prod_color               =$this->input->post('prod_color');
+            $prod_sup                =$this->input->post('prod_sup');
+            // $prod_brand                =$this->input->post('prod_brand');
+            $prod_desc                =$this->input->post('prod_desc');
+            $prod_cost                =$this->input->post('prod_cost');
+            $prod_price                =$this->input->post('prod_price');
+            $prod_whole                =$this->input->post('prod_whole');
+            $prod_weight                =$this->input->post('prod_weight');
+            $prod_discount                =$this->input->post('prod_discount');
+            // $prod_image                =$this->input->post('prod_image');
+            $metal_title                =$this->input->post('metal_title');
+            $metal_key                =$this->input->post('metal_key');
+            $metal_desc                =$this->input->post('metal_desc');
+
+            
+            // $store_id       ='101';
+            $store_name         =$this->Action->get_store_name_by_store_id($store_id);
+            $store_name_2       =$this->Action->get_store_name_2_by_store_id($store_id);
+            //$branch_id      ='9';
+            $branch_name    =$this->Action->get_branch_name_by_branch_id($branch_id);
+            $store_owner_id     = $user_id;
+
+
+            $prod_name  = preg_replace("/\s+/", "_", $prod_name);
+            $prod_name  = preg_replace('/[^A-Za-z0-9\_]/', '', $prod_name);
+
+           
+            
+            @mkdir('store_img');
+            @mkdir('store_img/'.$store_name_2);
+            @mkdir('store_img/'.$store_name_2.'/product');
+            // @mkdir('store_img/'.$store_name_2.'/images');
+
+			$config['upload_path'] = './store_img/'.$store_name_2.'/product';
+			$config['allowed_types'] = 'png|jpeg|jpg|gif';
+            $config['overwrite'] = FALSE;
+            $config['remove_spaces'] = TRUE;
+			$config['encrypt_name'] = TRUE;
+            
+            $this->upload->initialize($config);
+            $this->load->library('upload', $config);  
+            if(!$this->upload->do_upload('file')){  
+                echo $this->upload->display_errors();
+            }else{  
+                $data = array('upload_data' => $this->upload->data());
+                $img_file_name  = $data['upload_data']['file_name'];
+                
+                
+                // echo $img_file_name.br().$store_id.br().$store_name.br().$branch_id.br().$branch_name.br().$store_owner_id.br().$prod_name.br().$prod_size.br().$prod_bunk.br().$prod_cat.br().$prod_sub_cat.br().$prod_color.br().$prod_sup.br().$prod_brand.br().$prod_desc.br().$prod_cost.br().$prod_price.br().
+                // $prod_whole.br().$prod_weight.br().$prod_discount.br().$metal_title.br().$metal_key.br().$metal_desc;
+               
+
+                $result =   $this->Action->create_product($img_file_name,$store_id,$store_name,$branch_id,$branch_name,$store_owner_id,$prod_name,$prod_size,$prod_bunk,$prod_cat,$prod_sub_cat,$prod_color,$prod_sup/*,$prod_brand*/,$prod_desc,$prod_cost,$prod_price,
+                $prod_whole,$prod_weight,$prod_discount,$metal_title,$metal_key,$metal_desc);
+
+                if($result == TRUE){
+                echo 'ok';
+                }else{
+                echo 'err';
+                }
+            }  
+        }
+    }
+
+    public function get_store_supplier(){
+		$branch_id	=$this->input->post('branch_id');
+		$get_sub_cat_name	=$this->Action->get_store_supplier_by_branch_store_id($branch_id);
+		if(is_array($get_sub_cat_name)){
+			foreach($get_sub_cat_name as $row){
+				$supplier_id	    =$row['id'];
+				$supplier_name	    =$row['name'];
+				echo '<option value="'.$supplier_id.'">'.$supplier_name.'</option>';
+			}
+		}else{
+            echo '<option>This store does not have a Supplier Yet!</option>';
+        }
+	}
+
+    public function get_product_category(){
+		$store_id	=$this->input->post('store_id');
+		$branch_id	=$this->input->post('branch_id');
+		$get_sub_cat_name	=$this->Action->get_product_category_by_store_N_branch_store_id($store_id,$branch_id);
+		if(is_array($get_sub_cat_name)){
+			foreach($get_sub_cat_name as $row){
+				$cat_id    	    =$row['id'];
+				$cat_name	    =$row['cat_name'];
+				echo '<option value="'.$cat_id.'">'.$cat_name.'</option>';
+			}
+		}else{
+            echo '<option>This store does not have Product Category set yet!</option>';
+        }
+	}
+    public function get_product_sub_category(){
+		$cat_id	=$this->input->post('cat_id');
+
+        $get_sub_cat_name	=$this->Action->get_product_sub_category_by_cat_id($cat_id);
+		if(is_array($get_sub_cat_name)){
+			foreach($get_sub_cat_name as $row){
+				$sub_cat_id    	    =$row['id'];
+				$sub_cat_name	    =$row['sub_cat_name'];
+				echo '<option value="'.$cat_id.'">'.$sub_cat_name.'</option>';
+			}
+		}else{
+            echo '<option>This store does not have Product Sub Category selected!</option>';
+        }
+	}
 }
