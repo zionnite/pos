@@ -776,4 +776,131 @@ class Office extends My_Controller {
             echo '<option>This store does not have Product Sub Category selected!</option>';
         }
 	}
+
+
+    public function view_product(){
+         
+        // Load the list page view 
+        $data['user_id']    =1;
+        $data['user_name']  ='zionnite';
+        $data['content']    ='view_product';
+
+        
+        $this->load->view($this->layout, $data); 
+    }
+
+
+
+    public function view_product_ajax($offset=null)
+	{
+		$search = array(
+			'keyword' => trim($this->input->post('search_key')),
+            'sort_by'  => $this->input->post('sortBy'),
+		);
+
+		
+		$this->load->library('pagination');
+		
+		$limit = 100;
+		$offset = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+		
+		$config['base_url'] = site_url('Office/view_product_ajax/');
+		$config['total_rows'] = $this->Action->count_products($search);
+		$config['per_page'] = $limit;
+		$config['uri_segment'] = 3;
+		$config['num_links'] = 3;
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+		$config['cur_tag_open'] = '<li><a href="" class="current_page">';
+		$config['cur_tag_close'] = '</a></li>';
+		$config['next_link'] = 'Next';
+		$config['next_tag_open'] = '<li>';
+		$config['next_tag_close'] = '</li>';
+		$config['prev_link'] = 'Previous';
+		$config['prev_tag_open'] = '<li>';
+		$config['prev_tag_close'] = '</li>';
+		$config['first_link'] = 'First';
+		$config['first_tag_open'] = '<li>';
+		$config['first_tag_close'] = '</li>';
+		$config['last_link'] = 'Last';
+		$config['last_tag_open'] = '<li>';
+		$config['last_tag_close'] = '</li>';
+		
+		$this->pagination->initialize($config);
+
+		$data['get_info'] = $this->Action->get_products($search, $limit, $offset);
+	
+		$data['pagelinks'] = $this->pagination->create_links();
+		
+		$this->load->view('view_product_ajax', $data);
+	}
+
+    public function delete_product($id){
+        $action    =$this->Action->delete_product($id);
+        if($action){
+            echo 'ok';
+        }else{
+            echo 'err';
+        }
+    }
+
+    public function filter_product($type =NULL,$store_id =NULL){
+         
+        // Load the list page view 
+        $data['user_id']    =1;
+        $data['user_name']  ='zionnite';
+        $data['content']    ='filter_product';
+
+        $data['dis_store_id']   =$store_id;
+        $data['type']           =$type;
+        $this->load->view($this->layout, $data); 
+    }
+
+    public function filter_product_ajax($offset=null)
+	{
+		$search = array(
+			'keyword' => trim($this->input->post('search_key')),
+            'sort_by'  => $this->input->post('sortBy'),
+		);
+
+        $store_id   = $this->input->post('store_id');
+        $type       = $this->input->post('type');
+		
+		$this->load->library('pagination');
+		
+		$limit = 100;
+		$offset = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+		
+		$config['base_url'] = site_url('Office/filter_product_ajax/');
+		$config['total_rows'] = $this->Action->count_filter_product($search, $store_id, $type);
+		$config['per_page'] = $limit;
+		$config['uri_segment'] = 3;
+		$config['num_links'] = 3;
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+		$config['cur_tag_open'] = '<li><a href="" class="current_page">';
+		$config['cur_tag_close'] = '</a></li>';
+		$config['next_link'] = 'Next';
+		$config['next_tag_open'] = '<li>';
+		$config['next_tag_close'] = '</li>';
+		$config['prev_link'] = 'Previous';
+		$config['prev_tag_open'] = '<li>';
+		$config['prev_tag_close'] = '</li>';
+		$config['first_link'] = 'First';
+		$config['first_tag_open'] = '<li>';
+		$config['first_tag_close'] = '</li>';
+		$config['last_link'] = 'Last';
+		$config['last_tag_open'] = '<li>';
+		$config['last_tag_close'] = '</li>';
+		
+		$this->pagination->initialize($config);
+        $this->pagination->cur_page = $offset;
+
+		$data['get_info'] = $this->Action->get_filter_product($search, $store_id, $type, $limit, $offset);
+	
+		$data['pagelinks'] = $this->pagination->create_links();
+		
+		$this->load->view('filter_product_ajax', $data);
+	}
+
 }

@@ -575,6 +575,7 @@ class Action extends My_Model{
 		return false;
 	}
 
+	/*Creaate Product*/
 	public function create_product($img_file_name,$store_id,$store_name,$branch_id,$branch_name,$store_owner_id,$prod_name,$prod_size,$prod_bunk,$prod_cat,$prod_sub_cat,$prod_color,$prod_sup,/*$prod_brand,*/$prod_desc,$prod_cost,$prod_price,
 	$prod_whole,$prod_weight,$prod_discount,$metal_title,$metal_key,$metal_desc){
 
@@ -641,4 +642,130 @@ class Action extends My_Model{
 		return false;
 	}
 
+	public function count_products($search){
+
+		$keyword = $search['keyword'];
+		$sort_by = $search['sort_by'];
+
+		$this->db->like('prod_name',$this->db->escape_like_str($keyword,'both'));
+		$this->db->or_like('meta_title', $this->db->escape_like_str($keyword,'both'));
+    	$this->db->or_like('meta_key',$this->db->escape_like_str($keyword,'both'));
+    	$this->db->or_like('meta_desc',$this->db->escape_like_str($keyword,'both'));
+        $this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+        $this->db->or_like('branch_name', $this->db->escape_like_str($keyword,'both'));
+		return $this->db->from('product_tbl')->count_all_results();
+	}
+
+	public function get_products($search,$limit, $offset){
+		$keyword = $search['keyword'];
+		$sort_by = $search['sort_by'];
+
+		$this->db->like('prod_name',$this->db->escape_like_str($keyword,'both'));
+		$this->db->or_like('meta_title', $this->db->escape_like_str($keyword,'both'));
+    	$this->db->or_like('meta_key',$this->db->escape_like_str($keyword,'both'));
+    	$this->db->or_like('meta_desc',$this->db->escape_like_str($keyword,'both'));
+        $this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+        $this->db->or_like('branch_name', $this->db->escape_like_str($keyword,'both'));
+		$this->db->limit($limit, $offset);
+		$this->db->order_by('prod_name',$sort_by);
+		$query		=$this->db->get('product_tbl');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+
+		return false;
+	}
+
+	public function get_category_name_by_cat_id($cat_id){
+		$this->db->where('id',$cat_id);
+		$query		=$this->db->get('product_category');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['cat_name'];
+			}
+		}
+		return false;
+	}
+
+	public function get_sub_category_name_by_sub_cat_id($prod_sub_cat){
+		$this->db->where('id',$prod_sub_cat);
+		$query		=$this->db->get('product_sub_category');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['sub_cat_name'];
+			}
+		}
+		return false;
+	}
+
+	public function delete_product($id){
+		# code...
+		$this->db->where('prod_id',$id);
+		$this->db->delete('product_tbl');
+		if($this->db->affected_rows() > 0){
+			return true;
+		}
+		return false;
+	}
+
+	public function count_filter_product($search, $store_id, $type){
+
+		$keyword = $search['keyword'];
+		$sort_by = $search['sort_by'];
+
+		
+
+		if($type =='store'){
+
+			$this->db->where('store_id',$store_id);
+		}else if($type =='branch'){
+
+			$this->db->where('branch_id', $store_id);
+		}
+
+		
+		if(!empty($keyword)){
+			$this->db->like('prod_name',$this->db->escape_like_str($keyword,'both'));
+			$this->db->or_like('meta_title', $this->db->escape_like_str($keyword,'both'));
+			$this->db->or_like('meta_key',$this->db->escape_like_str($keyword,'both'));
+			$this->db->or_like('meta_desc',$this->db->escape_like_str($keyword,'both'));
+			$this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->or_like('branch_name', $this->db->escape_like_str($keyword,'both'));
+		}
+	
+		return $this->db->from('product_tbl')->count_all_results();
+	}
+
+	public function get_filter_product($search, $store_id, $type, $limit, $offset){
+		$keyword = $search['keyword'];
+		$sort_by = $search['sort_by'];
+
+		if($type =='store'){
+
+			$this->db->where('store_id',$store_id);
+		}else if($type =='branch'){
+
+			$this->db->where('branch_id', $store_id);
+		}
+
+		if(!empty($keyword)){
+			$this->db->like('prod_name',$this->db->escape_like_str($keyword,'both'));
+			$this->db->or_like('meta_title', $this->db->escape_like_str($keyword,'both'));
+			$this->db->or_like('meta_key',$this->db->escape_like_str($keyword,'both'));
+			$this->db->or_like('meta_desc',$this->db->escape_like_str($keyword,'both'));
+			$this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->or_like('branch_name', $this->db->escape_like_str($keyword,'both'));
+		}
+
+		
+		
+		$this->db->limit($limit, $offset);
+		$this->db->order_by('prod_name',$sort_by);
+		$query		=$this->db->get('product_tbl');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+
+		return false;
+	}
 }
