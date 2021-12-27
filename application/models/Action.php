@@ -768,4 +768,48 @@ class Action extends My_Model{
 
 		return false;
 	}
+
+	/*Sales Rep*/
+	/*Search Product and Add to cart*/
+
+	public function search_product_N_add_to_cart($store_id,$branch_id,$store_owner_id,$search_term){
+
+		if($search_term != ''){
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->like('prod_name',$this->db->escape_like_str($search_term,'both'));
+
+			$this->db->order_by('prod_name','desc');
+			$query			=$this->db->get('product_tbl');
+			if($query->num_rows() > 0){
+				return $query->result_array();
+			}
+		}
+		
+		return false;
+	}
+
+	public function get_prod_name_by_prod_id($prod_id){
+		$this->db->where('prod_id',$prod_id);
+		$query		=$this->db->get('product_tbl');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['prod_name'];
+			}
+		}
+		return false;
+	}
+
+	public function get_cat_id_by_prod_id($prod_id){
+		$this->db->where('prod_id',$prod_id);
+		$query		=$this->db->get('product_tbl');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['prod_cat'];
+			}
+		}
+		return false;
+	}
 }
