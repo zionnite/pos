@@ -51,7 +51,7 @@
 
                     </div> -->
 
-                    <a href="<?php echo base_url();?>Sales_rep/load_sales_cart" class="btn btn-sm btn-danger">Go to Checkout page</a>
+                    <a href="<?php echo base_url();?>Sales_rep/load_sales_cart" class="btn btn-sm btn-danger">Go to Cart page</a>
 				</div>
 				
 			</div>

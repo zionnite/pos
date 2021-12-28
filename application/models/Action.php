@@ -447,6 +447,27 @@ class Action extends My_Model{
 		return false;
 	}
 
+	public function get_customer_name_by_customer_id($id){
+		$this->db->where('id',$id);
+		$query		=$this->db->get('customers_tbl');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['name'];
+			}
+		}
+		return false;
+	}
+
+	public function get_store_branch_customer($store_id,$branch_id){
+		$this->db->where('store_id',$store_id);
+		$this->db->where('branch_store_id',$branch_id);
+		$query		= $this->db->get('customers_tbl');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
+
 	/*Supplier*/
 
 	public function count_supplier($search){
@@ -809,6 +830,60 @@ class Action extends My_Model{
 			foreach($query->result_array() as $row){
 				return $row['prod_cat'];
 			}
+		}
+		return false;
+	}
+
+	/*Transaction*/
+
+	public function add_transaction($name,$prod_id,$price,$qty,$subtotal,$color,$size,$trans_type,$trans_method,$trans_customer,$trans_note,$user_status,$user_id){
+		// customer name
+		$customer_name		=$this->get_customer_name_by_customer_id($trans_customer);
+
+		$data			= array('prod_name' 	=> $name,
+							    'prod_id'		=> $prod_id,
+								'price'			=> $price,
+								'color'			=> $color,
+								'size'			=> $size,	
+								'sub_total'		=> $subtotal,
+								'quantity'		=> $qty,
+								'transaction_type'	=> $trans_type,
+								'payment_method'	=> $trans_method,
+								'optional_note'		=> $trans_note,
+								'customer_id'		=> $trans_customer,
+								'customer_name'		=> $customer_name,
+								'user_status'		=> $user_status,
+								'user_id'			=> $user_id,
+								'date_created'		=> date('Y-m-d H:i:sa'),
+								'time'				=> time(),
+						);
+		$this->db->set($data);
+		$this->db->insert('transaction_history');
+		if($this->db->affected_rows() > 0){
+			$this->subtract_qty_from_product_invtory($prod_id,$qty);
+			return true;
+		}
+		return false;
+	}
+	public function get_product_current_inventory($prod_id){
+		$this->db->where('prod_id',$prod_id);
+		$query		=$this->db->get('product_tbl');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['prod_bunk'];
+			}
+		}
+		return false;
+	}
+	public function subtract_qty_from_product_invtory($prod_id,$qty){
+		$current_inventory 		=$this->get_product_current_inventory($prod_id);
+		$new_inventory			= $current_inventory-$qty;
+		$data					=array('prod_bunk'=>$new_inventory);
+		$this->db->set($data);
+		$this->db->where('prod_id',$prod_id);
+		$this->db->update('product_tbl');
+		if($this->db->affected_rows() > 0){
+			return true;
 		}
 		return false;
 	}

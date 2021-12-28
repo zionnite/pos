@@ -151,6 +151,16 @@ class Sales_rep extends My_Controller {
 		$data['content']	='load_sales_cart';
 		$this->load->view($this->layout,$data);
 	}
+
+	public function load_sales_cart_ajax(){
+		$data['store_id']		='101';
+		$data['branch_id']		='8';
+		$data['store_owner_id']	='1';
+		$data['user_id']		='1';
+
+		$data['content']	='load_sales_cart';
+		$this->load->view($data['content'],$data);
+	}
     public function clear_cart(){
         $this->cart->destroy();
     }
@@ -166,7 +176,11 @@ class Sales_rep extends My_Controller {
                        'rowid'=>$row_id,
                        'qty' =>0
                     );
-        $this->cart->update($data);
+        if($this->cart->update($data)){
+			echo 'ok';
+		}else{
+			echo 'err';
+		}
     }
     public function update_cart(){
         $row_id =$this->input->post('row_id');
@@ -175,13 +189,64 @@ class Sales_rep extends My_Controller {
                        'rowid'=>$row_id,
                        'qty' =>$qty
                     );
-        $this->cart->update($data);
+        if($this->cart->update($data)){
+			echo 'ok';
+		}else{
+			echo 'err';
+		}
     }
     public function check_out(){
-        $data['alert']					=$this->session->flashdata('alert');
-        $data['related_product']       =$this->Product_db->list_product_2();
-        $data['content']   ='shop-checkout';
-		$this->load->view($this->layout_2,$data);
+        // $data['alert']					=$this->session->flashdata('alert');
+        // $data['related_product']       =$this->Product_db->list_product_2();
+        // $data['content']   ='shop-checkout';
+		// $this->load->view($this->layout_2,$data);
+
+		$user_status				='sales_rep';
+		$user_id					='1';
+
+		$data	='';
+
+
+
+		$trans_type					=$this->input->post('trans_type');
+		$trans_method				=$this->input->post('trans_method');
+		$trans_customer				=$this->input->post('trans_customer');
+		$trans_note					=$this->input->post('trans_note');
+
+		$cart_content				=$this->cart->contents();
+		// print_r($cart_content);
+		if(is_array($cart_content)){
+			foreach($cart_content as $items){
+				$name       =$items['name'];
+                $price      =$items['price'];
+                $qty        =$items['qty'];
+                $prod_id    =$items['id'];
+                $rowid      =$items['rowid'];
+                $option     =$items['option'];
+                $subtotal   =$items['subtotal'];
+				$color		=$option['color'];
+				$size		=$option['size'];
+				
+
+
+
+				$action				=$this->Action->add_transaction($name,$prod_id,$price,$qty,$subtotal,$color,$size,$trans_type,$trans_method,
+									 $trans_customer,$trans_note,$user_status,$user_id);
+				if($action){
+					$data ='ok';
+				}else{
+					$data ='err';
+				}
+			}
+		}else{
+			$data ='err';
+		}
+
+		if($data =='ok'){
+			$this->clear_cart();
+		}
+		
+		echo $data;
     }
 
 }
