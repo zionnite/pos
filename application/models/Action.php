@@ -1263,4 +1263,150 @@ class Action extends My_Model{
 
 		return false;
 	}
+
+
+	public function count_transaction_history($store_id,$branch_id,$search){
+
+		$keyword = $search['keyword'];
+		$sort_by = $search['sort_by'];
+
+		if(!empty($keyword)){
+			$this->db->like('invoice', $this->db->escape_like_str($keyword,'both'));
+			$this->db->or_like('prod_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->or_like('customer_name', $this->db->escape_like_str($keyword,'both'));
+		}else{
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+		}
+
+		
+		return $this->db->from('transaction_history')->count_all_results();
+	}
+
+	//COME HERE FOR LATER CHANGES
+	public function get_my_transaction_history($store_id,$branch_id,$search,$limit, $offset){
+		$keyword = $search['keyword'];
+		$sort_by = $search['sort_by'];
+
+		if(!empty($keyword)){
+			$this->db->like('invoice', $this->db->escape_like_str($keyword,'both'));
+			$this->db->or_like('prod_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->or_like('customer_name', $this->db->escape_like_str($keyword,'both'));
+			
+		}else{
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+		}
+
+		$this->db->limit($limit, $offset);
+		$this->db->order_by('id',$sort_by);
+		$query		=$this->db->get('transaction_history');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+
+		return false;
+	}
+
+	public function delete_transaction($id){
+		$this->db->where('id',$id);
+		$this->db->delete('transaction_history');
+		if($this->db->affected_rows() > 0){
+			return true;
+		}
+		return false;
+	}
+
+
+	public function count_filter_transaction($search, $store_id, $type){
+
+		$keyword = $search['keyword'];
+		$sort_by = $search['sort_by'];
+
+
+		if($type =='store'){
+
+			if(!empty($keyword)){
+				$this->db->like('invoice',$this->db->escape_like_str($keyword,'both'));
+				$this->db->where('store_id',$store_id);
+
+				$this->db->or_like('customer_name',$this->db->escape_like_str($keyword,'both'));
+				$this->db->where('store_id',$store_id);
+
+				$this->db->or_like('prod_name',$this->db->escape_like_str($keyword,'both'));
+				$this->db->where('store_id',$store_id);
+
+			}else{
+				$this->db->where('store_id',$store_id);
+			}
+			
+		}else if($type =='branch'){
+
+			if(!empty($keyword)){
+				$this->db->like('invoice',$this->db->escape_like_str($keyword,'both'));
+				$this->db->where('branch_id', $store_id);
+
+				$this->db->or_like('customer_name',$this->db->escape_like_str($keyword,'both'));
+				$this->db->where('branch_id',$store_id);
+
+				$this->db->or_like('prod_name',$this->db->escape_like_str($keyword,'both'));
+				$this->db->where('branch_id',$store_id);
+
+			}else{
+				$this->db->where('branch_id', $store_id);
+			}
+		}
+		
+		return $this->db->from('transaction_history')->count_all_results();
+	
+	}
+
+	public function get_filter_transaction($search, $store_id, $type, $limit, $offset){
+		$keyword = $search['keyword'];
+		$sort_by = $search['sort_by'];
+
+		if($type =='store'){
+
+			if(!empty($keyword)){
+				$this->db->like('invoice',$this->db->escape_like_str($keyword,'both'));
+				$this->db->where('store_id',$store_id);
+
+				$this->db->or_like('customer_name',$this->db->escape_like_str($keyword,'both'));
+				$this->db->where('store_id',$store_id);
+
+				$this->db->or_like('prod_name',$this->db->escape_like_str($keyword,'both'));
+				$this->db->where('store_id',$store_id);
+
+			}else{
+				$this->db->where('store_id',$store_id);
+			}
+			
+		}else if($type =='branch'){
+
+			if(!empty($keyword)){
+				$this->db->like('invoice',$this->db->escape_like_str($keyword,'both'));
+				$this->db->where('branch_id', $store_id);
+
+				$this->db->or_like('customer_name',$this->db->escape_like_str($keyword,'both'));
+				$this->db->where('branch_id',$store_id);
+
+				$this->db->or_like('prod_name',$this->db->escape_like_str($keyword,'both'));
+				$this->db->where('branch_id',$store_id);
+
+			}else{
+				$this->db->where('branch_id', $store_id);
+			}
+		}
+
+		
+		
+		$this->db->limit($limit, $offset);
+		$this->db->order_by('id',$sort_by);
+		$query		=$this->db->get('transaction_history');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+
+		return false;
+	}
 }
