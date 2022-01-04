@@ -65,6 +65,89 @@ class Login_user extends My_Model{
                 return 	FALSE;
             }
 	}
+	public function login_manager($u_name,$pass){
+
+		$query	=$this->db->get_where('supervisor',array(
+													'email'=>$u_name,
+													'password'=>md5($pass))
+													);
+		if($query->num_rows() == 1){
+			$row	=$query->row();
+			
+			$user_id        			=$row->user_id;
+			$store_owner_id 			=$row->store_owner_id;
+			$store_id       			=$row->store_id;
+			$store_name					=$row->store_name;
+			$branch_store_id 			=$row->branch_store_id;
+			$user_name 					=$row->name;
+			$email 						=$row->email;
+			$phone_no					=$row->phone_no;
+			
+			
+			
+			$data4= array(
+				'phone_no'			=>$phone_no,
+				'user_id'			=>$user_id,
+				'user_name'			=>$user_name,
+				'email'				=>$email,
+				'store_id'			=>$store_id,
+				'store_name'		=>$store_name,
+				'branch_id'			=>$branch_store_id,
+				'store_owner_id'	=>$store_owner_id,
+				'user_status'		=>'manager',
+				'validation'		=>TRUE,
+				
+				
+			);
+			$this->session->set_userdata($data4);
+			return	$data4;
+		}else{
+			return 	FALSE;
+		}
+	}
+
+	public function login_sales_rep($u_name,$pass){
+
+		$query	=$this->db->get_where('sales_rep',array(
+													'email'=>$u_name,
+													'password'=>md5($pass))
+													);
+		if($query->num_rows() == 1){
+			$row	=$query->row();
+			
+			$user_id        			=$row->user_id;
+			$store_owner_id 			=$row->store_owner_id;
+			$store_id       			=$row->store_id;
+			$store_name					=$row->store_name;
+			$branch_store_id 			=$row->branch_store_id;
+			$user_name 					=$row->name;
+			$email 						=$row->email;
+			$phone_no					=$row->phone_no;
+			
+			
+			
+			$data4= array(
+				'phone_no'			=>$phone_no,
+				'user_id'			=>$user_id,
+				'user_name'			=>$user_name,
+				'email'				=>$email,
+				'store_id'			=>$store_id,
+				'store_name'		=>$store_name,
+				'branch_id'			=>$branch_store_id,
+				'store_owner_id'	=>$store_owner_id,
+				'user_status'		=>'sales_rep',
+				'validation'		=>TRUE,
+				
+				
+			);
+			$this->session->set_userdata($data4);
+			return	$data4;
+		}else{
+			return 	FALSE;
+		}
+	}
+
+
 	public function login_admin($u_name,$pass){
 			$this->db->where('agent_phone_no',$u_name);
 			$this->db->where('agent_pass',md5($pass));

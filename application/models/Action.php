@@ -823,6 +823,27 @@ class Action extends My_Model{
 		return false;
 	}
 
+	public function get_prod_desc_by_prod_id($prod_id){
+		$this->db->where('prod_id',$prod_id);
+		$query		=$this->db->get('product_tbl');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['prod_desc'];
+			}
+		}
+		return false;
+	}
+	public function get_prod_price_by_prod_id($prod_id){
+		$this->db->where('prod_id',$prod_id);
+		$query		=$this->db->get('product_tbl');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['prod_price'];
+			}
+		}
+		return false;
+	}
+
 	public function get_cat_id_by_prod_id($prod_id){
 		$this->db->where('prod_id',$prod_id);
 		$query		=$this->db->get('product_tbl');
@@ -836,17 +857,20 @@ class Action extends My_Model{
 
 	/*Transaction*/
 
-	public function add_transaction($name,$prod_id,$price,$qty,$subtotal,$color,$size,$trans_type,$trans_method,$trans_customer,$trans_note,$user_status,$user_id){
-		// customer name
+	public function add_transaction($name,$prod_id,$price,$qty,$subtotal,$color,$size,$trans_type,$trans_method,$trans_customer,$trans_note,$user_status,$user_id,
+	$invoice_no,$store_id,$branch_id){
+
+		//insert invoice
+		$this->create_invoice($invoice_no,$store_id,$branch_id);
 		$customer_name		=$this->get_customer_name_by_customer_id($trans_customer);
 
-		$data			= array('prod_name' 	=> $name,
-							    'prod_id'		=> $prod_id,
-								'price'			=> $price,
-								'color'			=> $color,
-								'size'			=> $size,	
-								'sub_total'		=> $subtotal,
-								'quantity'		=> $qty,
+		$data			= array('prod_name' 		=> $name,
+							    'prod_id'			=> $prod_id,
+								'price'				=> $price,
+								'color'				=> $color,
+								'size'				=> $size,	
+								'sub_total'			=> $subtotal,
+								'quantity'			=> $qty,
 								'transaction_type'	=> $trans_type,
 								'payment_method'	=> $trans_method,
 								'optional_note'		=> $trans_note,
@@ -856,6 +880,9 @@ class Action extends My_Model{
 								'user_id'			=> $user_id,
 								'date_created'		=> date('Y-m-d H:i:sa'),
 								'time'				=> time(),
+								'store_id'			=> $store_id,
+								'branch_id'			=> $branch_id,
+								'invoice'			=> $invoice_no,
 						);
 		$this->db->set($data);
 		$this->db->insert('transaction_history');
@@ -882,6 +909,291 @@ class Action extends My_Model{
 		$this->db->set($data);
 		$this->db->where('prod_id',$prod_id);
 		$this->db->update('product_tbl');
+		if($this->db->affected_rows() > 0){
+			return true;
+		}
+		return false;
+	}
+
+	public function create_invoice($invoice_no,$store_id,$branch_id){
+		if(!$this->check_if_invoice_exist($invoice_no)){
+			$data		= array('invoice_number'=>$invoice_no,'store_id'=>$store_id,'branch_id'=>$branch_id,'date_created'=>date('Y-m-d H:i:sa'),'time'=>time());
+			$this->db->set($data);
+			$this->db->insert('invoice_tbl');
+			if($this->db->affected_rows() > 0){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public function check_if_invoice_exist($invoice_no){
+		$this->db->where('invoice_number',$invoice_no);
+		$this->db->get('invoice_tbl');
+		if($this->db->affected_rows() > 0){
+			return true;
+		}
+		return false;
+	}
+
+	// public function count_invoice($store_id,$branch_id,$search){
+
+	// 	$keyword = $search['keyword'];
+	// 	$sort_by = $search['sort_by'];
+
+	// 	if(!empty($keyword)){
+	// 		$this->db->like('name',$this->db->escape_like_str($keyword,'both'));
+	// 		$this->db->or_like('email', $this->db->escape_like_str($keyword,'both'));
+    // 		$this->db->or_like('phone',$this->db->escape_like_str($keyword,'both'));
+    //     	$this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+    //     	$this->db->or_like('branch_store_name', $this->db->escape_like_str($keyword,'both'));
+	// 	}else{
+	// 		$this->db->where('store_id',$store_id);
+	// 		$this->db->where('branch_store_id',$branch_id);
+	// 	}
+
+		
+	// 	return $this->db->from('customers_tbl')->count_all_results();
+	// }
+
+	// public function get_my_invoice($store_id,$branch_id,$search,$limit, $offset){
+	// 	$keyword = $search['keyword'];
+	// 	$sort_by = $search['sort_by'];
+
+	// 	if(!empty($keyword)){
+		// $this->db->like('name',$this->db->escape_like_str($keyword,'both'));
+		// $this->db->where('store_id',$store_id);
+		// $this->db->where('branch_store_id',$branch_id);
+		// $this->db->or_like('email', $this->db->escape_like_str($keyword,'both'));
+		// $this->db->where('store_id',$store_id);
+		// $this->db->where('branch_store_id',$branch_id);
+		// $this->db->or_like('phone',$this->db->escape_like_str($keyword,'both'));
+		// $this->db->where('store_id',$store_id);
+		// $this->db->where('branch_store_id',$branch_id);
+		// $this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+		// $this->db->where('store_id',$store_id);
+		// $this->db->where('branch_store_id',$branch_id);
+		// $this->db->or_like('branch_store_name', $this->db->escape_like_str($keyword,'both'));
+		// $this->db->where('store_id',$store_id);
+		// $this->db->where('branch_store_id',$branch_id);
+	// 	}else{
+	// 		$this->db->where('store_id',$store_id);
+	// 		$this->db->where('branch_store_id',$branch_id);
+	// 	}
+
+	// 	$this->db->limit($limit, $offset);
+	// 	$this->db->order_by('name',$sort_by);
+	// 	$query		=$this->db->get('customers_tbl');
+	// 	if($query->num_rows() > 0){
+	// 		return $query->result_array();
+	// 	}
+
+	// 	return false;
+	// }
+
+
+	public function count_invoice($store_id,$branch_id,$search){
+
+		$keyword = $search['keyword'];
+		$sort_by = $search['sort_by'];
+
+		if(!empty($keyword)){
+			$this->db->like('invoice_number',$this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+		}else{
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+		}
+
+		
+		return $this->db->from('invoice_tbl')->count_all_results();
+	}
+
+	public function get_my_invoice($store_id,$branch_id,$search,$limit, $offset){
+		$keyword = $search['keyword'];
+		$sort_by = $search['sort_by'];
+
+		if(!empty($keyword)){
+			$this->db->like('invoice_number',$this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+			
+		}else{
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+		}
+
+		$this->db->limit($limit, $offset);
+		$this->db->order_by('id',$sort_by);
+		$query		=$this->db->get('invoice_tbl');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+
+		return false;
+	}
+
+	public function get_customer_name_with_invoice_no($invoice_no){
+		$this->db->where('invoice',$invoice_no);
+		$query		=$this->db->get('transaction_history');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['customer_name'];
+			}
+		}
+		return false;
+	}
+	public function get_customer_id_with_invoice_no($invoice_no){
+		$this->db->where('invoice',$invoice_no);
+		$query		=$this->db->get('transaction_history');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['customer_id'];
+			}
+		}
+		return false;
+	}
+
+	public function get_qty_with_invoice_no($invoice_no){
+		$this->db->where('invoice',$invoice_no);
+		return $this->db->from('transaction_history')->count_all_results();
+	}
+	public function get_sub_total_with_invoice_no($invoice_no){
+		$this->db->where('invoice',$invoice_no);
+		$query		=$this->db->get('transaction_history');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['sub_total'];
+			}
+		}
+		return false;
+	}
+	public function get_grand_total_with_invoice_no($invoice_no){
+		$this->db->where('invoice',$invoice_no);
+		$this->db->select_sum('sub_total');
+		$query		=$this->db->get('transaction_history');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['sub_total'];
+			}
+		}
+		return false;
+	}
+	public function get_transaction_type_with_invoice_no($invoice_no){
+		$this->db->where('invoice',$invoice_no);
+		$query		=$this->db->get('transaction_history');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['transaction_type'];
+			}
+		}
+		return false;
+	}
+	public function get_transaction_method_with_invoice_no($invoice_no){
+		$this->db->where('invoice',$invoice_no);
+		$query		=$this->db->get('transaction_history');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['payment_method'];
+			}
+		}
+		return false;
+	}
+	public function get_status_with_invoice_no($invoice_no){
+		$this->db->where('invoice',$invoice_no);
+		$query		=$this->db->get('transaction_history');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['status'];
+			}
+		}
+		return false;
+	}
+	public function get_prod_id_by_invoice_no($invoice_no){
+		$this->db->where('invoice',$invoice_no);
+		$query		=$this->db->get('transaction_history');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['prod_id'];
+			}
+		}
+		return false;
+	}
+
+	public function get_invoice_details_by_inovice_no($invoice_no){
+		$this->db->where('invoice_number',$invoice_no);
+		$query		=$this->db->get('invoice_tbl');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
+	public function get_transaction_details_by_inovice($invoice_no){
+		$this->db->where('invoice',$invoice_no);
+		$query		=$this->db->get('transaction_history');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
+
+	public function get_branch_store_address($branch_id){
+		$this->db->where('id',$branch_id);
+		$query  	=$this->db->get('branch_office');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['address'];
+			}
+		}
+		return false;
+	}
+	public function get_branch_store_email($branch_id){
+		$this->db->where('id',$branch_id);
+		$query  	=$this->db->get('branch_office');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['email'];
+			}
+		}
+		return false;
+	}
+	public function get_branch_store_phone($branch_id){
+		$this->db->where('id',$branch_id);
+		$query  	=$this->db->get('branch_office');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['phone'];
+			}
+		}
+		return false;
+	}
+
+	public function get_customer_phone_with_customer_id($customer_id){
+		$this->db->where('id',$customer_id);
+		$query  	=$this->db->get('customers_tbl');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['phone'];
+			}
+		}
+		return false;
+	}
+
+	public function get_customer_email_with_customer_id($customer_id){
+		$this->db->where('id',$customer_id);
+		$query  	=$this->db->get('customers_tbl');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['email'];
+			}
+		}
+		return false;
+	}
+
+	public function delete_invoice($id){
+		$this->db->where('id',$id);
+		$this->db->delete('invoice_tbl');
 		if($this->db->affected_rows() > 0){
 			return true;
 		}

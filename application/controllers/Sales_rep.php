@@ -196,18 +196,25 @@ class Sales_rep extends My_Controller {
 		}
     }
     public function check_out(){
-        // $data['alert']					=$this->session->flashdata('alert');
-        // $data['related_product']       =$this->Product_db->list_product_2();
-        // $data['content']   ='shop-checkout';
-		// $this->load->view($this->layout_2,$data);
+
+		$data['store_id']		='101';
+		$data['branch_id']		='8';
 
 		$user_status				='sales_rep';
 		$user_id					='1';
 
-		$data	='';
+		$result	='';
+		$invoice_no					= random_string('alnum', 8);
+		$invoice_no					= $invoice_no.date('d');
+
+		
 
 
 
+
+
+		$store_id 					=$data['store_id'];
+		$branch_id					=$data['branch_id'];
 		$trans_type					=$this->input->post('trans_type');
 		$trans_method				=$this->input->post('trans_method');
 		$trans_customer				=$this->input->post('trans_customer');
@@ -231,22 +238,22 @@ class Sales_rep extends My_Controller {
 
 
 				$action				=$this->Action->add_transaction($name,$prod_id,$price,$qty,$subtotal,$color,$size,$trans_type,$trans_method,
-									 $trans_customer,$trans_note,$user_status,$user_id);
+									 $trans_customer,$trans_note,$user_status,$user_id,$invoice_no,$store_id,$branch_id);
 				if($action){
-					$data ='ok';
+					$result ='ok';
 				}else{
-					$data ='err';
+					$result ='err';
 				}
 			}
 		}else{
-			$data ='err';
+			$result ='err';
 		}
 
-		if($data =='ok'){
+		if($result =='ok'){
 			$this->clear_cart();
 		}
 		
-		echo $data;
+		echo $result;
     }
 
 }

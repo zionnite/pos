@@ -1,8 +1,8 @@
-<div class="main-body">
+<div class="main-body" id="dataItem">
 	<div class="page-wrapper">
 
 		<div class="page-body">
-            <div id="dataItem">
+            <div>
                 <table class="table cart table-hover table-striped">
                     <thead>
                         <tr>
@@ -283,7 +283,7 @@
                 },
 
                 success: function (resp) {
-                    // alert(resp);
+                    alert(resp);
                     if (resp == 'ok') {
                         $('#dataItem').load('<?php echo base_url();?>Sales_rep/load_sales_cart_ajax');
 
@@ -334,7 +334,7 @@
                             text: "Cart Cleared!",
                             icon: "success",
                             closeOnClickOutside: false,
-                            
+
                         });
 
                         
