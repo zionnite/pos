@@ -1199,4 +1199,68 @@ class Action extends My_Model{
 		}
 		return false;
 	}
+
+	public function count_filter_invoice($search, $store_id, $type){
+
+		$keyword = $search['keyword'];
+		$sort_by = $search['sort_by'];
+
+
+		if($type =='store'){
+
+			if(!empty($keyword)){
+				$this->db->like('invoice_number',$this->db->escape_like_str($keyword,'both'));
+				$this->db->where('store_id',$store_id);
+			}else{
+				$this->db->where('store_id',$store_id);
+			}
+			
+		}else if($type =='branch'){
+
+			if(!empty($keyword)){
+				$this->db->like('invoice_number',$this->db->escape_like_str($keyword,'both'));
+				$this->db->where('branch_id', $store_id);
+			}else{
+				$this->db->where('branch_id', $store_id);
+			}
+		}
+		
+		return $this->db->from('invoice_tbl')->count_all_results();
+	
+	}
+
+	public function get_filter_invoice($search, $store_id, $type, $limit, $offset){
+		$keyword = $search['keyword'];
+		$sort_by = $search['sort_by'];
+
+		if($type =='store'){
+
+			if(!empty($keyword)){
+				$this->db->like('invoice_number',$this->db->escape_like_str($keyword,'both'));
+				$this->db->where('store_id',$store_id);
+			}else{
+				$this->db->where('store_id',$store_id);
+			}
+			
+		}else if($type =='branch'){
+
+			if(!empty($keyword)){
+				$this->db->like('invoice_number',$this->db->escape_like_str($keyword,'both'));
+				$this->db->where('branch_id', $store_id);
+			}else{
+				$this->db->where('branch_id', $store_id);
+			}
+		}
+
+		
+		
+		$this->db->limit($limit, $offset);
+		$this->db->order_by('id',$sort_by);
+		$query		=$this->db->get('invoice_tbl');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+
+		return false;
+	}
 }

@@ -283,7 +283,7 @@
                 },
 
                 success: function (resp) {
-                    alert(resp);
+                    // alert(resp);
                     if (resp == 'ok') {
                         $('#dataItem').load('<?php echo base_url();?>Sales_rep/load_sales_cart_ajax');
 

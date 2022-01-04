@@ -38,9 +38,8 @@
 							<form>
 								<input type="text" class="form-control" name="keywords" id="keywords"
 									onkeyup="searchFilter();" />
-								<small style="color:red;"><b>search with customer name, email or phone number</b></small>
-
-								<input type="hidden" name="dis_store_id" id="dis_store_id" value="<?php echo $dis_store_id;?>" />
+								<small style="color:red;"><b>search with invoice number</b></small>
+                                <input type="hidden" name="dis_store_id" id="dis_store_id" value="<?php echo $dis_store_id;?>" />
 								<input type="hidden" name="type" id="type" value="<?php echo $type;?>" />
 							</form>
 						</div>
@@ -50,8 +49,8 @@
 				<div class="col-md-12" id="slideshow">
 					<div class="card" id="slide_show">
 						<div class="card-header">
-							<h5>List Off Customers</h5>
-							<?php $get_store_or_branch_name		=$this->Action->get_store_or_branch_name($type,$dis_store_id);?> 		
+							<h5>Invoice</h5>
+                            <?php $get_store_or_branch_name		=$this->Action->get_store_or_branch_name($type,$dis_store_id);?> 		
 							<h6>Filtering By <?php echo $type;?> Name (<?php echo $get_store_or_branch_name;?>)</h6>
 
 						</div>
@@ -96,9 +95,8 @@
 												
 										?>
 												<a id="filter_by_store" data-store_id="<?php echo $store_id;?>" class="dropdown-item waves-light waves-effect"
-													href="<?php echo base_url();?>Office/filter_customer/store/<?php echo $store_id;?>">
+													href="<?php echo base_url();?>Invoice/filter_invoice/store/<?php echo $store_id;?>">
 													<?php echo $store_name;?></a>
-
 												<?php
 												}
 											}
@@ -126,10 +124,8 @@
 												
 										?>
 												<a id="filter_by_branch" data-branch_id="<?php echo $branch_id;?>" class="dropdown-item waves-light waves-effect"
-													href="<?php echo base_url();?>Office/filter_customer/branch/<?php echo $branch_id;?>"><?php echo $get_store_name;?>
+													href="<?php echo base_url();?>Invoice/filter_invoice/branch/<?php echo $branch_id;?>"><?php echo $get_store_name;?>
 													(<?php echo $branch_name;?> Branch)</a>
-
-
 												<?php
 												}
 											}
@@ -144,10 +140,7 @@
 
 
 							</div>
-                            
-                            <a data-toggle="modal" href="#large-Modal" class="btn btn-danger btn-block"
-								style="margin-bottom:1%; float:left;">Add Customer</a>
-
+                           
                             <div id="dataList">
                                 
                             </div>
@@ -259,13 +252,13 @@
 
 
 <script type="text/javascript" src="<?php echo base_url();?>files/bower_components/jquery/dist/jquery.min.js"></script>
+
 <script type="text/javascript">
 	$(document).ready(function () {
 
 		$('#create_customer').submit(function (e) {
 			e.preventDefault();
 
-			// alert('let');
 			
 			$.ajax({
 				url: '<?php echo base_url();?>Office/create_customer',
@@ -277,8 +270,6 @@
 				async: false,
 				success: function (data) {
 					$('#large-Modal').modal('hide');
-					// alert(data);
-					console.log(data);
 					if (data == 'ok') {
 
 
@@ -331,6 +322,28 @@
 </script>
 
 
+<!-- <script>
+	function searchFilter(page_num) {
+		page_num = page_num ? page_num : 0;
+		var keywords = $('#keywords').val();
+		var sortBy = $('#sortBy').val();
+
+		$.ajax({
+			type: 'POST',
+			url: '<?php echo base_url('Office/customerPaginationData/'); ?>'+page_num,
+			data: 'page=' + page_num + '&keywords=' + keywords + '&sortBy=' + sortBy,
+			beforeSend: function () {
+				$('.loading').show();
+			},
+			success: function (html) {
+				$('#dataList').html(html);
+				$('.loading').fadeOut("slow");
+			}
+		});
+	}
+
+</script> -->
+
 <script>
 	
 	$(function() {
@@ -361,17 +374,16 @@
 		/*-- create function ajaxlist --*/
 		function ajaxlist(page_url = false)
 		{
-			var search_key  = $("#keywords").val();
-            var sortBy      = $('#sortBy').val();
+			var search_key = $("#keywords").val();
+            var sortBy = $('#sortBy').val();
             var store_id      = $('#dis_store_id').val();
             var type      = $('#type').val();
 
 			
 			// var dataString = 'search_key=' + search_key + '&sortBy=' + sortBy;
-
-			var dataString = 'search_key=' + search_key + '&sortBy=' + sortBy +'&store_id=' + store_id + '&type=' + type;
+            var dataString = 'search_key=' + search_key + '&sortBy=' + sortBy +'&store_id=' + store_id + '&type=' + type;
           
-			var base_url = '<?php echo site_url('Office/filter_customer_ajax/') ?>';
+			var base_url = '<?php echo site_url('Invoice/filter_invoice_ajax/') ?>';
 			
 			if(page_url == false) {
 				var page_url = base_url;
@@ -383,8 +395,8 @@
 				url: page_url,
 				data: dataString,
 				success: function(response) {
-					// alert(response);
-					// console.log(response);
+                    // alert(response);
+					console.log(response);
 					$("#dataList").html(response);
 				}
 			});
