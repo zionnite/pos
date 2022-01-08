@@ -52,18 +52,19 @@
             <!-- Sidebar inner chat end-->
             <div class="pcoded-main-container">
                 <div class="pcoded-wrapper">
-                    <?php $this->load->view('nav_sidebar');?>
+                <?php
+                    if($user_status =='store_owner'){
+                        $this->load->view('nav_bar/owner_store_nav_sidebar');
 
-                    
+                    }else if($user_status =='manager'){
+                        $this->load->view('nav_bar/manager_nav_sidebar');
+                    }else if($user_status =='sales_rep'){
+                        
+                    }
+                ?>
                     <div class="pcoded-content">
                         <div class="pcoded-inner-content">
-                            <!-- Main-body start -->
-                            <?php isset($content)?$this->load->view($content):NULL;?> 
-                            <!-- Main-body end -->
-
-                            <div id="styleSelector">
-
-                            </div>
+                        <?php isset($content)?$this->load->view($content):NULL;?> 
                         </div>
                     </div>
                 </div>

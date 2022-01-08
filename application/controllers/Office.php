@@ -9,17 +9,28 @@ class Office extends My_Controller {
 	}
 
 	public function index(){
+        $data['alert']			        =$this->session->flashdata('alert');
+
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['user_status']            =$this->session->userdata('user_status');
+
 		$data['content']	='index';
 		$this->load->view($this->layout,$data);
 	}
 
     public function open_store(){
 
-        $user_id        		=$this->session->userdata('user_id');
-        $user_name         		=$this->session->userdata('user_name');
+        $data['alert']			        =$this->session->flashdata('alert');
 
-        $data['user_id'] 	            = 1;
-        $data['user_name']	            ='zionnite';
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['user_status']            =$this->session->userdata('user_status');
+
 
 
         $data['content']	='open_store';
@@ -28,11 +39,13 @@ class Office extends My_Controller {
 
     public function list_store(){
       
-        $user_id        		=$this->session->userdata('user_id');
-        $user_name         		=$this->session->userdata('user_name');
+        $data['alert']			        =$this->session->flashdata('alert');
 
-        $data['user_id'] 	            = 1;
-        $data['user_name']	            ='zionnite';
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['user_status']            =$this->session->userdata('user_status');
 
         $data['content']	    ='list_store';
 		$this->load->view($data['content'], $data);
@@ -47,11 +60,10 @@ class Office extends My_Controller {
             $store_name  = preg_replace("/\s+/", "_", $store);
             $store_name  = preg_replace('/[^A-Za-z0-9\_]/', '', $store_name);
 
+
             $user_id        		=$this->session->userdata('user_id');
             $user_name         		=$this->session->userdata('user_name');
 
-            $user_id 	= 1;
-            $user_name	='zionnite';
             
             @mkdir('store_img');
             @mkdir('store_img/'.$store_name);
@@ -85,11 +97,13 @@ class Office extends My_Controller {
     }
 
     public function manage_store($store_id=NULL){
-        $user_id        		=$this->session->userdata('user_id');
-        $user_name         		=$this->session->userdata('user_name');
+        $data['alert']			        =$this->session->flashdata('alert');
 
-        $data['user_id'] 	            = 1;
-        $data['user_name']	            ='zionnite';
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['user_status']            =$this->session->userdata('user_status');
 
         $data['store_id']      =$store_id;
 
@@ -98,11 +112,14 @@ class Office extends My_Controller {
     }
 
     public function manage_store_2($store_id=NULL){
-        $user_id        		=$this->session->userdata('user_id');
-        $user_name         		=$this->session->userdata('user_name');
+        $data['alert']			        =$this->session->flashdata('alert');
 
-        $data['user_id'] 	            = 1;
-        $data['user_name']	            ='zionnite';
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['user_status']            =$this->session->userdata('user_status');
+
 
         $data['store_id']      =$store_id;
 
@@ -141,8 +158,6 @@ class Office extends My_Controller {
             $user_id        		=$this->session->userdata('user_id');
             $user_name         		=$this->session->userdata('user_name');
 
-            $user_id 	= 1;
-            $user_name	='zionnite';
             
             @mkdir('store_img');
             @mkdir('store_img/'.$store_name);
@@ -179,11 +194,14 @@ class Office extends My_Controller {
 
     /*Open Branch Stroe*/
     public function open_branch_store($store_id=NULL){
-        $user_id        		        =$this->session->userdata('user_id');
-        $user_name         		        =$this->session->userdata('user_name');
+        $data['alert']			        =$this->session->flashdata('alert');
 
-        $data['user_id'] 	            = 1;
-        $data['user_name']	            ='zionnite';
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['user_status']            =$this->session->userdata('user_status');
+
 
         $data['store_id']               =$store_id;
         $data['content']	='open_branch_store';
@@ -196,11 +214,8 @@ class Office extends My_Controller {
         $store_id            =$this->input->post('store_id');
         $branch_name        =$this->input->post('branch_name');
 
-        $user_id        		        =$this->session->userdata('user_id');
-        $user_name         		        =$this->session->userdata('user_name');
 
-        $data['user_id'] 	            = 1;
-        $data['user_name']	            ='zionnite';
+		$data['user_id']         		=$this->session->userdata('user_id');
 
         $action             =$this->Action->create_branch_store($store_id,$branch_name,$data['user_id']);
         if($action){
@@ -223,11 +238,14 @@ class Office extends My_Controller {
 
     /*Create Supervisor*/
     public function view_supervisor(){
-        $user_id        		        =$this->session->userdata('user_id');
-        $user_name         		        =$this->session->userdata('user_name');
+        $data['alert']			        =$this->session->flashdata('alert');
 
-        $data['user_id'] 	            = 1;
-        $data['user_name']	            ='zionnite';
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['user_status']            =$this->session->userdata('user_status');
+
 
         $data['type']                   ='default';
 
@@ -236,11 +254,14 @@ class Office extends My_Controller {
     }
 
     public function get_supervisor_by_store_id($store_id=NULL){
-        $user_id        		        =$this->session->userdata('user_id');
-        $user_name         		        =$this->session->userdata('user_name');
+        $data['alert']			        =$this->session->flashdata('alert');
 
-        $data['user_id'] 	            = 1;
-        $data['user_name']	            ='zionnite';
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['user_status']            =$this->session->userdata('user_status');
+
 
         $data['type']                   ='store';
 
@@ -251,11 +272,14 @@ class Office extends My_Controller {
     }
 
     public function get_supervisor_by_store_branch_id($branch_id=NULL){
-        $user_id        		        =$this->session->userdata('user_id');
-        $user_name         		        =$this->session->userdata('user_name');
+        $data['alert']			        =$this->session->flashdata('alert');
 
-        $data['user_id'] 	            = 1;
-        $data['user_name']	            ='zionnite';
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['user_status']            =$this->session->userdata('user_status');
+
 
         $data['type']                   ='branch';
 
@@ -312,11 +336,14 @@ class Office extends My_Controller {
 
     /*Create Supervisor*/
     public function view_sale_rep(){
-        $user_id        		        =$this->session->userdata('user_id');
-        $user_name         		        =$this->session->userdata('user_name');
+        $data['alert']			        =$this->session->flashdata('alert');
 
-        $data['user_id'] 	            = 1;
-        $data['user_name']	            ='zionnite';
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['user_status']            =$this->session->userdata('user_status');
+
 
         $data['type']                   ='default';
 
@@ -350,17 +377,55 @@ class Office extends My_Controller {
         }
     }
 
+    public function get_sales_rep_by_store_id($store_id=NULL){
+        $data['alert']			        =$this->session->flashdata('alert');
+
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['user_status']            =$this->session->userdata('user_status');
+
+
+        $data['type']                   ='store';
+
+        $data['dis_store_id']               =$store_id;
+
+        $data['content']	            ='view_sale_rep';
+		$this->load->view($this->layout, $data);
+    }
+
+    public function get_sales_rep_by_store_branch_id($branch_id=NULL){
+        $data['alert']			        =$this->session->flashdata('alert');
+
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['user_status']            =$this->session->userdata('user_status');
+
+
+        $data['type']                   ='branch';
+
+        $data['dis_branch_id']               =$branch_id;
+
+        $data['content']	            ='view_sale_rep';
+		$this->load->view($this->layout, $data);
+    }
+
     /*Customer*/
  
 
     public function view_my_customer(){
-         
-        // Load the list page view 
-        $data['user_id']    =1;
-        $data['user_name']  ='zionnite';
-        $data['content']    ='view_my_customer';
+        $data['alert']			        =$this->session->flashdata('alert');
 
-        
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['user_status']            =$this->session->userdata('user_status');
+
+        $data['content']    ='view_my_customer';
         $this->load->view($this->layout, $data); 
     }
 
@@ -420,10 +485,15 @@ class Office extends My_Controller {
     }
 
     public function filter_customer($type =NULL,$store_id =NULL){
-         
-        // Load the list page view 
-        $data['user_id']    =1;
-        $data['user_name']  ='zionnite';
+        $data['alert']			        =$this->session->flashdata('alert');
+
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['user_status']            =$this->session->userdata('user_status');
+
+
         $data['content']    ='filter_customer';
 
         $data['dis_store_id']   =$store_id;
@@ -498,9 +568,14 @@ class Office extends My_Controller {
 
     public function view_my_supplier(){
          
-        // Load the list page view 
-        $data['user_id']    =1;
-        $data['user_name']  ='zionnite';
+        $data['alert']			        =$this->session->flashdata('alert');
+
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['user_status']            =$this->session->userdata('user_status');
+
         $data['content']    ='view_my_supplier';
 
         
@@ -563,10 +638,14 @@ class Office extends My_Controller {
     }
 
     public function filter_supplier($type =NULL,$store_id =NULL){
-         
-        // Load the list page view 
-        $data['user_id']    =1;
-        $data['user_name']  ='zionnite';
+        $data['alert']			        =$this->session->flashdata('alert');
+
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['user_status']            =$this->session->userdata('user_status');
+
         $data['content']    ='filter_supplier';
 
         $data['dis_store_id']   =$store_id;
@@ -638,13 +717,82 @@ class Office extends My_Controller {
     }
 
 
+    /*View My Category*/
+    public function view_my_category(){
+         
+        $data['alert']			        =$this->session->flashdata('alert');
+
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['user_status']            =$this->session->userdata('user_status');
+
+        $data['content']    ='view_my_category';
+
+        
+        $this->load->view($this->layout, $data); 
+    }
+
+    public function create_category(){
+        $store_id               =$this->input->post('store_id');
+        $branch_id              =$this->input->post('branch_name');
+        $name                   =$this->input->post('name');
+
+        $action    =$this->Action->create_category($store_id,$branch_id,$name);
+        if($action){
+            echo 'ok';
+        }else{
+            echo 'err';
+        }
+
+    }
+
+    public function create_sub_category(){
+        $store_id               =$this->input->post('store_id');
+        $branch_id              =$this->input->post('branch_id');
+        $cat_id                   =$this->input->post('cat_id');
+        $name                   =$this->input->post('name');
+        $action    =$this->Action->create_sub_category($store_id,$branch_id,$name,$cat_id);
+        if($action){
+            echo 'ok';
+        }else{
+            echo 'err';
+        }
+
+    }
+
+    public function delete_category($id){
+        $action    =$this->Action->delete_category($id);
+        if($action){
+            echo 'ok';
+        }else{
+            echo 'err';
+        }
+    }
+
+    public function delete_sub_category($id){
+        $action    =$this->Action->delete_sub_category($id);
+        if($action){
+            echo 'ok';
+        }else{
+            echo 'err';
+        }
+    }
+
+
+
+
     /*Stock Product*/
     public function add_stock(){
-        $user_id        		        =$this->session->userdata('user_id');
-        $user_name         		        =$this->session->userdata('user_name');
+        $data['alert']			        =$this->session->flashdata('alert');
 
-        $data['user_id'] 	            = 1;
-        $data['user_name']	            ='zionnite';
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['user_status']            =$this->session->userdata('user_status');
+
 
         $data['type']                   ='default';
 
@@ -658,9 +806,6 @@ class Office extends My_Controller {
 
             $user_id        		=$this->session->userdata('user_id');
             $user_name         		=$this->session->userdata('user_name');
-
-            $user_id 	= 1;
-            $user_name	='zionnite';
             
             $store_id       	=$this->input->post('store_id');
             $branch_id      	=$this->input->post('branch_id');
@@ -690,7 +835,7 @@ class Office extends My_Controller {
             $store_name_2       =$this->Action->get_store_name_2_by_store_id($store_id);
             //$branch_id      ='9';
             $branch_name    =$this->Action->get_branch_name_by_branch_id($branch_id);
-            $store_owner_id     = $user_id;
+            $store_owner_id     = $this->Action->get_store_owner_id_by_store_id($store_id);
 
 
             $prod_name  = preg_replace("/\s+/", "_", $prod_name);
@@ -781,11 +926,20 @@ class Office extends My_Controller {
     public function view_product(){
          
         // Load the list page view 
-        $data['user_id']    =1;
-        $data['user_name']  ='zionnite';
-        $data['content']    ='view_product';
+        $data['alert']			        =$this->session->flashdata('alert');
 
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['store_id']               =$this->session->userdata('store_id');
+        $data['store_name']             =$this->session->userdata('store_name');
+        $data['branch_id']              =$this->session->userdata('branch_id');
+        $data['store_owner_id']         =$this->session->userdata('store_owner_id');
+        $data['user_status']            =$this->session->userdata('user_status');
         
+        
+        $data['content']    ='view_product';
         $this->load->view($this->layout, $data); 
     }
 
@@ -847,8 +1001,17 @@ class Office extends My_Controller {
     public function filter_product($type =NULL,$store_id =NULL){
          
         // Load the list page view 
-        $data['user_id']    =1;
-        $data['user_name']  ='zionnite';
+        $data['alert']			        =$this->session->flashdata('alert');
+
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['store_id']               =$this->session->userdata('store_id');
+        $data['store_name']             =$this->session->userdata('store_name');
+        $data['branch_id']              =$this->session->userdata('branch_id');
+        $data['store_owner_id']         =$this->session->userdata('store_owner_id');
+        $data['user_status']            =$this->session->userdata('user_status');
         $data['content']    ='filter_product';
 
         $data['dis_store_id']   =$store_id;

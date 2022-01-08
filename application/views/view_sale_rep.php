@@ -41,7 +41,7 @@
 												
 										?>
 										<a class="dropdown-item waves-light waves-effect"
-											href="<?php echo base_url();?>Office/get_supervisor_by_store_id/<?php echo $store_id;?>">
+											href="<?php echo base_url();?>Office/get_sales_rep_by_store_id/<?php echo $store_id;?>">
 											<?php echo $store_name;?></a>
 										<?php
 												}
@@ -67,7 +67,7 @@
 												
 										?>
 										<a class="dropdown-item waves-light waves-effect"
-											href="<?php echo base_url();?>Office/get_supervisor_by_store_branch_id/<?php echo $branch_id;?>"><?php echo $get_store_name;?>
+											href="<?php echo base_url();?>Office/get_sales_rep_by_store_branch_id/<?php echo $branch_id;?>"><?php echo $get_store_name;?>
 											(<?php echo $branch_name;?> Branch)</a>
 										<?php
 												}

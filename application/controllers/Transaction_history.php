@@ -19,7 +19,6 @@ class Transaction_history extends My_Controller {
         $data['store_owner_id']         =$this->session->userdata('store_owner_id');
         $data['user_status']            =$this->session->userdata('user_status');
 
-        $data['user_id']         		= '1';
 
 		$data['content']	='transaction_history';
 		$this->load->view($this->layout,$data);
@@ -38,15 +37,14 @@ class Transaction_history extends My_Controller {
         $data['store_owner_id']         =$this->session->userdata('store_owner_id');
         $data['user_status']            =$this->session->userdata('user_status');
 
-        $data['user_id']         		= '1';
 
 		$data['content']	='transaction_history';
 		$this->load->view($data['content'],$data);
 	}
 
     public function index_ajax(){
-        $data['store_id']		='101';
-		$data['branch_id']		='8';
+        $data['store_id']               =$this->session->userdata('store_id');
+        $data['branch_id']              =$this->session->userdata('branch_id');
 
 
         $search = array(
@@ -102,9 +100,9 @@ class Transaction_history extends My_Controller {
 
     public function filter_transaction($type =NULL,$store_id =NULL){
          
-        // Load the list page view 
-        $data['user_id']    =1;
-        $data['user_name']  ='zionnite';
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+
         
 
         $data['dis_store_id']   =$store_id;

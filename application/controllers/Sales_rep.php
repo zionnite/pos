@@ -7,15 +7,36 @@ class Sales_rep extends My_Controller {
 	}
 
 	public function index(){
+        $this->session_checker->my_session_2();
+        $data['alert']			        =$this->session->flashdata('alert');
+
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['store_id']               =$this->session->userdata('store_id');
+        $data['store_name']             =$this->session->userdata('store_name');
+        $data['branch_id']              =$this->session->userdata('branch_id');
+        $data['store_owner_id']         =$this->session->userdata('store_owner_id');
+        $data['user_status']            =$this->session->userdata('user_status');
+
+
 		$data['content']	='add_sales';
 		$this->load->view($this->layout,$data);
 	}
 
 	public function add_sales_cart_ajax(){
-		$data['store_id']		='101';
-		$data['branch_id']		='8';
-		$data['store_owner_id']	='1';
-		$data['user_id']		='1';
+		$data['alert']			        =$this->session->flashdata('alert');
+
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['store_id']               =$this->session->userdata('store_id');
+        $data['store_name']             =$this->session->userdata('store_name');
+        $data['branch_id']              =$this->session->userdata('branch_id');
+        $data['store_owner_id']         =$this->session->userdata('store_owner_id');
+        $data['user_status']            =$this->session->userdata('user_status');
 
 		$search_term	='';
 
@@ -143,20 +164,34 @@ class Sales_rep extends My_Controller {
     }
 
 	public function load_sales_cart(){
-		$data['store_id']		='101';
-		$data['branch_id']		='8';
-		$data['store_owner_id']	='1';
-		$data['user_id']		='1';
+		$data['alert']			        =$this->session->flashdata('alert');
+
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['store_id']               =$this->session->userdata('store_id');
+        $data['store_name']             =$this->session->userdata('store_name');
+        $data['branch_id']              =$this->session->userdata('branch_id');
+        $data['store_owner_id']         =$this->session->userdata('store_owner_id');
+        $data['user_status']            =$this->session->userdata('user_status');
 
 		$data['content']	='load_sales_cart';
 		$this->load->view($this->layout,$data);
 	}
 
 	public function load_sales_cart_ajax(){
-		$data['store_id']		='101';
-		$data['branch_id']		='8';
-		$data['store_owner_id']	='1';
-		$data['user_id']		='1';
+		$data['alert']			        =$this->session->flashdata('alert');
+
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['store_id']               =$this->session->userdata('store_id');
+        $data['store_name']             =$this->session->userdata('store_name');
+        $data['branch_id']              =$this->session->userdata('branch_id');
+        $data['store_owner_id']         =$this->session->userdata('store_owner_id');
+        $data['user_status']            =$this->session->userdata('user_status');
 
 		$data['content']	='load_sales_cart';
 		$this->load->view($data['content'],$data);
@@ -196,23 +231,23 @@ class Sales_rep extends My_Controller {
 		}
     }
     public function check_out(){
+        $data['alert']			        =$this->session->flashdata('alert');
 
-		$data['store_id']		='101';
-		$data['branch_id']		='8';
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['store_id']               =$this->session->userdata('store_id');
+        $data['store_name']             =$this->session->userdata('store_name');
+        $data['branch_id']              =$this->session->userdata('branch_id');
+        $data['store_owner_id']         =$this->session->userdata('store_owner_id');
+        $data['user_status']            =$this->session->userdata('user_status');
 
-		$user_status				='sales_rep';
-		$user_id					='1';
 
 		$result	='';
 		$invoice_no					= random_string('alnum', 8);
 		$invoice_no					= $invoice_no.date('d');
-
-		
-
-
-
-
-
+	
 		$store_id 					=$data['store_id'];
 		$branch_id					=$data['branch_id'];
 		$trans_type					=$this->input->post('trans_type');
@@ -238,7 +273,7 @@ class Sales_rep extends My_Controller {
 
 
 				$action				=$this->Action->add_transaction($name,$prod_id,$price,$qty,$subtotal,$color,$size,$trans_type,$trans_method,
-									 $trans_customer,$trans_note,$user_status,$user_id,$invoice_no,$store_id,$branch_id);
+									 $trans_customer,$trans_note,$data['user_status'],$data['user_id'],$invoice_no,$store_id,$branch_id);
 				if($action){
 					$result ='ok';
 				}else{

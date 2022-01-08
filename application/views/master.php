@@ -54,7 +54,16 @@
 
             <div class="pcoded-main-container">
                 <div class="pcoded-wrapper">
-                    <?php $this->load->view('nav_sidebar');?>
+                <?php
+                    if($user_status =='store_owner'){
+                        $this->load->view('nav_bar/owner_store_nav_sidebar');
+
+                    }else if($user_status =='manager'){
+                        $this->load->view('nav_bar/manager_nav_sidebar');
+                    }else if($user_status =='sales_rep'){
+                        
+                    }
+                ?>
                     <div class="pcoded-content">
                         <div class="pcoded-inner-content">
                         <?php isset($content)?$this->load->view($content):NULL;?> 

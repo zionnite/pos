@@ -16,8 +16,10 @@ class My_Controller extends CI_Controller{
 		$this->load->model('Action');
 		$this->load->model('Admin_db');
 		$this->load->model('Login_user');
+		$this->load->model('Plan_db');
 
 		$this->load->library('ajax_pagination'); 
+		$this->load->library('session_checker'); 
 	}
 	
 }

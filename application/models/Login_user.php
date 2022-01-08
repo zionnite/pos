@@ -147,6 +147,38 @@ class Login_user extends My_Model{
 		}
 	}
 
+	public function login_owner($u_name,$pass){
+
+		$query	=$this->db->get_where('store_owner',array(
+													'email'=>$u_name,
+													'password'=>md5($pass))
+													);
+		if($query->num_rows() == 1){
+			$row	=$query->row();
+			
+			$user_id        			=$row->id;
+			$user_name 					=$row->user_name;
+			$email 						=$row->email;
+			$phone_no					=$row->phone;
+			
+			
+			
+			$data4= array(
+				'phone_no'			=>$phone_no,
+				'user_id'			=>$user_id,
+				'user_name'			=>$user_name,
+				'email'				=>$email,
+				'user_status'		=>'store_owner',
+				'validation'		=>TRUE,
+				
+				
+			);
+			$this->session->set_userdata($data4);
+			return	$data4;
+		}else{
+			return 	FALSE;
+		}
+	}
 
 	public function login_admin($u_name,$pass){
 			$this->db->where('agent_phone_no',$u_name);

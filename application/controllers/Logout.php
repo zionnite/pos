@@ -4,6 +4,7 @@ class Logout extends My_Controller{
         parent::__construct();
     }
 	public function index(){
+		session_destroy();
 		$data['userid']	=$this->session->userdata('userid');
 		$data['username']	=$this->session->userdata('username');
 		$data['validation']	=$this->session->userdata('validation');

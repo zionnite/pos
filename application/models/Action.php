@@ -663,17 +663,65 @@ class Action extends My_Model{
 		return false;
 	}
 
+	public function create_category($store_id,$branch_id,$name){
+		$store_owner_id 			=$this->get_store_owner_id_by_store_id($store_id);
+		$store_name					=$this->get_store_name_by_store_id($store_id);
+		$branch_name				=$this->get_branch_name_by_branch_id($branch_id);
+		$data	=array('store_id'=>$store_id,
+					   'store_owner_id'=>$store_owner_id,
+					   'branch_store_id'=>$branch_id,
+					   'cat_name'=>$name,
+					   
+					);
+		$this->db->set($data);
+		$this->db->insert('product_category');
+		if($this->db->affected_rows() > 0){
+			return true;
+		}
+		return false;
+	}
+
+	public function create_sub_category($store_id,$branch_id,$name,$cat_id){
+		$store_owner_id 			=$this->get_store_owner_id_by_store_id($store_id);
+		$store_name					=$this->get_store_name_by_store_id($store_id);
+		$branch_name				=$this->get_branch_name_by_branch_id($branch_id);
+		$data	=array('store_id'=>$store_id,
+					   'store_owner_id'=>$store_owner_id,
+					   'branch_store_id'=>$branch_id,
+					   'sub_cat_name'=>$name,
+					   'cat_id'=>$cat_id,
+					   
+					);
+		$this->db->set($data);
+		$this->db->insert('product_sub_category');
+		if($this->db->affected_rows() > 0){
+			return true;
+		}
+		return false;
+	}
+
 	public function count_products($search){
 
 		$keyword = $search['keyword'];
 		$sort_by = $search['sort_by'];
 
+		$user_status            =$this->session->userdata('user_status');
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
 		$this->db->like('prod_name',$this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
 		$this->db->or_like('meta_title', $this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
     	$this->db->or_like('meta_key',$this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
     	$this->db->or_like('meta_desc',$this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
         $this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
         $this->db->or_like('branch_name', $this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
 		return $this->db->from('product_tbl')->count_all_results();
 	}
 
@@ -681,12 +729,23 @@ class Action extends My_Model{
 		$keyword = $search['keyword'];
 		$sort_by = $search['sort_by'];
 
+		$user_status            =$this->session->userdata('user_status');
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
 		$this->db->like('prod_name',$this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
 		$this->db->or_like('meta_title', $this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
     	$this->db->or_like('meta_key',$this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
     	$this->db->or_like('meta_desc',$this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
         $this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
         $this->db->or_like('branch_name', $this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
 		$this->db->limit($limit, $offset);
 		$this->db->order_by('prod_name',$sort_by);
 		$query		=$this->db->get('product_tbl');
@@ -697,6 +756,24 @@ class Action extends My_Model{
 		return false;
 	}
 
+	public function get_product_category($store_owner_id){
+		$this->db->where('store_owner_id',$store_owner_id);
+		$query		=$this->db->get('product_category');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
+
+	public function get_sub_category_by_cat_id($prod_cat_id, $store_owner_id){
+		$this->db->where('cat_id',$prod_cat_id);
+		$this->db->where('store_owner_id',$store_owner_id);
+		$query		=$this->db->get('product_sub_category');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
 	public function get_category_name_by_cat_id($cat_id){
 		$this->db->where('id',$cat_id);
 		$query		=$this->db->get('product_category');
@@ -715,6 +792,24 @@ class Action extends My_Model{
 			foreach($query->result_array() as $row){
 				return $row['sub_cat_name'];
 			}
+		}
+		return false;
+	}
+	public function delete_category($id){
+		# code...
+		$this->db->where('id',$id);
+		$this->db->delete('product_category');
+		if($this->db->affected_rows() > 0){
+			return true;
+		}
+		return false;
+	}
+	public function delete_sub_category($id){
+		# code...
+		$this->db->where('id',$id);
+		$this->db->delete('product_sub_category');
+		if($this->db->affected_rows() > 0){
+			return true;
 		}
 		return false;
 	}
