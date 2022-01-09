@@ -575,6 +575,7 @@ class Office extends My_Controller {
 		$data['user_name']         		=$this->session->userdata('user_name');
         $data['email']                  =$this->session->userdata('email');
         $data['user_status']            =$this->session->userdata('user_status');
+        $data['store_owner_id']         =$this->session->userdata('store_owner_id');
 
         $data['content']    ='view_my_supplier';
 
@@ -645,6 +646,7 @@ class Office extends My_Controller {
 		$data['user_name']         		=$this->session->userdata('user_name');
         $data['email']                  =$this->session->userdata('email');
         $data['user_status']            =$this->session->userdata('user_status');
+        $data['store_owner_id']         =$this->session->userdata('store_owner_id');
 
         $data['content']    ='filter_supplier';
 
@@ -727,6 +729,7 @@ class Office extends My_Controller {
 		$data['user_name']         		=$this->session->userdata('user_name');
         $data['email']                  =$this->session->userdata('email');
         $data['user_status']            =$this->session->userdata('user_status');
+        $data['store_owner_id']         =$this->session->userdata('store_owner_id');
 
         $data['content']    ='view_my_category';
 
@@ -792,6 +795,7 @@ class Office extends My_Controller {
 		$data['user_name']         		=$this->session->userdata('user_name');
         $data['email']                  =$this->session->userdata('email');
         $data['user_status']            =$this->session->userdata('user_status');
+        $data['store_owner_id']         =$this->session->userdata('store_owner_id');
 
 
         $data['type']                   ='default';

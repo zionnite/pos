@@ -129,6 +129,9 @@
 										<div class="col-md-12">
 											<span style="color:red;">Please fill all information</span>
 
+											<?php
+												if($user_status =='store_owner'){
+											?>
                                             <div class="form-group row">
                                                 <label class="col-sm-12 col-form-label">Select Store</label>
                                                 <div class="col-sm-12">
@@ -165,7 +168,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-group row">
+											<div class="form-group row">
 												<div class="col-sm-12">
 													<label for="prod_cat" class="block">Product category *</label>
 												</div>
@@ -200,6 +203,109 @@
 													</select>
 												</div>
 											</div>
+
+											<?php
+
+											}else{
+											?>
+											<div class="form-group row">
+                                                <label class="col-sm-12 col-form-label">Select Store</label>
+                                                <div class="col-sm-12">
+                                                    <select type="text" id="store_id" name="store_id" class="form-control">
+														<
+                                                        <?php
+
+															$my_store_name		=$this->Action->get_store_name_by_supervisor_id($user_id);
+															$my_store_id		=$this->Action->get_store_id_by_supervisor_id($user_id);                                                            
+                                                        ?>
+                                                        <option value="<?php echo $my_store_id;?>"><?php echo $my_store_name;?></option>
+                                                       
+                                                    </select>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-12 col-form-label">Select Branch Store</label>
+                                                <div class="col-sm-12">
+													<?php
+
+													$my_brach_name		=$this->Action->get_branch_name_by_supervisor_id($user_id);
+													$my_brach__id		=$this->Action->get_branch_id_by_supervisor_id($user_id);                                                            
+													?>
+                                                    <select type="text" id="branch_id" name="branch_id" class="form-control">
+														<option value="<?php echo $my_brach__id;?>"><?php echo $my_brach_name;?></option>
+
+                                                    </select>
+                                                </div>
+                                            </div>
+
+											<div class="form-group row">
+												<div class="col-sm-12">
+													<label for="prod_cat" class="block">Product category *</label>
+												</div>
+												<div class="col-sm-12">
+													<select id="prod_cat" name="prod_cat" class="form-control" required>
+														<option>Select Category</option>
+														<?php
+															$list_cat 		=$this->Action->get_prod_category_by_store_owner_id($store_owner_id);
+															if(is_array($list_cat)){
+																foreach($list_cat as $row){
+																	$list_cat_id 			=$row['id'];
+																	$list_cat_name 			=$row['cat_name'];
+																
+														?>
+																<option value="<?php echo $list_cat_id;?>"><?php echo $list_cat_name;?></option>
+														<?php 
+																}
+															}
+														?>
+													</select>
+												</div>
+											</div>
+
+											<div class="form-group row">
+												<div class="col-sm-12">
+													<label for="prod_sub_cat" class="block">Product Sub category
+														*</label>
+												</div>
+												<div class="col-sm-12">
+													<select id="prod_sub_cat" name="prod_sub_cat" class="form-control" required>
+														<option>Select Category</option>
+													</select>
+												</div>
+											</div>
+
+
+											<div class="form-group row">
+												<div class="col-sm-12">
+													<label for="prod_sup" class="block">Supplier*</label>
+												</div>
+												<div class="col-sm-12">
+													<select id="prod_sup" name="prod_sup" class="form-control" required>
+														<?php
+															$list_sub 		=$this->Action->get_supplier_by_store_owner_id($store_owner_id);
+															if(is_array($list_sub)){
+																foreach($list_sub as $row){
+																	$list_sub_id 			=$row['id'];
+																	$list_sub_name 			=$row['name'];
+																
+														?>
+																<option value="<?php echo $list_sub_id;?>"><?php echo $list_sub_name;?></option>
+														<?php 
+																}
+															}
+														?>
+                                                        
+													</select>
+												</div>
+											</div>
+
+											<?php
+											}
+											?>
+
+                                            
 
 											<!-- <div class="form-group row">
 												<div class="col-sm-12">
@@ -440,7 +546,7 @@
 				success: function (data) {
 					$('#large-Modal').modal('hide');
                     $('#create_product')[0].reset();
-                    alert(data);
+                    // alert(data);
 					if (data == 'ok') {
 
 
@@ -505,7 +611,7 @@
 				data: dataString,
 				cache: false,
 				success: function (html) {
-					$("#branch_id").html(html);
+					$("#branch_id").append(html);
 
 				}
 			});
@@ -527,7 +633,7 @@
 				data: dataString,
 				cache: false,
 				success: function (html) {
-					$("#prod_sup").html(html);
+					$("#prod_sup").append(html);
 
 				}
 			});
@@ -538,7 +644,7 @@
 				data: dataString,
 				cache: false,
 				success: function (html) {
-					$("#prod_cat").html(html);
+					$("#prod_cat").append(html);
 
 				}
 			});
@@ -554,7 +660,7 @@
 				data: dataString,
 				cache: false,
 				success: function (html) {
-					$("#prod_sub_cat").html(html);
+					$("#prod_sub_cat").append(html);
 
 				}
 			});

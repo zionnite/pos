@@ -58,8 +58,15 @@
 
 						<?php
 					
-							$get_store		=$this->Action->get_store($user_id);
-							$get_store_branch		=$this->Action->get_store_branches_by_owner_id($user_id);
+						($user_status =='store_owner') ? 
+							$get_store          =$this->Action->get_store($user_id)
+							:
+							$get_store			=$this->Action->get_store($store_owner_id);
+
+						($user_status =='store_owner') ? 
+							$get_store_branch		=$this->Action->get_store_branches_by_owner_id($user_id)
+							:
+							$get_store_branch		=$this->Action->get_store_branches_by_owner_id($store_owner_id);
 							
 						?>
 
@@ -190,7 +197,10 @@
 							<select type="text" id="store_id" name="store_id" class="form-control">
 								<option>Select Store</option>
 								<?php
-                                    $get_store          =$this->Action->get_store($user_id);
+                                    ($user_status =='store_owner') ? 
+										$get_store          =$this->Action->get_store($user_id)
+										:
+										$get_store			=$this->Action->get_store($store_owner_id);
                                     if(is_array($get_store)){
                                         foreach($get_store as $row){
                                             $store_id           =$row['id'];
@@ -276,7 +286,7 @@
 				cache: false,
 				async: false,
 				success: function (data) {
-					$('#large-Modal').modal('hide');
+					//$('#large-Modal').modal('hide');
 					// alert(data);
 					console.log(data);
 					if (data == 'ok') {

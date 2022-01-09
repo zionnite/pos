@@ -279,7 +279,10 @@
 							<select type="text" id="store_id" name="store_id" class="form-control">
 								<option>Select Store</option>
 								<?php
-                                    $get_store          =$this->Action->get_store($user_id);
+                                    ($user_status =='store_owner') ? 
+										$get_store          =$this->Action->get_store($user_id)
+										:
+										$get_store			=$this->Action->get_store($store_owner_id);
                                     if(is_array($get_store)){
                                         foreach($get_store as $row){
                                             $store_id           =$row['id'];
@@ -345,7 +348,7 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Close</button>
 					<input type="submit" class="btn btn-primary waves-effect waves-light"
-						value="Add Suprversor To Branch Store">
+						value="Add Sales Rep. To Branch Store">
 				</div>
 			</form>
 		</div>

@@ -47,7 +47,7 @@
 				<div class="col-md-12" id="slideshow">
 					<div class="card" id="slide_show">
 						<div class="card-header">
-							<h5>List Off Product</h5>
+							<h5>List All Product</h5>
 
 						</div>
 

@@ -50,7 +50,7 @@
 				<div class="col-md-12" id="slideshow">
 					<div class="card" id="slide_show">
 						<div class="card-header">
-							<h5>List Off Customers</h5>
+							<h5>List All Product</h5>
 							<?php $get_store_or_branch_name		=$this->Action->get_store_or_branch_name($type,$dis_store_id);?> 		
 							<h6>Filtering By <?php echo $type;?> Name (<?php echo $get_store_or_branch_name;?>)</h6>
 
