@@ -343,6 +343,7 @@ class Office extends My_Controller {
 		$data['user_name']         		=$this->session->userdata('user_name');
         $data['email']                  =$this->session->userdata('email');
         $data['user_status']            =$this->session->userdata('user_status');
+        $data['store_owner_id']         =$this->session->userdata('store_owner_id');
 
 
         $data['type']                   ='default';
@@ -385,6 +386,7 @@ class Office extends My_Controller {
 		$data['user_name']         		=$this->session->userdata('user_name');
         $data['email']                  =$this->session->userdata('email');
         $data['user_status']            =$this->session->userdata('user_status');
+        $data['store_owner_id']         =$this->session->userdata('store_owner_id');
 
 
         $data['type']                   ='store';
@@ -403,6 +405,7 @@ class Office extends My_Controller {
 		$data['user_name']         		=$this->session->userdata('user_name');
         $data['email']                  =$this->session->userdata('email');
         $data['user_status']            =$this->session->userdata('user_status');
+        $data['store_owner_id']         =$this->session->userdata('store_owner_id');
 
 
         $data['type']                   ='branch';
@@ -424,6 +427,7 @@ class Office extends My_Controller {
 		$data['user_name']         		=$this->session->userdata('user_name');
         $data['email']                  =$this->session->userdata('email');
         $data['user_status']            =$this->session->userdata('user_status');
+        $data['store_owner_id']         =$this->session->userdata('store_owner_id');
 
         $data['content']    ='view_my_customer';
         $this->load->view($this->layout, $data); 
@@ -492,6 +496,7 @@ class Office extends My_Controller {
 		$data['user_name']         		=$this->session->userdata('user_name');
         $data['email']                  =$this->session->userdata('email');
         $data['user_status']            =$this->session->userdata('user_status');
+        $data['store_owner_id']         =$this->session->userdata('store_owner_id');
 
 
         $data['content']    ='filter_customer';

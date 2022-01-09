@@ -212,7 +212,7 @@
                                                 <label class="col-sm-12 col-form-label">Select Store</label>
                                                 <div class="col-sm-12">
                                                     <select type="text" id="store_id" name="store_id" class="form-control">
-														<
+														
                                                         <?php
 
 															$my_store_name		=$this->Action->get_store_name_by_supervisor_id($user_id);

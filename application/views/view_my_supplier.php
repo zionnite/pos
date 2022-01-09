@@ -47,7 +47,7 @@
 				<div class="col-md-12" id="slideshow">
 					<div class="card" id="slide_show">
 						<div class="card-header">
-							<h5>List Off Supplier</h5>
+							<h5>List Of Suppliers</h5>
 
 						</div>
 
@@ -184,17 +184,19 @@
 
 
 
+				<?php
+					if($user_status =='store_owner'){
+				?>
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label">Select Store</label>
 						<div class="col-sm-10">
-							<select type="text" id="store_id" name="store_id" class="form-control">
-								<option>Select Store </option>
+							<select id="store_id" name="store_id" class="form-control">
+								<option>Select Store</option>
 								<?php
-									
-                                    ($user_status =='store_owner') ? 
-									$get_store          =$this->Action->get_store($user_id)
-									:
-									$get_store			=$this->Action->get_store($store_owner_id);
+									 ($user_status =='store_owner') ? 
+                                    	$get_store          =$this->Action->get_store($user_id)
+										:
+										$get_store			=$this->Action->get_store($store_owner_id);
                                     if(is_array($get_store)){
                                         foreach($get_store as $row){
                                             $store_id           =$row['id'];
@@ -223,6 +225,39 @@
 							</select>
 						</div>
 					</div>
+				<?php 
+					}else{?>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label">Select Store</label>
+							<div class="col-sm-10">
+								<select id="store_id" name="store_id" class="form-control">
+									<?php
+
+										$my_store_name		=$this->Action->get_store_name_by_supervisor_id($user_id);
+										$my_store_id		=$this->Action->get_store_id_by_supervisor_id($user_id);                                                            
+                                	?>
+                                    <option value="<?php echo $my_store_id;?>"><?php echo $my_store_name;?></option>
+								</select>
+							</div>
+						</div>
+
+
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label">Select Branch Store</label>
+							<div class="col-sm-10">
+							<?php
+
+								$my_brach_name		=$this->Action->get_branch_name_by_supervisor_id($user_id);
+								$my_brach__id		=$this->Action->get_branch_id_by_supervisor_id($user_id);                                                            
+								?>
+								<select type="text" id="branch_name" name="branch_name" class="form-control">
+									<option value="<?php echo $my_brach__id;?>"><?php echo $my_brach_name;?></option>
+
+								</select>
+							</div>
+						</div>
+
+				<?php } ?>
 
 
 					<div class="form-group row">

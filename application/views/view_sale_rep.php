@@ -19,10 +19,20 @@
 
 						<?php
 					
-							$get_store		=$this->Action->get_store($user_id);
-							$get_store_branch		=$this->Action->get_store_branches_by_owner_id($user_id);
+							($user_status =='store_owner') ? 
+                                $get_store          =$this->Action->get_store($user_id)
+								:
+								$get_store			=$this->Action->get_store($store_owner_id);
+
+							($user_status =='store_owner') ? 
+								$get_store_branch		=$this->Action->get_store_branches_by_owner_id($user_id)
+								:
+								$get_store_branch		=$this->Action->get_store_branches_by_owner_id($store_owner_id);
+							
 							
 						?>
+
+						
 
 						<div class="card-block">
 							<div class="my_filter" style="margin-bottom:1%; float:right;">
@@ -123,13 +133,22 @@
 									<?php
 										
 									if($type =='default'){
-										$get_branch			=$this->Action->get_my_store_sales_rep($user_id);
+										($user_status =='store_owner') ? 
+											$get_branch			=$this->Action->get_my_store_sales_rep($user_id)
+											:
+											$get_branch			=$this->Action->get_my_store_sales_rep($store_owner_id);
 									}elseif($type =='store'){
-										$get_branch			=$this->Action->get_my_store_sales_rep_filter_by_store_id($user_id,$dis_store_id);
+										($user_status =='store_owner') ? 
+										$get_branch			=$this->Action->get_my_store_sales_rep_filter_by_store_id($user_id,$dis_store_id)
+										:
+										$get_branch			=$this->Action->get_my_store_sales_rep_filter_by_store_id($store_owner_id,$dis_store_id);
 
 										
 									}elseif($type =='branch'){
-										$get_branch			=$this->Action->get_my_store_sales_rep_filter_by_branch_id($user_id,$dis_branch_id);
+										($user_status =='store_owner') ? 
+										$get_branch			=$this->Action->get_my_store_sales_rep_filter_by_branch_id($user_id,$dis_branch_id)
+										:
+										$get_branch			=$this->Action->get_my_store_sales_rep_filter_by_branch_id($store_owner_id,$dis_branch_id);
 									}
 						
 						$i=1;
@@ -273,14 +292,17 @@
 
 
 
+				<?php
+					if($user_status =='store_owner'){
+				?>
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label">Select Store</label>
 						<div class="col-sm-10">
-							<select type="text" id="store_id" name="store_id" class="form-control">
+							<select id="store_id" name="store_id" class="form-control">
 								<option>Select Store</option>
 								<?php
-                                    ($user_status =='store_owner') ? 
-										$get_store          =$this->Action->get_store($user_id)
+									 ($user_status =='store_owner') ? 
+                                    	$get_store          =$this->Action->get_store($user_id)
 										:
 										$get_store			=$this->Action->get_store($store_owner_id);
                                     if(is_array($get_store)){
@@ -311,6 +333,41 @@
 							</select>
 						</div>
 					</div>
+				<?php 
+					}else{?>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label">Select Store</label>
+							<div class="col-sm-10">
+								<select id="store_id" name="store_id" class="form-control">
+									<?php
+
+										$my_store_name		=$this->Action->get_store_name_by_supervisor_id($user_id);
+										$my_store_id		=$this->Action->get_store_id_by_supervisor_id($user_id);                                                            
+                                	?>
+                                    <option value="<?php echo $my_store_id;?>"><?php echo $my_store_name;?></option>
+								</select>
+							</div>
+						</div>
+
+
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label">Select Branch Store</label>
+							<div class="col-sm-10">
+							<?php
+
+								$my_brach_name		=$this->Action->get_branch_name_by_supervisor_id($user_id);
+								$my_brach__id		=$this->Action->get_branch_id_by_supervisor_id($user_id);                                                            
+								?>
+								<select type="text" id="branch_name" name="branch_name" class="form-control">
+									<option value="<?php echo $my_brach__id;?>"><?php echo $my_brach_name;?></option>
+
+								</select>
+							</div>
+						</div>
+
+				<?php } ?>
+
+
 
 
 					<div class="form-group row">
