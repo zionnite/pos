@@ -77,8 +77,8 @@
 											<input type="hidden" name="customer[email]" value="<?php echo $email;?>" />
 											<input type="hidden" name="customer[phone_number]" value="<?php echo $phone_no;?>" />
 											<input type="hidden" name="customer[name]" value="<?php echo $full_name;?>" />
-											<input type="hidden" name="customer[user_id]" value="<?php echo $user_id;?>" />
-											<input type="hidden" name="customer[plan_id]" value="<?php echo $id;?>" />
+											<input type="hidden" name="meta[user_id]" value="<?php echo $user_id;?>" />
+											<input type="hidden" name="meta[plan_id]" value="<?php echo $id;?>" />
 											<input type="hidden" name="tx_ref" value="<?php echo time();?>" />
 											<input type="hidden" name="amount" value="<?php echo $amount;?>" />
 											<input type="hidden" name="currency" value="NGN" />

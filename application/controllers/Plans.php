@@ -62,15 +62,19 @@ class Plans extends My_Controller {
         $v_status           = $result['status'];
         $v_data             = $result['data'];
         $v_customer         = $v_data['customer'];
+        $v_meta             = $v_data['meta'];
         
+        print_r($v_meta);
         if($v_status =='success'){
             $v_amount           = $v_data['amount'];
             
             $v_name             =$v_customer['name'];
             $v_phone            =$v_customer['phone_number'];
             $v_email            =$v_customer['email'];
-            $v_id               =$v_customer['user_id'];
-            $v_plan_id          =$v_customer['plan_id'];
+            $v_id               =$v_meta['user_id'];
+            $v_plan_id          =$v_meta['plan_id'];
+
+            // echo $v_id.br().$v_plan_id.br().$v_email;
             
             $action             =$this->Admin_db->select_plan($v_id,$v_plan_id,$v_name,$v_phone,$v_email,$v_amount,$p_tx_ref,$p_trans_id);
             if($action == true){

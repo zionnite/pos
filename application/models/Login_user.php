@@ -183,33 +183,21 @@ class Login_user extends My_Model{
 	}
 
 	public function login_admin($u_name,$pass){
-			$this->db->where('agent_phone_no',$u_name);
-			$this->db->where('agent_pass',md5($pass));
-			$this->db->or_where('agent_name',$u_name);
-			$this->db->where('agent_pass',md5($pass));
+			$this->db->where('user_name',$u_name);
+			$this->db->where('password',md5($pass));
 		
-			$query	=$this->db->get('agent');
+			$query	=$this->db->get('admin');
             if($query->num_rows() == 1){
                 $row	=$query->row();
                 
-                $phone_no       	=$row->agent_phone_no;
-                $user_id        	=$row->agent_id;
-                $user_name	        =$row->agent_name;
-				$user_img			=$row->agent_image;
-                $sex				=$row->agent_sex;
-				$email				=$row->agent_email;
-                $status         	=$row->agent_status;
-                $full_name         	=$row->agent_full_name;
+                $user_id        	=$row->id;
+                $user_name	        =$row->user_name;
+				
 				
                 $data4=array(
-                	'phone_no'=>$phone_no,
                 	'user_id'=>$user_id,
                 	'user_name'=>$user_name,
-                	'user_img'=>$user_img,
-                	'sex'=>$sex,
-                	'email'=>$email,
-                	'full_name'=>$full_name,
-                	'status'=>$status,
+					'user_status'=>'admin',
                 	'validation'=>TRUE,
 					'admin_status'=>TRUE
 				);
