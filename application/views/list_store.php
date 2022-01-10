@@ -54,13 +54,13 @@
 								alt=""></td>
 						<td style="display: table-cell;"><?php echo $store_name;?></td>
 						<td>
-							<a href="<?php echo base_url();?>Office/manage_store/<?php echo $id;?>" class="btn btn-success btn-sm btn-block">Manage Store</a>
+							<a href="<?php echo base_url();?>Office/manage_store/<?php echo $id;?>" class="btn btn-success btn-sm btn-block"><i class="fa fa-store"></i> Manage Store</a>
 						</td>
 						<td>
 							<!-- <a href="#edit_store_<?php echo $id;?>" class="btn btn-info btn-sm"
 								data-toggle="modal">Edit</a> -->
 							<a href="javascript:;" class="btn btn-danger btn-sm" id="delete_store_<?php echo $id;?>"
-								data-store_id="<?php echo $id;?>">Delete</a>
+								data-store_id="<?php echo $id;?>"><i class="fa fa-trash"></i>Delete</a>
 						</td>
 					</tr>
 

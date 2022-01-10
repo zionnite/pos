@@ -13,36 +13,43 @@
 
 			<li class="">
 				<a href="<?php echo base_url();?>Sales_rep/index">
-					<span class="pcoded-micon"><i class="feather icon-sidebar"></i></span>
+					<span class="pcoded-micon"><i class="fa fa-cart-plus"></i></span>
 					<span class="pcoded-mtext">New Transaction</span>
 					<!-- <span class="pcoded-badge label label-warning">NEW</span> -->
 				</a>
 			</li>
 
 			<li class="">
-				<a href="<?php echo base_url();?>Office/view_supervisor">
+				<a href="<?php echo base_url();?>Transaction_history/index">
 					<span class="pcoded-micon"><i class="feather icon-menu"></i></span>
 					<span class="pcoded-mtext">Transaction History</span>
 				</a>
 			</li>
 
 			<li class="">
+				<a href="<?php echo base_url();?>Invoice/index">
+					<span class="pcoded-micon"><i class="fa fa-receipt"></i></span>
+					<span class="pcoded-mtext">Invoices</span>
+				</a>
+			</li>
+
+			<li class="">
 				<a href="<?php echo base_url();?>Office/view_sale_rep">
-					<span class="pcoded-micon"><i class="feather icon-menu"></i></span>
+					<span class="pcoded-micon"><i class="fa fa-people-carry"></i></span>
 					<span class="pcoded-mtext">Manage Staff</span>
 				</a>
 			</li>
 
 			<li class="">
 				<a href="<?php echo base_url();?>Office/view_my_customer">
-					<span class="pcoded-micon"><i class="feather icon-menu"></i></span>
+					<span class="pcoded-micon"><i class="fa fa-user-plus"></i></span>
 					<span class="pcoded-mtext">Manage Customer</span>
 				</a>
 			</li>
 
 			<li class="">
 				<a href="<?php echo base_url();?>Office/view_my_supplier">
-					<span class="pcoded-micon"><i class="feather icon-menu"></i></span>
+					<span class="pcoded-micon"><i class="fa fa-truck"></i></span>
 					<span class="pcoded-mtext">Manage Supplier</span>
 				</a>
 			</li>

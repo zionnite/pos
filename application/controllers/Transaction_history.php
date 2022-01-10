@@ -45,6 +45,8 @@ class Transaction_history extends My_Controller {
     public function index_ajax(){
         $data['store_id']               =$this->session->userdata('store_id');
         $data['branch_id']              =$this->session->userdata('branch_id');
+		$data['store_owner_id']         =$this->session->userdata('store_owner_id');
+        $data['user_status']            =$this->session->userdata('user_status');
 
 
         $search = array(
@@ -102,6 +104,10 @@ class Transaction_history extends My_Controller {
          
 		$data['user_id']         		=$this->session->userdata('user_id');
 		$data['user_name']         		=$this->session->userdata('user_name');
+		$data['store_owner_id']         =$this->session->userdata('store_owner_id');
+        $data['user_status']            =$this->session->userdata('user_status');
+
+		
 
         
 

@@ -7,7 +7,7 @@ class Sales_rep extends My_Controller {
 	}
 
 	public function index(){
-        $this->session_checker->my_session_2();
+        //$this->session_checker->my_session_2();
         $data['alert']			        =$this->session->flashdata('alert');
 
         $data['phone_no']         		=$this->session->userdata('phone_no');
@@ -256,10 +256,14 @@ class Sales_rep extends My_Controller {
 		$trans_note					=$this->input->post('trans_note');
 
 		$cart_content				=$this->cart->contents();
-		// print_r($cart_content);
-		if(is_array($cart_content)){
-			foreach($cart_content as $items){
-				$name       =$items['name'];
+        // print_r($cart_content);
+
+        // $action				=$this->Action->add_transaction('keen','1','2','2','22','blue','s','cash','post',
+        // '4','','user_status','1','invo232','105','8');
+
+        if(is_array($cart_content)){
+            foreach($cart_content as $items){
+                $name       =$items['name'];
                 $price      =$items['price'];
                 $qty        =$items['qty'];
                 $prod_id    =$items['id'];
@@ -268,21 +272,19 @@ class Sales_rep extends My_Controller {
                 $subtotal   =$items['subtotal'];
 				$color		=$option['color'];
 				$size		=$option['size'];
-				
 
-
-
-				$action				=$this->Action->add_transaction($name,$prod_id,$price,$qty,$subtotal,$color,$size,$trans_type,$trans_method,
+                $action				=$this->Action->add_transaction($name,$prod_id,$price,$qty,$subtotal,$color,$size,$trans_type,$trans_method,
 									 $trans_customer,$trans_note,$data['user_status'],$data['user_id'],$invoice_no,$store_id,$branch_id);
 				if($action){
 					$result ='ok';
 				}else{
 					$result ='err';
 				}
-			}
-		}else{
-			$result ='err';
-		}
+            }   
+        }else{
+            $result ='err';
+        }
+
 
 		if($result =='ok'){
 			$this->clear_cart();

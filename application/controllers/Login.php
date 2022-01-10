@@ -65,7 +65,7 @@ class Login extends My_Controller {
 
     public function sales_login(){
         $data['alert']			=$this->session->flashdata('alert');
-		$data['content']	='auth/login';
+		$data['content']	='auth/login_sales';
 		$this->load->view($this->auth_master,$data);
 	}
 

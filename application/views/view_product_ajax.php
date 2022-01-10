@@ -92,7 +92,7 @@
 			<td><?php echo $date;?></td>
 			<td>
 				<a href="javascript:;" id="delete_branch_<?php echo $prod_id;?>" data-id="<?php echo $prod_id;?>"
-					class="btn btn-danger btn-sm">Delete</a>
+					class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Delete</a>
 			</td>
 		</tr>
 

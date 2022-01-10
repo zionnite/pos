@@ -325,7 +325,7 @@
 				cache: false,
 				async: false,
 				success: function (data) {
-					$('#large-Modal').modal('hide');
+					// $('#large-Modal').modal('hide');
 					// alert(data);
 					console.log(data);
 					if (data == 'ok') {

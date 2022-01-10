@@ -46,7 +46,7 @@
                                                     $price              =$row['price'];
                                                     $color              =$row['color'];
                                                     $size               =$row['size'];
-                                                    $sub_toal           =$row['sub_total'];
+                                                    $sub_total          =$row['sub_total'];
                                                     $qty                =$row['quantity'];
                                                     $trans_type         =$row['transaction_type'];
                                                     $trans_method       =$row['payment_method'];
@@ -72,8 +72,8 @@
 
 													$customer_name			=$this->Action->get_customer_name_with_invoice_no($invoice_no);
 													$qty					=$this->Action->get_qty_with_invoice_no($invoice_no);
-													$sub_total				=$this->Action->get_sub_total_with_invoice_no($invoice_no);
-													$grand_total			=$this->Action->get_grand_total_with_invoice_no($invoice_no);
+													//$sub_total				=$this->Action->get_sub_total_with_invoice_no($invoice_no);
+													//$grand_total			=$this->Action->get_grand_total_with_invoice_no($invoice_no);
 													$transaction_type		=$this->Action->get_transaction_type_with_invoice_no($invoice_no);
 													$transaction_method		=$this->Action->get_transaction_method_with_invoice_no($invoice_no);
 													$status					=$this->Action->get_status_with_invoice_no($invoice_no);
@@ -87,7 +87,7 @@
 			<!-- <td><?php // echo $invoice_no;?></td> -->
 			<td><?php echo $customer_name;?></td>
 			<td><?php echo $qty;?></td>
-			<td><?php echo $currency.$this->cart->format_number($grand_total);?></td>
+			<td><?php echo $currency.$this->cart->format_number($sub_total);?></td>
 			<td><?php echo $transaction_type;?></td>
 			<td><?php echo $transaction_method;?></td>
 		

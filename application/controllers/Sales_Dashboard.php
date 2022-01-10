@@ -10,7 +10,7 @@ class Sales_Dashboard extends My_Controller {
         $data['alert']			        =$this->session->flashdata('alert');
 
         $data['phone_no']         		=$this->session->userdata('phone_no');
-		$data['user_id']         		=$this->session->userdata('user_id');
+		echo $data['user_id']         		=$this->session->userdata('user_id');
 		$data['user_name']         		=$this->session->userdata('user_name');
         $data['email']                  =$this->session->userdata('email');
         $data['store_id']               =$this->session->userdata('store_id');

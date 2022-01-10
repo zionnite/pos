@@ -21,28 +21,28 @@
 
 			<li class="">
 				<a href="<?php echo base_url();?>Office/view_supervisor">
-					<span class="pcoded-micon"><i class="feather icon-menu"></i></span>
+					<span class="pcoded-micon"><i class="fa fa-user-tie"></i></span>
 					<span class="pcoded-mtext">Manage Supervisor</span>
 				</a>
 			</li>
 
 			<li class="">
 				<a href="<?php echo base_url();?>Office/view_sale_rep">
-					<span class="pcoded-micon"><i class="feather icon-menu"></i></span>
+					<span class="pcoded-micon"><i class="fa fa-people-carry"></i></span>
 					<span class="pcoded-mtext">Manage Sales Rep.</span>
 				</a>
 			</li>
 
 			<li class="">
 				<a href="<?php echo base_url();?>Office/view_my_customer">
-					<span class="pcoded-micon"><i class="feather icon-menu"></i></span>
+					<span class="pcoded-micon"><i class="fa fa-user-plus"></i></span>
 					<span class="pcoded-mtext">Manage Customer</span>
 				</a>
 			</li>
 
 			<li class="">
 				<a href="<?php echo base_url();?>Office/view_my_supplier">
-					<span class="pcoded-micon"><i class="feather icon-menu"></i></span>
+					<span class="pcoded-micon"><i class="fa fa-truck"></i></span>
 					<span class="pcoded-mtext">Manage Supplier</span>
 				</a>
 			</li>
@@ -50,7 +50,7 @@
 
 			<li class="">
 				<a href="<?php echo base_url();?>Office/view_my_category">
-					<span class="pcoded-micon"><i class="feather icon-menu"></i></span>
+					<span class="pcoded-micon"><i class="fa fa-sitemap"></i></span>
 					<span class="pcoded-mtext">Manage Category</span>
 				</a>
 			</li>

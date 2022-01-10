@@ -7,14 +7,17 @@ class Invoice extends My_Controller {
 	}
 
 	public function index(){
+		$data['alert']			        =$this->session->flashdata('alert');
 
-        $data['user_id']    =1;
-        $data['user_name']  ='zionnite';
-        
-
-        $data['store_id']		='101';
-		$data['branch_id']		='8';
-		$data['store_owner_id']	='1';
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['store_id']               =$this->session->userdata('store_id');
+        $data['store_name']             =$this->session->userdata('store_name');
+        $data['branch_id']              =$this->session->userdata('branch_id');
+        $data['store_owner_id']         =$this->session->userdata('store_owner_id');
+        $data['user_status']            =$this->session->userdata('user_status');
 
 
 
@@ -23,13 +26,17 @@ class Invoice extends My_Controller {
 	}
 	public function index_2(){
 
-        $data['user_id']    =1;
-        $data['user_name']  ='zionnite';
-        
+		$data['alert']			        =$this->session->flashdata('alert');
 
-        $data['store_id']		='101';
-		$data['branch_id']		='8';
-		$data['store_owner_id']	='1';
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['store_id']               =$this->session->userdata('store_id');
+        $data['store_name']             =$this->session->userdata('store_name');
+        $data['branch_id']              =$this->session->userdata('branch_id');
+        $data['store_owner_id']         =$this->session->userdata('store_owner_id');
+        $data['user_status']            =$this->session->userdata('user_status');
 
 
 
@@ -38,8 +45,9 @@ class Invoice extends My_Controller {
 	}
 
     public function index_ajax(){
-        $data['store_id']		='101';
-		$data['branch_id']		='8';
+
+		$data['store_id']               =$this->session->userdata('store_id');
+        $data['branch_id']              =$this->session->userdata('branch_id');
 
 
         $search = array(
@@ -86,13 +94,17 @@ class Invoice extends My_Controller {
 
 
 	public function view_invoice($invoice_no =NULL){
-		$data['user_id']    =1;
-        $data['user_name']  ='zionnite';
-        
+		$data['alert']			        =$this->session->flashdata('alert');
 
-        $data['store_id']		='101';
-		$data['branch_id']		='8';
-		$data['store_owner_id']	='1';
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['store_id']               =$this->session->userdata('store_id');
+        $data['store_name']             =$this->session->userdata('store_name');
+        $data['branch_id']              =$this->session->userdata('branch_id');
+        $data['store_owner_id']         =$this->session->userdata('store_owner_id');
+        $data['user_status']            =$this->session->userdata('user_status');
 
 
 
@@ -112,10 +124,10 @@ class Invoice extends My_Controller {
 	}
 
 	public function filter_invoice($type =NULL,$store_id =NULL){
-         
-        // Load the list page view 
-        $data['user_id']    =1;
-        $data['user_name']  ='zionnite';
+    
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['user_status']            =$this->session->userdata('user_status');
         
 
         $data['dis_store_id']   =$store_id;

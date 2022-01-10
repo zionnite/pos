@@ -115,7 +115,7 @@ class Login_user extends My_Model{
 		if($query->num_rows() == 1){
 			$row	=$query->row();
 			
-			$user_id        			=$row->user_id;
+			$user_id        			=$row->id;
 			$store_owner_id 			=$row->store_owner_id;
 			$store_id       			=$row->store_id;
 			$store_name					=$row->store_name;

@@ -26,7 +26,14 @@ class Action extends My_Model{
 	}
 
 	public function get_store($user_id){
+		$user_status            =$this->session->userdata('user_status');
+		$branch_id              =$this->session->userdata('branch_id');
+		$store_id               =$this->session->userdata('store_id');
+		
 		$this->db->where('store_owner_id',$user_id);
+		if($user_status !='store_owner'){
+			$this->db->where('id',$store_id);
+		}
 		$query		=$this->db->get('office_store');
 		if($query->num_rows() > 0){
 			return $query->result_array();
@@ -151,7 +158,14 @@ class Action extends My_Model{
 	}
 
 	public function get_store_branches_by_owner_id($owner_id){
+		$user_status            =$this->session->userdata('user_status');
+		$branch_id              =$this->session->userdata('branch_id');
+		$store_id               =$this->session->userdata('store_id');
+		
 		$this->db->where(array('store_owner_id'=>$owner_id));
+		if($user_status !='store_owner'){
+			$this->db->where('id',$branch_id);
+		}
 		$query	=$this->db->get('branch_office');
 		if($query->num_rows() > 0){
 			return $query->result_array();
@@ -318,6 +332,9 @@ class Action extends My_Model{
 	public function count_customers($search){
 
 		$user_status            =$this->session->userdata('user_status');
+		$store_id               =$this->session->userdata('store_id');
+		$branch_id              =$this->session->userdata('branch_id');
+
 		($user_status =='store_owner') ? 
 			$store_owner_id = $this->session->userdata('user_id') : 
 			$store_owner_id  =$this->session->userdata('store_owner_id');
@@ -325,21 +342,39 @@ class Action extends My_Model{
 		$keyword = $search['keyword'];
 		$sort_by = $search['sort_by'];
 
-		$this->db->like('name',$this->db->escape_like_str($keyword,'both'));
-		$this->db->where('store_owner_id',$store_owner_id);
-		$this->db->or_like('email', $this->db->escape_like_str($keyword,'both'));
-		$this->db->where('store_owner_id',$store_owner_id);
-    	$this->db->or_like('phone',$this->db->escape_like_str($keyword,'both'));
-		$this->db->where('store_owner_id',$store_owner_id);
-        $this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
-		$this->db->where('store_owner_id',$store_owner_id);
-        $this->db->or_like('branch_store_name', $this->db->escape_like_str($keyword,'both'));
-		$this->db->where('store_owner_id',$store_owner_id);
-		return $this->db->from('customers_tbl')->count_all_results();
+		if($user_status =='store_owner'){
+			$this->db->like('name',$this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->or_like('email', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->or_like('phone',$this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->or_like('branch_store_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			return $this->db->from('customers_tbl')->count_all_results();
+		}else{
+			$this->db->like('name',$this->db->escape_like_str($keyword,'both'));
+			$this->db->where('branch_store_id',$branch_id);
+			$this->db->or_like('email', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('branch_store_id',$branch_id);
+			$this->db->or_like('phone',$this->db->escape_like_str($keyword,'both'));
+			$this->db->where('branch_store_id',$branch_id);
+			$this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('branch_store_id',$branch_id);
+			$this->db->or_like('branch_store_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('branch_store_id',$branch_id);
+			return $this->db->from('customers_tbl')->count_all_results();
+		}
+		
 	}
 
 	public function get_my_customer($search,$limit, $offset){
 		$user_status            =$this->session->userdata('user_status');
+		$store_id               =$this->session->userdata('store_id');
+		$branch_id              =$this->session->userdata('branch_id');
+
 		($user_status =='store_owner') ? 
 			$store_owner_id = $this->session->userdata('user_id') : 
 			$store_owner_id  =$this->session->userdata('store_owner_id');
@@ -347,16 +382,31 @@ class Action extends My_Model{
 		$keyword = $search['keyword'];
 		$sort_by = $search['sort_by'];
 
-		$this->db->like('name',$this->db->escape_like_str($keyword,'both'));
-		$this->db->where('store_owner_id',$store_owner_id);
-		$this->db->or_like('email', $this->db->escape_like_str($keyword,'both'));
-		$this->db->where('store_owner_id',$store_owner_id);
-    	$this->db->or_like('phone',$this->db->escape_like_str($keyword,'both'));
-		$this->db->where('store_owner_id',$store_owner_id);
-        $this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
-		$this->db->where('store_owner_id',$store_owner_id);
-        $this->db->or_like('branch_store_name', $this->db->escape_like_str($keyword,'both'));
-		$this->db->where('store_owner_id',$store_owner_id);
+		if($user_status =='store_owner'){
+			$this->db->like('name',$this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->or_like('email', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->or_like('phone',$this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->or_like('branch_store_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+		}else{
+			$this->db->like('name',$this->db->escape_like_str($keyword,'both'));
+			$this->db->where('branch_store_id',$branch_id);
+			$this->db->or_like('email', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('branch_store_id',$branch_id);
+			$this->db->or_like('phone',$this->db->escape_like_str($keyword,'both'));
+			$this->db->where('branch_store_id',$branch_id);
+			$this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('branch_store_id',$branch_id);
+			$this->db->or_like('branch_store_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('branch_store_id',$branch_id);
+		}
+
+		
 		$this->db->limit($limit, $offset);
 		$this->db->order_by('name',$sort_by);
 		$query		=$this->db->get('customers_tbl');
@@ -491,48 +541,89 @@ class Action extends My_Model{
 	/*Supplier*/
 
 	public function count_supplier($search){
-
 		$user_status            =$this->session->userdata('user_status');
+		$store_id               =$this->session->userdata('store_id');
+		$branch_id              =$this->session->userdata('branch_id');
+
 		($user_status =='store_owner') ? 
-			$store_owner_id = $this->session->userdata('user_id') : 
-			$store_owner_id  =$this->session->userdata('store_owner_id');
+				$store_owner_id = $this->session->userdata('user_id') : 
+				$store_owner_id  =$this->session->userdata('store_owner_id');
 
 		$keyword = $search['keyword'];
 		$sort_by = $search['sort_by'];
+	
+		if($user_status =='store_owner'){
+			
+			
 
-		$this->db->like('name',$this->db->escape_like_str($keyword,'both'));
-		$this->db->where('store_owner_id',$store_owner_id);
-		$this->db->or_like('email', $this->db->escape_like_str($keyword,'both'));
-		$this->db->where('store_owner_id',$store_owner_id);
-    	$this->db->or_like('phone',$this->db->escape_like_str($keyword,'both'));
-		$this->db->where('store_owner_id',$store_owner_id);
-        $this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
-		$this->db->where('store_owner_id',$store_owner_id);
-        $this->db->or_like('branch_store_name', $this->db->escape_like_str($keyword,'both'));
-		$this->db->where('store_owner_id',$store_owner_id);
-		return $this->db->from('suppliers_tbl')->count_all_results();
+			$this->db->like('name',$this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->or_like('email', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->or_like('phone',$this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->or_like('branch_store_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			return $this->db->from('suppliers_tbl')->count_all_results();
+		}else{
+
+			$this->db->like('name',$this->db->escape_like_str($keyword,'both'));
+			$this->db->where('branch_store_id',$branch_id);
+			$this->db->or_like('email', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('branch_store_id',$branch_id);
+			$this->db->or_like('phone',$this->db->escape_like_str($keyword,'both'));
+			$this->db->where('branch_store_id',$branch_id);
+			$this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('branch_store_id',$branch_id);
+			$this->db->or_like('branch_store_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('branch_store_id',$branch_id);
+			return $this->db->from('suppliers_tbl')->count_all_results();
+		}
 	}
 
 	public function get_my_supplier($search,$limit, $offset){
 
 		$user_status            =$this->session->userdata('user_status');
+		$store_id               =$this->session->userdata('store_id');
+		$branch_id              =$this->session->userdata('branch_id');
+
 		($user_status =='store_owner') ? 
-			$store_owner_id = $this->session->userdata('user_id') : 
-			$store_owner_id  =$this->session->userdata('store_owner_id');
+				$store_owner_id = $this->session->userdata('user_id') : 
+				$store_owner_id  =$this->session->userdata('store_owner_id');
 
 		$keyword = $search['keyword'];
 		$sort_by = $search['sort_by'];
+	
 
-		$this->db->like('name',$this->db->escape_like_str($keyword,'both'));
-		$this->db->where('store_owner_id',$store_owner_id);
-		$this->db->or_like('email', $this->db->escape_like_str($keyword,'both'));
-		$this->db->where('store_owner_id',$store_owner_id);
-    	$this->db->or_like('phone',$this->db->escape_like_str($keyword,'both'));
-		$this->db->where('store_owner_id',$store_owner_id);
-        $this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
-		$this->db->where('store_owner_id',$store_owner_id);
-        $this->db->or_like('branch_store_name', $this->db->escape_like_str($keyword,'both'));
-		$this->db->where('store_owner_id',$store_owner_id);
+		if($user_status =='store_owner'){
+			
+			
+
+			$this->db->like('name',$this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->or_like('email', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->or_like('phone',$this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->or_like('branch_store_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+		}else{
+
+			$this->db->like('name',$this->db->escape_like_str($keyword,'both'));
+			$this->db->where('branch_store_id',$branch_id);
+			$this->db->or_like('email', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('branch_store_id',$branch_id);
+			$this->db->or_like('phone',$this->db->escape_like_str($keyword,'both'));
+			$this->db->where('branch_store_id',$branch_id);
+			$this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('branch_store_id',$branch_id);
+			$this->db->or_like('branch_store_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('branch_store_id',$branch_id);
+		}
 
 		$this->db->limit($limit, $offset);
 		$this->db->order_by('name',$sort_by);
@@ -1019,6 +1110,7 @@ class Action extends My_Model{
 	public function add_transaction($name,$prod_id,$price,$qty,$subtotal,$color,$size,$trans_type,$trans_method,$trans_customer,$trans_note,$user_status,$user_id,
 	$invoice_no,$store_id,$branch_id){
 
+		// echo $name.br().$prod_id.br().$price.br().$qty.br().$subtotal.br().$color.br().$size.br().$trans_type.br().$trans_method.br().br().$trans_customer.br().$trans_note.br().$user_status.br().$user_id.br().$invoice_no.br().$store_id.br().$branch_id;
 		//insert invoice
 		$this->create_invoice($invoice_no,$store_id,$branch_id);
 		$customer_name		=$this->get_customer_name_by_customer_id($trans_customer);
@@ -1425,37 +1517,113 @@ class Action extends My_Model{
 
 
 	public function count_transaction_history($store_id,$branch_id,$search){
+		$user_status 		=$this->session->userdata('user_status');
+		$user_id 			=$this->session->userdata('user_id');
+		
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
 
 		$keyword = $search['keyword'];
 		$sort_by = $search['sort_by'];
 
-		if(!empty($keyword)){
-			$this->db->like('invoice', $this->db->escape_like_str($keyword,'both'));
-			$this->db->or_like('prod_name', $this->db->escape_like_str($keyword,'both'));
-			$this->db->or_like('customer_name', $this->db->escape_like_str($keyword,'both'));
+		if($user_status == 'store_owner'){
+
+			if(!empty($keyword)){
+				$this->db->like('invoice', $this->db->escape_like_str($keyword,'both'));
+				$this->db->where('store_id',$store_id);
+				$this->db->or_like('prod_name', $this->db->escape_like_str($keyword,'both'));
+				$this->db->where('store_id',$store_id);
+				$this->db->or_like('customer_name', $this->db->escape_like_str($keyword,'both'));
+				$this->db->where('store_id',$store_id);
+			}else{
+				$this->db->where('store_id',$store_id);
+				// $this->db->where('branch_id',$branch_id);
+			}
+			return $this->db->from('transaction_history')->count_all_results();
+
 		}else{
-			$this->db->where('store_id',$store_id);
-			$this->db->where('branch_id',$branch_id);
+
+			if(!empty($keyword)){
+				$this->db->like('invoice', $this->db->escape_like_str($keyword,'both'));
+				$this->db->where('user_id',$user_id);
+				$this->db->where('branch_id',$branch_id);
+				$this->db->where('user_status',$user_status);
+
+				$this->db->or_like('prod_name', $this->db->escape_like_str($keyword,'both'));
+				$this->db->where('user_id',$user_id);
+				$this->db->where('branch_id',$branch_id);
+				$this->db->where('user_status',$user_status);
+
+				$this->db->or_like('customer_name', $this->db->escape_like_str($keyword,'both'));
+				$this->db->where('user_id',$user_id);
+				$this->db->where('branch_id',$branch_id);
+				$this->db->where('user_status',$user_status);
+				
+			}else{
+				$this->db->where('user_id',$user_id);
+				$this->db->where('branch_id',$branch_id);
+				$this->db->where('user_status',$user_status);
+			}
+			return $this->db->from('transaction_history')->count_all_results();
 		}
+		
 
 		
-		return $this->db->from('transaction_history')->count_all_results();
 	}
 
 	//COME HERE FOR LATER CHANGES
 	public function get_my_transaction_history($store_id,$branch_id,$search,$limit, $offset){
+		$user_status 		=$this->session->userdata('user_status');
+		$user_id 			=$this->session->userdata('user_id');
+		
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
 		$keyword = $search['keyword'];
 		$sort_by = $search['sort_by'];
 
-		if(!empty($keyword)){
-			$this->db->like('invoice', $this->db->escape_like_str($keyword,'both'));
-			$this->db->or_like('prod_name', $this->db->escape_like_str($keyword,'both'));
-			$this->db->or_like('customer_name', $this->db->escape_like_str($keyword,'both'));
-			
+
+		if($user_status == 'store_owner'){
+			if(!empty($keyword)){
+				$this->db->like('invoice', $this->db->escape_like_str($keyword,'both'));
+				$this->db->where('store_id',$store_id);
+				$this->db->or_like('prod_name', $this->db->escape_like_str($keyword,'both'));
+				$this->db->where('store_id',$store_id);
+				$this->db->or_like('customer_name', $this->db->escape_like_str($keyword,'both'));
+				$this->db->where('store_id',$store_id);
+			}else{
+				$this->db->where('store_id',$store_id);
+				// $this->db->where('branch_id',$branch_id);
+			}
 		}else{
-			$this->db->where('store_id',$store_id);
-			$this->db->where('branch_id',$branch_id);
+			if(!empty($keyword)){
+				$this->db->like('invoice', $this->db->escape_like_str($keyword,'both'));
+				$this->db->where('user_id',$user_id);
+				$this->db->where('branch_id',$branch_id);
+				$this->db->where('user_status',$user_status);
+
+				$this->db->or_like('prod_name', $this->db->escape_like_str($keyword,'both'));
+				$this->db->where('user_id',$user_id);
+				$this->db->where('branch_id',$branch_id);
+				$this->db->where('user_status',$user_status);
+
+				$this->db->or_like('customer_name', $this->db->escape_like_str($keyword,'both'));
+				$this->db->where('user_id',$user_id);
+				$this->db->where('branch_id',$branch_id);
+				$this->db->where('user_status',$user_status);
+				
+			}else{
+				$this->db->where('user_id',$user_id);
+				$this->db->where('branch_id',$branch_id);
+				$this->db->where('user_status',$user_status);
+			}
 		}
+
+		
 
 		$this->db->limit($limit, $offset);
 		$this->db->order_by('id',$sort_by);
