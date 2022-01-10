@@ -1,3 +1,6 @@
+<?php
+	$count_product_out_stock 			=$this->Action->count_total_product_out_of_stock();
+?>
 <nav class="pcoded-navbar">
 	<div class="pcoded-inner-navbar main-menu">
 		<div class="pcoded-navigatio-lavel">Navigation</div>
@@ -67,7 +70,13 @@
 				<a href="javascript:void(0)">
 					<span class="pcoded-micon"><i class="feather icon-layers"></i></span>
 					<span class="pcoded-mtext">Manage Stock</span>
-					<span class="pcoded-badge label label-danger">100+</span>
+					<?php
+						if($count_product_out_stock > 0){
+					?>
+					<span class="pcoded-badge label label-danger"><?php echo $count_product_out_stock;?></span>
+					<?php
+						}
+					?>
 				</a>
 				<ul class="pcoded-submenu">
 					<li class=" ">
@@ -80,6 +89,17 @@
 							<span class="pcoded-mtext">View Product</span>
 						</a>
 					</li>
+					<li class=" ">
+						<a href="<?php echo base_url();?>Office/view_product">
+							<span class="pcoded-mtext">In-Stock</span>
+						</a>
+					</li>
+					<li class=" ">
+						<a href="<?php echo base_url();?>Office/view_product">
+							<span class="pcoded-mtext">Out Of Stock</span>
+						</a>
+					</li>
+					
 					
 
 				</ul>

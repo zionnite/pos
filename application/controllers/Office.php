@@ -9,6 +9,7 @@ class Office extends My_Controller {
 	}
 
 	public function index(){
+        
         $data['alert']			        =$this->session->flashdata('alert');
 
         $data['phone_no']         		=$this->session->userdata('phone_no');
@@ -16,6 +17,13 @@ class Office extends My_Controller {
 		$data['user_name']         		=$this->session->userdata('user_name');
         $data['email']                  =$this->session->userdata('email');
         $data['user_status']            =$this->session->userdata('user_status');
+
+
+        $checker                        =$this->Action->check_if_user_select_plan($data['user_id']);
+
+        if(!$checker){
+            redirect('Plans');
+        }
 
 		$data['content']	='index';
 		$this->load->view($this->layout,$data);
@@ -32,7 +40,11 @@ class Office extends My_Controller {
         $data['user_status']            =$this->session->userdata('user_status');
 
 
+        $checker                        =$this->Action->check_if_user_select_plan($data['user_id']);
 
+        if(!$checker){
+            redirect('Plans');
+        }
         $data['content']	='open_store';
 		$this->load->view($this->layout,$data);
     }
@@ -53,47 +65,59 @@ class Office extends My_Controller {
 
  
     public function create_store(){
-        if(isset($_FILES["file"]["name"]))  {  
-            
-            $store      	=$this->input->post('store_name');
+        $user_id        		=$this->session->userdata('user_id');
+        $user_name         		=$this->session->userdata('user_name');
 
-            $store_name  = preg_replace("/\s+/", "_", $store);
-            $store_name  = preg_replace('/[^A-Za-z0-9\_]/', '', $store_name);
+        $max_store 			=$this->Action->get_my_plan_store($user_id);
+		$count_store 		=$this->Action->count_my_store($user_id);
+
+		if($count_store < $max_store){
 
 
-            $user_id        		=$this->session->userdata('user_id');
-            $user_name         		=$this->session->userdata('user_name');
-
-            
-            @mkdir('store_img');
-            @mkdir('store_img/'.$store_name);
-            @mkdir('store_img/'.$store_name.'/images');
-
-			$config['upload_path'] = './store_img/'.$store_name.'/images';
-			$config['allowed_types'] = 'png|jpeg|jpg|gif';
-            $config['overwrite'] = FALSE;
-            $config['remove_spaces'] = TRUE;
-			$config['encrypt_name'] = TRUE;
-            
-            $this->upload->initialize($config);
-            $this->load->library('upload', $config);  
-            if(!$this->upload->do_upload('file')){  
-                echo $this->upload->display_errors();
-            }else{  
-                $data = array('upload_data' => $this->upload->data());
-                $img_file_name  = $data['upload_data']['file_name'];
+            if(isset($_FILES["file"]["name"]))  {  
                 
+                $store      	=$this->input->post('store_name');
+
+                $store_name  = preg_replace("/\s+/", "_", $store);
+                $store_name  = preg_replace('/[^A-Za-z0-9\_]/', '', $store_name);
+
+
                 
-				$result	=$this->Action->create_store($img_file_name,$store,$store_name,$user_id,$user_name);
+
+                
+                @mkdir('store_img');
+                @mkdir('store_img/'.$store_name);
+                @mkdir('store_img/'.$store_name.'/images');
+
+                $config['upload_path'] = './store_img/'.$store_name.'/images';
+                $config['allowed_types'] = 'png|jpeg|jpg|gif';
+                $config['overwrite'] = FALSE;
+                $config['remove_spaces'] = TRUE;
+                $config['encrypt_name'] = TRUE;
+                
+                $this->upload->initialize($config);
+                $this->load->library('upload', $config);  
+                if(!$this->upload->do_upload('file')){  
+                    echo $this->upload->display_errors();
+                }else{  
+                    $data = array('upload_data' => $this->upload->data());
+                    $img_file_name  = $data['upload_data']['file_name'];
+                    
+                    
+                    $result	=$this->Action->create_store($img_file_name,$store,$store_name,$user_id,$user_name);
 
 
-                if($result == TRUE){
-                echo 'ok';
-                }else{
-                echo 'err';
-                }
-            }  
+                    if($result == TRUE){
+                    echo 'ok';
+                    }else{
+                    echo 'err';
+                    }
+                }  
+            }
+        }else{
+            echo 'You have exceed the number of store you can create in your Plan';
         }
+        
     }
 
     public function manage_store($store_id=NULL){

@@ -1989,4 +1989,39 @@ class Action extends My_Model{
 		}
 		return false;
 	}
+
+	public function check_if_user_select_plan($user_id){
+		$this->db->where('user_id',$user_id);
+		$this->db->where('status','active');
+		$this->db->get('my_plan');
+		if($this->db->affected_rows() > 0){
+			return true;
+		}
+		return false;
+	}
+
+
+	public function get_my_plan_store($user_id){
+		$this->db->where('user_id',$user_id);
+		$this->db->where('status','active');
+		$query		=$this->db->get('my_plan');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				$plan_id 		=$row['plan_id'];
+
+				$this->db->where('id',$plan_id);
+				$query			=$this->db->get('plan');
+				if($query->num_rows() > 0){
+					foreach($query->result_array() as $row){
+						return $row['store_num'];
+					}
+				}
+			}
+		}
+		return 0;
+	}
+	public function count_my_store($user_id){
+		$this->db->where('store_owner_id',$user_id);
+		return $this->db->from('office_store')->count_all_results();
+	}
 }

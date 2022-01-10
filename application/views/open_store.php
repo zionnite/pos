@@ -7,8 +7,18 @@
 				<?php $this->load->view('short_statics');?>
 				<!-- task, page, download counter  end -->
 
+				<?php
+					$max_store 			=$this->Action->get_my_plan_store($user_id);
+					$count_store 		=$this->Action->count_my_store($user_id);
+
+					if($count_store < $max_store){
+				?>
 				<a data-toggle="modal" href="#large-Modal" class="col-md-12 btn btn-danger btn-block"
 					style="margin:1%;">Create Store</a>
+
+				<?php
+					}
+				?>
 
 				<div class="col-md-12" id="slideshow">Loading....</div>
 

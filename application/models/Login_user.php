@@ -160,6 +160,7 @@ class Login_user extends My_Model{
 			$user_name 					=$row->user_name;
 			$email 						=$row->email;
 			$phone_no					=$row->phone;
+			$full_name					=$row->full_name;
 			
 			
 			
@@ -168,6 +169,7 @@ class Login_user extends My_Model{
 				'user_id'			=>$user_id,
 				'user_name'			=>$user_name,
 				'email'				=>$email,
+				'full_name'			=>$full_name,
 				'user_status'		=>'store_owner',
 				'validation'		=>TRUE,
 				
@@ -293,4 +295,15 @@ class Login_user extends My_Model{
             return FALSE;
         }
     }
+
+
+	public function register($user_name,$pass,$email,$phone,$full_name){
+		$data  			=array('user_name'=>$user_name,'password'=>md5($pass),'email'=>$email,'phone'=>$phone,'full_name'=>$full_name);
+		$this->db->set($data);
+		$this->db->insert('store_owner');
+		if($this->db->affected_rows() > 0){
+			return true;
+		}
+		return false;
+	}
 }

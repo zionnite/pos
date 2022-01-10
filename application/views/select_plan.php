@@ -1,3 +1,11 @@
+<?php
+
+    $public_key        =$this->Admin_db->get_public_live_key();
+    $private_key       =$this->Admin_db->get_private_live_key();
+    //$full_name         =str_replace(" ","_",$full_name);
+    $token  =time();
+        
+?>
 <style>
 	.pagination {
 		display: inline-block;
@@ -58,7 +66,28 @@
                                             <p>Amount: <b><strong><?php echo $currency.$this->cart->format_number($amount);?></strong></b></p>
                                         </div>
 										<!-- <p class="card-text"><?php echo $store_desc;?></p> -->
-                                        <a href="<?php echo base_url();?>Plans/make_payment/<?php echo $id;?>" class="btn btn-danger btn-block">Select Plan</a>
+                                        <!-- <a href="<?php echo base_url();?>Plans/make_payment/<?php echo $id;?>" class="btn btn-danger btn-block">Select Plan</a> -->
+
+
+
+										<form method="POST" action="https://checkout.flutterwave.com/v3/hosted/pay">
+											<!-- Message Input Area Start -->
+											<!--  <input type="hidden" name="public_key" value="FLWPUBK_TEST-SANDBOXDEMOKEY-X" />-->
+											<input type="hidden" name="public_key" value="<?php echo $public_key;?>" />
+											<input type="hidden" name="customer[email]" value="<?php echo $email;?>" />
+											<input type="hidden" name="customer[phone_number]" value="<?php echo $phone_no;?>" />
+											<input type="hidden" name="customer[name]" value="<?php echo $full_name;?>" />
+											<input type="hidden" name="customer[user_id]" value="<?php echo $user_id;?>" />
+											<input type="hidden" name="customer[plan_id]" value="<?php echo $id;?>" />
+											<input type="hidden" name="tx_ref" value="<?php echo time();?>" />
+											<input type="hidden" name="amount" value="<?php echo $amount;?>" />
+											<input type="hidden" name="currency" value="NGN" />
+											<input type="hidden" name="meta[token]" value="<?php echo $token;?>" />
+											<input type="hidden" name="redirect_url" value="<?php echo base_url();?>Plans/verify_payment" />
+
+											<button type="submit" class="btn btn-danger btn-block" style="margin-top:1%;">Select Plan</button>
+											<!-- Message Input Area End -->
+										</form>
 									</div>
 								</div>
 							</div>
