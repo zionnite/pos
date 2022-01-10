@@ -4,7 +4,7 @@
 		<ul class="pcoded-item pcoded-left-item">
 
 			<li class="active pcoded-trigger">
-				<a href="javascript:void(0)">
+				<a href="<?php echo base_url();?>Sales_Dashboard">
 					<span class="pcoded-micon"><i class="feather icon-home"></i></span>
 					<span class="pcoded-mtext">Dashboard</span>
 				</a>
@@ -26,10 +26,17 @@
 				</a>
 			</li>
 
+			<!-- <li class="">
+				<a href="<?php echo base_url();?>Logout/sales_logout">
+					<span class="pcoded-micon"><i class="fa fa-user-plus"></i></span>
+					<span class="pcoded-mtext">Customers</span>
+				</a>
+			</li> -->
+
 			<li class="">
-				<a href="<?php echo base_url();?>Invoice/index">
-					<span class="pcoded-micon"><i class="fa fa-receipt"></i></span>
-					<span class="pcoded-mtext">Invoices</span>
+				<a href="<?php echo base_url();?>Logout/sales_logout">
+					<span class="pcoded-micon"><i class="fa fa-sign-out-alt"></i></span>
+					<span class="pcoded-mtext">Logout</span>
 				</a>
 			</li>
 

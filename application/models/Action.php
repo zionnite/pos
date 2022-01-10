@@ -1114,6 +1114,7 @@ class Action extends My_Model{
 		//insert invoice
 		$this->create_invoice($invoice_no,$store_id,$branch_id);
 		$customer_name		=$this->get_customer_name_by_customer_id($trans_customer);
+		$store_owner_id		=$this->get_store_owner_id_by_store_id($store_id);
 
 		$data			= array('prod_name' 		=> $name,
 							    'prod_id'			=> $prod_id,
@@ -1134,6 +1135,7 @@ class Action extends My_Model{
 								'store_id'			=> $store_id,
 								'branch_id'			=> $branch_id,
 								'invoice'			=> $invoice_no,
+								'store_owner_id'	=> $store_owner_id,
 						);
 		$this->db->set($data);
 		$this->db->insert('transaction_history');
@@ -1167,8 +1169,9 @@ class Action extends My_Model{
 	}
 
 	public function create_invoice($invoice_no,$store_id,$branch_id){
+		$store_owner_id		=$this->get_store_owner_id_by_store_id($store_id);
 		if(!$this->check_if_invoice_exist($invoice_no)){
-			$data		= array('invoice_number'=>$invoice_no,'store_id'=>$store_id,'branch_id'=>$branch_id,'date_created'=>date('Y-m-d H:i:sa'),'time'=>time());
+			$data		= array('invoice_number'=>$invoice_no,'store_id'=>$store_id,'branch_id'=>$branch_id,'date_created'=>date('Y-m-d H:i:sa'),'time'=>time(),'store_owner_id'=>$store_owner_id);
 			$this->db->set($data);
 			$this->db->insert('invoice_tbl');
 			if($this->db->affected_rows() > 0){
@@ -1245,35 +1248,77 @@ class Action extends My_Model{
 
 	public function count_invoice($store_id,$branch_id,$search){
 
+		$user_status            =$this->session->userdata('user_status');
+		$store_id               =$this->session->userdata('store_id');
+		$branch_id              =$this->session->userdata('branch_id');
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
 		$keyword = $search['keyword'];
 		$sort_by = $search['sort_by'];
 
-		if(!empty($keyword)){
-			$this->db->like('invoice_number',$this->db->escape_like_str($keyword,'both'));
-			$this->db->where('store_id',$store_id);
-			$this->db->where('branch_id',$branch_id);
+		if($user_status =='store_owner'){
+			if(!empty($keyword)){
+				$this->db->like('invoice_number',$this->db->escape_like_str($keyword,'both'));
+				$this->db->where('store_id',$store_id);
+				// $this->db->where('branch_id',$branch_id);
+			}else{
+				$this->db->where('store_id',$store_id);
+				// $this->db->where('branch_id',$branch_id);
+			}
+			return $this->db->from('invoice_tbl')->count_all_results();
 		}else{
-			$this->db->where('store_id',$store_id);
-			$this->db->where('branch_id',$branch_id);
+			if(!empty($keyword)){
+				$this->db->like('invoice_number',$this->db->escape_like_str($keyword,'both'));
+				$this->db->where('store_id',$store_id);
+				$this->db->where('branch_id',$branch_id);
+			}else{
+				$this->db->where('store_id',$store_id);
+				$this->db->where('branch_id',$branch_id);
+			}
+			return $this->db->from('invoice_tbl')->count_all_results();
 		}
-
 		
-		return $this->db->from('invoice_tbl')->count_all_results();
 	}
 
 	public function get_my_invoice($store_id,$branch_id,$search,$limit, $offset){
+
+		$user_status            =$this->session->userdata('user_status');
+		$store_id               =$this->session->userdata('store_id');
+		$branch_id              =$this->session->userdata('branch_id');
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
 		$keyword = $search['keyword'];
 		$sort_by = $search['sort_by'];
 
-		if(!empty($keyword)){
-			$this->db->like('invoice_number',$this->db->escape_like_str($keyword,'both'));
-			$this->db->where('store_id',$store_id);
-			$this->db->where('branch_id',$branch_id);
-			
+		if($user_status =='store_owner'){
+			if(!empty($keyword)){
+				$this->db->like('invoice_number',$this->db->escape_like_str($keyword,'both'));
+				$this->db->where('store_id',$store_id);
+				// $this->db->where('branch_id',$branch_id);
+				
+			}else{
+				$this->db->where('store_id',$store_id);
+				// $this->db->where('branch_id',$branch_id);
+			}
 		}else{
-			$this->db->where('store_id',$store_id);
-			$this->db->where('branch_id',$branch_id);
+			if(!empty($keyword)){
+				$this->db->like('invoice_number',$this->db->escape_like_str($keyword,'both'));
+				$this->db->where('store_id',$store_id);
+				$this->db->where('branch_id',$branch_id);
+				
+			}else{
+				$this->db->where('store_id',$store_id);
+				$this->db->where('branch_id',$branch_id);
+			}
 		}
+
+		
 
 		$this->db->limit($limit, $offset);
 		$this->db->order_by('id',$sort_by);
@@ -1795,6 +1840,152 @@ class Action extends My_Model{
 		$query 	=$this->db->get('suppliers_tbl');
 		if($query->num_rows() > 0){
 			return $query->result_array();
+		}
+		return false;
+	}
+
+	/*Counting*/
+
+
+	public function count_total_product_in_stock(){
+		$user_id		         		=$this->session->userdata('user_id');
+        $store_id		                =$this->session->userdata('store_id');
+        $store_name			            =$this->session->userdata('store_name');
+        $branch_id			            =$this->session->userdata('branch_id');
+        $store_owner_id			        =$this->session->userdata('store_owner_id');
+        $user_status		            =$this->session->userdata('user_status');
+
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+
+		if($user_status == 'store_owner'){
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('prod_bunk >', 0);
+			return $this->db->from('product_tbl')->count_all_results();
+		}else{
+			$this->db->where('branch_id',$branch_id);
+			$this->db->where('prod_bunk >', 0);
+			return $this->db->from('product_tbl')->count_all_results();
+		}
+	}
+
+	public function count_total_product_out_of_stock(){
+		$user_id		         		=$this->session->userdata('user_id');
+        $store_id		                =$this->session->userdata('store_id');
+        $store_name			            =$this->session->userdata('store_name');
+        $branch_id			            =$this->session->userdata('branch_id');
+        $store_owner_id			        =$this->session->userdata('store_owner_id');
+        $user_status		            =$this->session->userdata('user_status');
+
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		
+		if($user_status == 'store_owner'){
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('prod_bunk <=', 0);
+			return $this->db->from('product_tbl')->count_all_results();
+		}else{
+			$this->db->where('branch_id',$branch_id);
+			$this->db->where('prod_bunk <=', 0);
+			return $this->db->from('product_tbl')->count_all_results();
+		}
+		
+	}
+	
+	public function count_total_transaction(){
+		$user_id		         		=$this->session->userdata('user_id');
+        $store_id		                =$this->session->userdata('store_id');
+        $store_name			            =$this->session->userdata('store_name');
+        $branch_id			            =$this->session->userdata('branch_id');
+        $store_owner_id			        =$this->session->userdata('store_owner_id');
+        $user_status		            =$this->session->userdata('user_status');
+
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+			
+		if($user_status == 'store_owner'){
+			$this->db->where('store_owner_id',$store_owner_id);
+			return $this->db->from('transaction_history')->count_all_results();
+		}else{
+			$this->db->where('user_id',$user_id);
+			$this->db->where('user_status',$user_status);
+			$this->db->where('branch_id',$branch_id);
+			return $this->db->from('transaction_history')->count_all_results();
+		}
+		
+	}
+
+	public function count_total_sales(){
+		$user_id		         		=$this->session->userdata('user_id');
+        $store_id		                =$this->session->userdata('store_id');
+        $store_name			            =$this->session->userdata('store_name');
+        $branch_id			            =$this->session->userdata('branch_id');
+        $store_owner_id			        =$this->session->userdata('store_owner_id');
+        $user_status		            =$this->session->userdata('user_status');
+
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+			
+		if($user_status == 'store_owner'){
+			$this->db->where('store_owner_id',$store_owner_id);
+		}else{
+			$this->db->where('user_id',$user_id);
+			$this->db->where('user_status',$user_status);
+			$this->db->where('branch_id',$branch_id);
+		}
+		
+
+		$this->db->select_sum('sub_total');
+		$query		=$this->db->get('transaction_history');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['sub_total'];
+			}
+		}
+		return false;
+	}
+
+	public function count_total_item_sold(){
+		$user_id		         		=$this->session->userdata('user_id');
+        $store_id		                =$this->session->userdata('store_id');
+        $store_name			            =$this->session->userdata('store_name');
+        $branch_id			            =$this->session->userdata('branch_id');
+        $store_owner_id			        =$this->session->userdata('store_owner_id');
+        $user_status		            =$this->session->userdata('user_status');
+
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+			
+		if($user_status == 'store_owner'){
+			$this->db->where('store_owner_id',$store_owner_id);
+		}else{
+			$this->db->where('user_id',$user_id);
+			$this->db->where('user_status',$user_status);
+			$this->db->where('branch_id',$branch_id);
+		}
+		
+
+		$this->db->select_sum('quantity');
+		$query		=$this->db->get('transaction_history');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['quantity'];
+			}
 		}
 		return false;
 	}
