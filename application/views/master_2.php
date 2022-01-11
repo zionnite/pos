@@ -47,7 +47,7 @@
         <div class="pcoded-container navbar-wrapper">
 
         <?php $this->load->view('nav_bar');?>
-        <?php $this->load->view('side_bar');?>
+        <?php //$this->load->view('side_bar');?>
 
             <!-- Sidebar inner chat end-->
             <div class="pcoded-main-container">

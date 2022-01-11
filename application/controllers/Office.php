@@ -71,7 +71,7 @@ class Office extends My_Controller {
         $max_store 			=$this->Action->get_my_plan_store($user_id);
 		$count_store 		=$this->Action->count_my_store($user_id);
 
-		if($count_store < $max_store){
+		if($count_store <= $max_store){
 
 
             if(isset($_FILES["file"]["name"]))  {  
@@ -1099,4 +1099,267 @@ class Office extends My_Controller {
 		$this->load->view('filter_product_ajax', $data);
 	}
 
+    public function view_product_in(){
+         
+        // Load the list page view 
+        $data['alert']			        =$this->session->flashdata('alert');
+
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['store_id']               =$this->session->userdata('store_id');
+        $data['store_name']             =$this->session->userdata('store_name');
+        $data['branch_id']              =$this->session->userdata('branch_id');
+        $data['store_owner_id']         =$this->session->userdata('store_owner_id');
+        $data['user_status']            =$this->session->userdata('user_status');
+        
+        
+        $data['content']    ='view_product_in';
+        $this->load->view($this->layout, $data); 
+    }
+    
+    public function view_product_in_ajax($offset=null)
+	{
+		$search = array(
+			'keyword' => trim($this->input->post('search_key')),
+            'sort_by'  => $this->input->post('sortBy'),
+		);
+
+		
+		$this->load->library('pagination');
+		
+		$limit = 100;
+		$offset = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+		
+		$config['base_url'] = site_url('Office/view_product_in_ajax/');
+		$config['total_rows'] = $this->Action->count_products_in($search);
+		$config['per_page'] = $limit;
+		$config['uri_segment'] = 3;
+		$config['num_links'] = 3;
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+		$config['cur_tag_open'] = '<li><a href="" class="current_page">';
+		$config['cur_tag_close'] = '</a></li>';
+		$config['next_link'] = 'Next';
+		$config['next_tag_open'] = '<li>';
+		$config['next_tag_close'] = '</li>';
+		$config['prev_link'] = 'Previous';
+		$config['prev_tag_open'] = '<li>';
+		$config['prev_tag_close'] = '</li>';
+		$config['first_link'] = 'First';
+		$config['first_tag_open'] = '<li>';
+		$config['first_tag_close'] = '</li>';
+		$config['last_link'] = 'Last';
+		$config['last_tag_open'] = '<li>';
+		$config['last_tag_close'] = '</li>';
+		
+		$this->pagination->initialize($config);
+
+		$data['get_info'] = $this->Action->get_products_in($search, $limit, $offset);
+	
+		$data['pagelinks'] = $this->pagination->create_links();
+		
+		$this->load->view('view_product_ajax', $data);
+	}
+
+    public function filter_product_in($type =NULL,$store_id =NULL){
+         
+        // Load the list page view 
+        $data['alert']			        =$this->session->flashdata('alert');
+
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['store_id']               =$this->session->userdata('store_id');
+        $data['store_name']             =$this->session->userdata('store_name');
+        $data['branch_id']              =$this->session->userdata('branch_id');
+        $data['store_owner_id']         =$this->session->userdata('store_owner_id');
+        $data['user_status']            =$this->session->userdata('user_status');
+        $data['content']    ='filter_product_in';
+
+        $data['dis_store_id']   =$store_id;
+        $data['type']           =$type;
+        $this->load->view($this->layout, $data); 
+    }
+
+    public function filter_product_in_ajax($offset=null)
+	{
+		$search = array(
+			'keyword' => trim($this->input->post('search_key')),
+            'sort_by'  => $this->input->post('sortBy'),
+		);
+
+        $store_id   = $this->input->post('store_id');
+        $type       = $this->input->post('type');
+		
+		$this->load->library('pagination');
+		
+		$limit = 100;
+		$offset = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+		
+		$config['base_url'] = site_url('Office/filter_product_in_ajax/');
+		$config['total_rows'] = $this->Action->count_filter_product_in($search, $store_id, $type);
+		$config['per_page'] = $limit;
+		$config['uri_segment'] = 3;
+		$config['num_links'] = 3;
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+		$config['cur_tag_open'] = '<li><a href="" class="current_page">';
+		$config['cur_tag_close'] = '</a></li>';
+		$config['next_link'] = 'Next';
+		$config['next_tag_open'] = '<li>';
+		$config['next_tag_close'] = '</li>';
+		$config['prev_link'] = 'Previous';
+		$config['prev_tag_open'] = '<li>';
+		$config['prev_tag_close'] = '</li>';
+		$config['first_link'] = 'First';
+		$config['first_tag_open'] = '<li>';
+		$config['first_tag_close'] = '</li>';
+		$config['last_link'] = 'Last';
+		$config['last_tag_open'] = '<li>';
+		$config['last_tag_close'] = '</li>';
+		
+		$this->pagination->initialize($config);
+        $this->pagination->cur_page = $offset;
+
+		$data['get_info'] = $this->Action->get_filter_product_in($search, $store_id, $type, $limit, $offset);
+	
+		$data['pagelinks'] = $this->pagination->create_links();
+		
+		$this->load->view('filter_product_ajax', $data);
+	}
+
+    public function view_product_out(){
+         
+        // Load the list page view 
+        $data['alert']			        =$this->session->flashdata('alert');
+
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['store_id']               =$this->session->userdata('store_id');
+        $data['store_name']             =$this->session->userdata('store_name');
+        $data['branch_id']              =$this->session->userdata('branch_id');
+        $data['store_owner_id']         =$this->session->userdata('store_owner_id');
+        $data['user_status']            =$this->session->userdata('user_status');
+        
+        
+        $data['content']    ='view_product_out';
+        $this->load->view($this->layout, $data); 
+    }
+    
+    public function view_product_out_ajax($offset=null)
+	{
+		$search = array(
+			'keyword' => trim($this->input->post('search_key')),
+            'sort_by'  => $this->input->post('sortBy'),
+		);
+
+		
+		$this->load->library('pagination');
+		
+		$limit = 100;
+		$offset = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+		
+		$config['base_url'] = site_url('Office/view_product_out_ajax/');
+		$config['total_rows'] = $this->Action->count_products_out($search);
+		$config['per_page'] = $limit;
+		$config['uri_segment'] = 3;
+		$config['num_links'] = 3;
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+		$config['cur_tag_open'] = '<li><a href="" class="current_page">';
+		$config['cur_tag_close'] = '</a></li>';
+		$config['next_link'] = 'Next';
+		$config['next_tag_open'] = '<li>';
+		$config['next_tag_close'] = '</li>';
+		$config['prev_link'] = 'Previous';
+		$config['prev_tag_open'] = '<li>';
+		$config['prev_tag_close'] = '</li>';
+		$config['first_link'] = 'First';
+		$config['first_tag_open'] = '<li>';
+		$config['first_tag_close'] = '</li>';
+		$config['last_link'] = 'Last';
+		$config['last_tag_open'] = '<li>';
+		$config['last_tag_close'] = '</li>';
+		
+		$this->pagination->initialize($config);
+
+		$data['get_info'] = $this->Action->get_products_out($search, $limit, $offset);
+	
+		$data['pagelinks'] = $this->pagination->create_links();
+		
+		$this->load->view('view_product_ajax', $data);
+	}
+
+    public function filter_product_out($type =NULL,$store_id =NULL){
+         
+        // Load the list page view 
+        $data['alert']			        =$this->session->flashdata('alert');
+
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['store_id']               =$this->session->userdata('store_id');
+        $data['store_name']             =$this->session->userdata('store_name');
+        $data['branch_id']              =$this->session->userdata('branch_id');
+        $data['store_owner_id']         =$this->session->userdata('store_owner_id');
+        $data['user_status']            =$this->session->userdata('user_status');
+        $data['content']    ='filter_product_out';
+
+        $data['dis_store_id']   =$store_id;
+        $data['type']           =$type;
+        $this->load->view($this->layout, $data); 
+    }
+
+    public function filter_product_out_ajax($offset=null)
+	{
+		$search = array(
+			'keyword' => trim($this->input->post('search_key')),
+            'sort_by'  => $this->input->post('sortBy'),
+		);
+
+        $store_id   = $this->input->post('store_id');
+        $type       = $this->input->post('type');
+		
+		$this->load->library('pagination');
+		
+		$limit = 100;
+		$offset = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+		
+		$config['base_url'] = site_url('Office/filter_product_out_ajax/');
+		$config['total_rows'] = $this->Action->count_filter_product_out($search, $store_id, $type);
+		$config['per_page'] = $limit;
+		$config['uri_segment'] = 3;
+		$config['num_links'] = 3;
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+		$config['cur_tag_open'] = '<li><a href="" class="current_page">';
+		$config['cur_tag_close'] = '</a></li>';
+		$config['next_link'] = 'Next';
+		$config['next_tag_open'] = '<li>';
+		$config['next_tag_close'] = '</li>';
+		$config['prev_link'] = 'Previous';
+		$config['prev_tag_open'] = '<li>';
+		$config['prev_tag_close'] = '</li>';
+		$config['first_link'] = 'First';
+		$config['first_tag_open'] = '<li>';
+		$config['first_tag_close'] = '</li>';
+		$config['last_link'] = 'Last';
+		$config['last_tag_open'] = '<li>';
+		$config['last_tag_close'] = '</li>';
+		
+		$this->pagination->initialize($config);
+        $this->pagination->cur_page = $offset;
+
+		$data['get_info'] = $this->Action->get_filter_product_out($search, $store_id, $type, $limit, $offset);
+	
+		$data['pagelinks'] = $this->pagination->create_links();
+		
+		$this->load->view('filter_product_ajax', $data);
+	}
 }

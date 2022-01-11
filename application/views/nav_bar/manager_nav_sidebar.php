@@ -1,4 +1,7 @@
 <?php
+$site_name      =$this->Admin_db->get_site_name();
+$site_logo      =$this->Admin_db->get_site_logo();
+$active ='active';
 	$count_product_out_stock 			=$this->Action->count_total_product_out_of_stock();
 ?>
 <nav class="pcoded-navbar">
@@ -6,15 +9,15 @@
 		<div class="pcoded-navigatio-lavel">Navigation</div>
 		<ul class="pcoded-item pcoded-left-item">
 
-			<li class="active pcoded-trigger">
-				<a href="javascript:void(0)">
+			<li class="<?php if($this->uri->segment(2) ==' '){echo $active; }?> pcoded-trigger">
+				<a href="<?php echo base_url();?>Manager_Dashboard">
 					<span class="pcoded-micon"><i class="feather icon-home"></i></span>
 					<span class="pcoded-mtext">Dashboard</span>
 				</a>
 				
 			</li>
 
-			<li class="">
+			<li class="<?php if($this->uri->segment(1) =='Sales_rep'){echo $active; }?>">
 				<a href="<?php echo base_url();?>Sales_rep/index">
 					<span class="pcoded-micon"><i class="fa fa-cart-plus"></i></span>
 					<span class="pcoded-mtext">New Transaction</span>
@@ -22,35 +25,35 @@
 				</a>
 			</li>
 
-			<li class="">
+			<li class="<?php if($this->uri->segment(1) =='Transaction_history'){echo $active; }?>">
 				<a href="<?php echo base_url();?>Transaction_history/index">
 					<span class="pcoded-micon"><i class="feather icon-menu"></i></span>
 					<span class="pcoded-mtext">Transaction History</span>
 				</a>
 			</li>
 
-			<li class="">
+			<li class="<?php if($this->uri->segment(1) =='Invoice'){echo $active; }?>">
 				<a href="<?php echo base_url();?>Invoice/index">
 					<span class="pcoded-micon"><i class="fa fa-receipt"></i></span>
 					<span class="pcoded-mtext">Invoices</span>
 				</a>
 			</li>
 
-			<li class="">
+			<li class="<?php if($this->uri->segment(2) =='view_sale_rep'){echo $active; }?>">
 				<a href="<?php echo base_url();?>Office/view_sale_rep">
 					<span class="pcoded-micon"><i class="fa fa-people-carry"></i></span>
 					<span class="pcoded-mtext">Manage Staff</span>
 				</a>
 			</li>
 
-			<li class="">
+			<li class="<?php if($this->uri->segment(2) =='view_my_customer'){echo $active; }?>">
 				<a href="<?php echo base_url();?>Office/view_my_customer">
 					<span class="pcoded-micon"><i class="fa fa-user-plus"></i></span>
 					<span class="pcoded-mtext">Manage Customer</span>
 				</a>
 			</li>
 
-			<li class="">
+			<li class="<?php if($this->uri->segment(2) =='view_my_supplier'){echo $active; }?>">
 				<a href="<?php echo base_url();?>Office/view_my_supplier">
 					<span class="pcoded-micon"><i class="fa fa-truck"></i></span>
 					<span class="pcoded-mtext">Manage Supplier</span>
@@ -58,7 +61,7 @@
 			</li>
 
 
-			<li class="">
+			<li class="<?php if($this->uri->segment(2) =='view_my_category'){echo $active; }?>">
 				<a href="<?php echo base_url();?>Office/view_my_category">
 					<span class="pcoded-micon"><i class="feather icon-menu"></i></span>
 					<span class="pcoded-mtext">Manage Category</span>
@@ -66,7 +69,7 @@
 			</li>
 
 			<div class="pcoded-navigatio-lavel">Stock</div>
-			<li class="pcoded-hasmenu">
+			<li class="<?php if($this->uri->segment(2) =='add_stock' || $this->uri->segment(2) =='view_product' || $this->uri->segment(2) == 'view_product_in' || $this->uri->segment(2) == 'view_product_out'){echo $active; }?> pcoded-hasmenu">
 				<a href="javascript:void(0)">
 					<span class="pcoded-micon"><i class="feather icon-layers"></i></span>
 					<span class="pcoded-mtext">Manage Stock</span>
@@ -90,12 +93,12 @@
 						</a>
 					</li>
 					<li class=" ">
-						<a href="<?php echo base_url();?>Office/view_product">
+						<a href="<?php echo base_url();?>Office/view_product_in">
 							<span class="pcoded-mtext">In-Stock</span>
 						</a>
 					</li>
 					<li class=" ">
-						<a href="<?php echo base_url();?>Office/view_product">
+						<a href="<?php echo base_url();?>Office/view_product_out">
 							<span class="pcoded-mtext">Out Of Stock</span>
 						</a>
 					</li>
@@ -103,6 +106,13 @@
 					
 
 				</ul>
+			</li>
+
+			<li class="">
+				<a href="<?php echo base_url();?>Logout/manager_logout">
+					<span class="pcoded-micon"><i class="fa fa-sign-out-alt"></i></span>
+					<span class="pcoded-mtext">Logout</span>
+				</a>
 			</li>
 		
 		</ul>

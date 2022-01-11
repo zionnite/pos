@@ -1,12 +1,17 @@
 <?php
 	$count_product_out_stock 			=$this->Action->count_total_product_out_of_stock();
+
+$site_name      =$this->Admin_db->get_site_name();
+$site_logo      =$this->Admin_db->get_site_logo();
+$active ='active';
+
 ?>
 <nav class="pcoded-navbar">
 	<div class="pcoded-inner-navbar main-menu">
 		<div class="pcoded-navigatio-lavel">Navigation</div>
 		<ul class="pcoded-item pcoded-left-item">
 
-			<li class="active pcoded-trigger">
+			<li class="<?php if($this->uri->segment(2) ==' '){echo $active; }?> pcoded-trigger">
 				<a href="<?php echo base_url();?>Dashboard">
 					<span class="pcoded-micon"><i class="feather icon-home"></i></span>
 					<span class="pcoded-mtext">Dashboard</span>
@@ -14,7 +19,7 @@
 				
 			</li>
 
-			<li class="">
+			<li class="<?php if($this->uri->segment(2) =='view_plan'){echo $active; }?>">
 				<a href="<?php echo base_url();?>Dashboard/view_plan">
 					<span class="pcoded-micon"><i class="fa fa-cart-plus"></i></span>
 					<span class="pcoded-mtext">Plan</span></span>
@@ -22,13 +27,13 @@
 				</a>
 			</li>
 
-			<li class="">
+			<li class="<?php if($this->uri->segment(2) =='manage_store'){echo $active; }?>">
 				<a href="<?php echo base_url();?>Dashboard/manage_store">
 					<span class="pcoded-micon"><i class="fa fa-store"></i></span>
 					<span class="pcoded-mtext">Manage Store</span>
 				</a>
 			</li>
-			<li class="">
+			<li class="<?php if($this->uri->segment(2) =='settings' || $this->uri->segment(2) =='site_details' || $this->uri->segment(2) == 'set_payment_api'){echo $active; }?>">
 				<a href="<?php echo base_url();?>Dashboard/settings">
 					<span class="pcoded-micon"><i class="fa fa-cogs"></i></span>
 					<!-- <span class="pcoded-micon"><i class="fa fa-money-check"></i></span> -->
@@ -36,12 +41,18 @@
 				</a>
 			</li>
 
+			<li class="">
+				<a href="<?php echo base_url();?>Logout/admin_logout">
+					<span class="pcoded-micon"><i class="fa fa-sign-out-alt"></i></span>
+					<span class="pcoded-mtext">Logout</span>
+				</a>
+			</li>
+
 			
 					
 					
 
-				</ul>
-			</li>
+				
 		
 		</ul>
 

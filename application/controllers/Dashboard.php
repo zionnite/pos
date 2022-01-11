@@ -131,6 +131,11 @@ class Dashboard extends My_Controller {
 			$config['overwrite'] = FALSE;
 			$config['remove_spaces'] = TRUE;
 			$config['encrypt_name'] = TRUE;
+			$config['max_width'] = '220';
+			$config['max_height'] = '75';
+			// $config['max_width'] = '150';
+			// $config['max_height'] = '30';
+
 					
 			$this->upload->initialize($config);
 			$this->load->library('upload', $config);  

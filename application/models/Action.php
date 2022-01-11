@@ -889,6 +889,145 @@ class Action extends My_Model{
 		return false;
 	}
 
+	public function count_products_in($search){
+
+		$keyword = $search['keyword'];
+		$sort_by = $search['sort_by'];
+
+		$user_status            =$this->session->userdata('user_status');
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		$this->db->like('prod_name',$this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
+		$this->db->where('prod_bunk >', 0);
+		$this->db->or_like('meta_title', $this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
+		$this->db->where('prod_bunk >', 0);
+    	$this->db->or_like('meta_key',$this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
+		$this->db->where('prod_bunk >', 0);
+    	$this->db->or_like('meta_desc',$this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
+		$this->db->where('prod_bunk >', 0);
+        $this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
+		$this->db->where('prod_bunk >', 0);
+        $this->db->or_like('branch_name', $this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
+		$this->db->where('prod_bunk >', 0);
+		return $this->db->from('product_tbl')->count_all_results();
+	}
+
+	public function get_products_in($search,$limit, $offset){
+		$keyword = $search['keyword'];
+		$sort_by = $search['sort_by'];
+
+		$user_status            =$this->session->userdata('user_status');
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		$this->db->like('prod_name',$this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
+		$this->db->where('prod_bunk >', 0);
+		$this->db->or_like('meta_title', $this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
+		$this->db->where('prod_bunk >', 0);
+    	$this->db->or_like('meta_key',$this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
+		$this->db->where('prod_bunk >', 0);
+    	$this->db->or_like('meta_desc',$this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
+		$this->db->where('prod_bunk >', 0);
+        $this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
+		$this->db->where('prod_bunk >', 0);
+        $this->db->or_like('branch_name', $this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
+		$this->db->where('prod_bunk >', 0);
+		$this->db->limit($limit, $offset);
+		$this->db->order_by('prod_name',$sort_by);
+		$query		=$this->db->get('product_tbl');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+
+		return false;
+	}
+
+
+	public function count_products_out($search){
+
+		$keyword = $search['keyword'];
+		$sort_by = $search['sort_by'];
+
+		$user_status            =$this->session->userdata('user_status');
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		$this->db->like('prod_name',$this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
+		$this->db->where('prod_bunk <=', 0);
+		$this->db->or_like('meta_title', $this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
+		$this->db->where('prod_bunk <=', 0);
+    	$this->db->or_like('meta_key',$this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
+		$this->db->where('prod_bunk <=', 0);
+    	$this->db->or_like('meta_desc',$this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
+		$this->db->where('prod_bunk <=', 0);
+        $this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
+		$this->db->where('prod_bunk <=', 0);
+        $this->db->or_like('branch_name', $this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
+		$this->db->where('prod_bunk <=', 0);
+		return $this->db->from('product_tbl')->count_all_results();
+	}
+
+	public function get_products_out($search,$limit, $offset){
+		$keyword = $search['keyword'];
+		$sort_by = $search['sort_by'];
+
+		$user_status            =$this->session->userdata('user_status');
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		$this->db->like('prod_name',$this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
+		$this->db->where('prod_bunk <=', 0);
+		$this->db->or_like('meta_title', $this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
+		$this->db->where('prod_bunk <=', 0);
+    	$this->db->or_like('meta_key',$this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
+		$this->db->where('prod_bunk <=', 0);
+    	$this->db->or_like('meta_desc',$this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
+		$this->db->where('prod_bunk <=', 0);
+        $this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
+		$this->db->where('prod_bunk <=', 0);
+        $this->db->or_like('branch_name', $this->db->escape_like_str($keyword,'both'));
+		$this->db->where('store_owner_id',$store_owner_id);
+		$this->db->where('prod_bunk <=', 0);
+		$this->db->limit($limit, $offset);
+
+		$this->db->order_by('prod_name',$sort_by);
+		$query		=$this->db->get('product_tbl');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+
+		return false;
+	}
+
+
 	public function get_product_category($store_owner_id){
 		$this->db->where('store_owner_id',$store_owner_id);
 		$query		=$this->db->get('product_category');
@@ -1026,6 +1165,196 @@ class Action extends My_Model{
 			$this->db->where('store_owner_id',$store_owner_id);
 			$this->db->or_like('branch_name', $this->db->escape_like_str($keyword,'both'));
 			$this->db->where('store_owner_id',$store_owner_id);
+		}
+
+		
+		
+		$this->db->limit($limit, $offset);
+		$this->db->order_by('prod_name',$sort_by);
+		$query		=$this->db->get('product_tbl');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+
+		return false;
+	}
+
+	public function count_filter_product_in($search, $store_id, $type){
+
+		$keyword = $search['keyword'];
+		$sort_by = $search['sort_by'];
+
+		$user_status            =$this->session->userdata('user_status');
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		
+
+		if($type =='store'){
+
+			$this->db->where('store_id',$store_id);
+		}else if($type =='branch'){
+
+			$this->db->where('branch_id', $store_id);
+		}
+
+		
+		if(!empty($keyword)){
+			$this->db->like('prod_name',$this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('prod_bunk >', 0);
+			$this->db->or_like('meta_title', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('prod_bunk >', 0);
+			$this->db->or_like('meta_key',$this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('prod_bunk >', 0);
+			$this->db->or_like('meta_desc',$this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('prod_bunk >', 0);
+			$this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('prod_bunk >', 0);
+			$this->db->or_like('branch_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('prod_bunk >', 0);
+		}
+	
+		return $this->db->from('product_tbl')->count_all_results();
+	}
+
+	public function get_filter_product_in($search, $store_id, $type, $limit, $offset){
+		$keyword = $search['keyword'];
+		$sort_by = $search['sort_by'];
+
+		$user_status            =$this->session->userdata('user_status');
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		if($type =='store'){
+
+			$this->db->where('store_id',$store_id);
+		}else if($type =='branch'){
+
+			$this->db->where('branch_id', $store_id);
+		}
+
+		if(!empty($keyword)){
+			$this->db->like('prod_name',$this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('prod_bunk >', 0);
+			$this->db->or_like('meta_title', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('prod_bunk >', 0);
+			$this->db->or_like('meta_key',$this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('prod_bunk >', 0);
+			$this->db->or_like('meta_desc',$this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('prod_bunk >', 0);
+			$this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('prod_bunk >', 0);
+			$this->db->or_like('branch_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('prod_bunk >', 0);
+		}
+
+		
+		
+		$this->db->limit($limit, $offset);
+		$this->db->order_by('prod_name',$sort_by);
+		$query		=$this->db->get('product_tbl');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+
+		return false;
+	}
+
+	public function count_filter_product_out($search, $store_id, $type){
+
+		$keyword = $search['keyword'];
+		$sort_by = $search['sort_by'];
+
+		$user_status            =$this->session->userdata('user_status');
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		
+
+		if($type =='store'){
+
+			$this->db->where('store_id',$store_id);
+		}else if($type =='branch'){
+
+			$this->db->where('branch_id', $store_id);
+		}
+
+		
+		if(!empty($keyword)){
+			$this->db->like('prod_name',$this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('prod_bunk <=', 0);
+			$this->db->or_like('meta_title', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('prod_bunk <=', 0);
+			$this->db->or_like('meta_key',$this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('prod_bunk <=', 0);
+			$this->db->or_like('meta_desc',$this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('prod_bunk <=', 0);
+			$this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('prod_bunk <=', 0);
+			$this->db->or_like('branch_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('prod_bunk <=', 0);
+		}
+	
+		return $this->db->from('product_tbl')->count_all_results();
+	}
+
+	public function get_filter_product_out($search, $store_id, $type, $limit, $offset){
+		$keyword = $search['keyword'];
+		$sort_by = $search['sort_by'];
+
+		$user_status            =$this->session->userdata('user_status');
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		if($type =='store'){
+
+			$this->db->where('store_id',$store_id);
+		}else if($type =='branch'){
+
+			$this->db->where('branch_id', $store_id);
+		}
+
+		if(!empty($keyword)){
+			$this->db->like('prod_name',$this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('prod_bunk <=', 0);
+			$this->db->or_like('meta_title', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('prod_bunk <=', 0);
+			$this->db->or_like('meta_key',$this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('prod_bunk <=', 0);
+			$this->db->or_like('meta_desc',$this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('prod_bunk <=', 0);
+			$this->db->or_like('store_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('prod_bunk <=', 0);
+			$this->db->or_like('branch_name', $this->db->escape_like_str($keyword,'both'));
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('prod_bunk <=', 0);
 		}
 
 		

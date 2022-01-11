@@ -58,8 +58,16 @@
 
 						<?php
 					
-							$get_store		=$this->Action->get_store($user_id);
-							$get_store_branch		=$this->Action->get_store_branches_by_owner_id($user_id);
+							($user_status =='store_owner') ? 
+                                $get_store          =$this->Action->get_store($user_id)
+								:
+								$get_store			=$this->Action->get_store($store_owner_id);
+
+							($user_status =='store_owner') ? 
+								$get_store_branch		=$this->Action->get_store_branches_by_owner_id($user_id)
+								:
+								$get_store_branch		=$this->Action->get_store_branches_by_owner_id($store_owner_id);
+							
 							
 						?>
 

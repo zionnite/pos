@@ -57,6 +57,8 @@
 									<label class="col-sm-2 col-form-label">Site Logo</label>
 									<div class="col-sm-10">
 										<input type="file" name="file" id="fileInput" class="form-control">
+										<!-- <small><b style="color:red;">Note: Width must be 150px and Height must 30px</b></small> -->
+										<small><b style="color:red;">Note: Width must be 220px and Height must 75px</b></small>
 									</div>
 								</div>
 

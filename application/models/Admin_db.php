@@ -79,4 +79,26 @@ class Admin_db extends My_Model{
 		}
 		return false;
 	}
+
+    public function get_site_logo(){
+        $query      =$this->db->get('site_setting');
+        if($query->num_rows() > 0){
+            foreach($query->result_array() as $row){
+                return $row['site_logo'];
+            }
+        }
+        return false;
+    }
+
+    public function get_site_name(){
+        $query      =$this->db->get('site_setting');
+        if($query->num_rows() > 0){
+            foreach($query->result_array() as $row){
+                return $row['site_name'];
+            }
+        }
+        return false;
+    }
+
+
 }
