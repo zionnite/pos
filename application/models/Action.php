@@ -2024,4 +2024,78 @@ class Action extends My_Model{
 		$this->db->where('store_owner_id',$user_id);
 		return $this->db->from('office_store')->count_all_results();
 	}
+
+	public function count_all_store(){
+		return $this->db->from('office_store')->count_all_results();
+	}
+	public function count_store_owners(){
+		return $this->db->from('store_owner')->count_all_results();
+	}
+
+	public function get_plan(){
+		$query			=$this->db->get('plan');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
+	public function get_store_by_admin(){
+
+		$query		=$this->db->get('office_store');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
+
+	
+	public function get_store_branches_by_admin(){
+		
+		$query	=$this->db->get('branch_office');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
+
+	public function delete_payment_plan($id){
+		$this->db->where('id',$id);
+		$this->db->delete('plan');
+		if($this->db->affected_rows() > 0){
+			return true;
+		}
+		return false;
+	}
+
+	public function create_payment_plan($name,$num_store,$amount){
+		
+		$data	=array('title'=>$name,
+					   'store_num'=>$num_store,
+					   'amount'=>$amount,
+					);
+		$this->db->set($data);
+		$this->db->insert('plan');
+		if($this->db->affected_rows() > 0){
+			return true;
+		}
+		return false;
+	}
+
+	public function get_store_owner(){
+		$query	=$this->db->get('store_owner');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
+
+	public function delete_store_owner($id){
+		$this->db->where('id',$id);
+		$this->db->delete('store_owner');
+		if($this->db->affected_rows() > 0){
+			return true;
+		}
+		return false;
+	}
+
 }

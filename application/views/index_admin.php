@@ -1,6 +1,6 @@
 <?php
 	$currency               			='&#8358;';
-	$count_product_in_stock 			=$this->Action->count_total_product_in_stock();
+	$count_store             			=$this->Action->count_all_store();
 	$count_product_out_stock 			=$this->Action->count_total_product_out_of_stock();
 	$count_total_transaction			=$this->Action->count_total_transaction();
 	$count_total_sales	    			=$this->Action->count_total_sales();
@@ -14,120 +14,85 @@
 				<!-- task, page, download counter  start -->
 
 				<div class="col-xl-6 col-md-6">
-					<a href="<?php echo base_url();?>Sales_rep" style="color:white;">
+					<a href="<?php echo base_url();?>Dashboard/view_plan" style="color:white;">
 						<div class="card social-card bg-simple-c-blue">
 							<div class="card-block">
 								<div class="row align-items-center">
 									<div class="col-auto">
-										<i class="fa fa-cart-plus f-34 text-c-blue social-icon"></i>
+										<i class="fa fa-radiation-alt f-34 text-c-blue social-icon"></i>
 									</div>
 									<div class="col">
-										<h3 class="m-b-0">New</h3>
-										<p>Transaction</p>
+										<h3 class="m-b-0">&nbsp;</h3>
+                                        <h3>View</h3>
+										<h4>Payment Plan</h4>
 
 									</div>
 								</div>
 							</div>
-							<a href="<?php echo base_url();?>Sales_rep" class="download-icon"><i
+							<a href="<?php echo base_url();?>Dashboard/view_plan" class="download-icon"><i
 									class="feather icon-arrow-down"></i></a>
 						</div>
 					</a>
 				</div>
 
 				<div class="col-xl-6 col-md-6">
-					<a href="<?php echo base_url();?>Transaction_history" style="color:white;">
+					<a href="<?php echo base_url();?>Dashboard/manage_store" style="color:white;">
 						<div class="card social-card bg-simple-c-pink">
 							<div class="card-block">
 								<div class="row align-items-center">
 									<div class="col-auto">
-										<i class="fa fa-sort-amount-up-alt f-34 text-c-pink social-icon"></i>
+										<i class="fa fa-store f-34 text-c-pink social-icon"></i>
 									</div>
 									<div class="col">
-										<h3 class="m-b-0">History</h3>
-										<p>Transaction History</p>
+										<h3 class="m-b-0">Number</h3>
+										<p>Store</p>
+										<h4><?php echo $this->cart->format_number($count_store);?></h3>
 
 									</div>
 								</div>
 							</div>
-							<a href="<?php echo base_url();?>Transaction_history" class="download-icon"><i
+							<a href="<?php echo base_url();?>Dashboard/manage_store" class="download-icon"><i
 									class="feather icon-arrow-down"></i></a>
 						</div>
 					</a>
 				</div>
 
-
 				<div class="col-xl-6 col-md-6">
-					<a href="<?php echo base_url();?>Transaction_history" style="color:white;">
+					<a href="<?php echo base_url();?>Dashboard/set_payment_api" style="color:white;">
 						<div class="card social-card bg-simple-c-yellow">
 							<div class="card-block">
 								<div class="row align-items-center">
 									<div class="col-auto">
-										<i class="fa fa-store-alt f-34 text-c-yellow social-icon"></i>
+										<i class="fa fa-money-check f-34 text-c-yellow social-icon"></i>
 									</div>
 									<div class="col">
-										<h3 class="m-b-0">Product</h3>
-										<p>Product In-Stock</p>
-										<h4><?php echo $this->cart->format_number($count_product_in_stock);?></h4>
+										<h3 class="m-b-0">&nbsp;</h3>
+										<h3>Payment</h3>
+										<h4>Method</h3>
+
 									</div>
 								</div>
 							</div>
-							<a href="<?php echo base_url();?>Transaction_history" class="download-icon"><i
+							<a href="<?php echo base_url();?>Dashboard/set_payment_api" class="download-icon"><i
 									class="feather icon-arrow-down"></i></a>
 						</div>
 					</a>
 				</div>
 
-				<div class="col-xl-6 col-md-6">
-					<a href="<?php echo base_url();?>Transaction_history" style="color:white;">
-						<div class="card social-card bg-simple-c-green">
-							<div class="card-block">
-								<div class="row align-items-center">
-									<div class="col-auto">
-										<i class="fa fa-wind f-34 text-c-green social-icon"></i>
-									</div>
-									<div class="col">
-										<h3 class="m-b-0">Product</h3>
-										<p>Product Out-of-Stock</p>
-										<h4><?php echo $this->cart->format_number($count_product_out_stock);?></h4>
-									</div>
-								</div>
-							</div>
-							<a href="<?php echo base_url();?>Transaction_history" class="download-icon"><i
-									class="feather icon-arrow-down"></i></a>
-						</div>
-					</a>
-				</div>
 
+				
 				<!--total Sales-->
-				<div class="col-sm-4">
+				<!-- <div class="col-sm-4">
 					<div class="card bg-c-blue text-white widget-visitor-card">
 						<div class="card-block-small text-center">
-							<h2><?php echo $this->cart->format_number($count_total_transaction);?></h2>
+							<h2><?php echo $this->cart->format_number($count_store);?></h2>
 							<h6>Total Tranasaction</h6>
 							<i class="feather icon-user"></i>
 						</div>
 					</div>
-				</div>
+				</div> -->
 
-				<div class="col-sm-4">
-					<div class="card bg-c-yellow text-white widget-visitor-card">
-						<div class="card-block-small text-center">
-							<h2><?php echo $currency.$this->cart->format_number($count_total_sales);?></h2>
-							<h6>Total Sales</h6>
-							<i class="feather icon-user"></i>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-sm-4">
-					<div class="card bg-c-pink text-white widget-visitor-card">
-						<div class="card-block-small text-center">
-							<h2><?php echo $this->cart->format_number($count_total_item_sold);?></h2>
-							<h6>Total Item Sold</h6>
-							<i class="feather icon-user"></i>
-						</div>
-					</div>
-				</div>
+				
 
 			</div>
 		</div>

@@ -44,4 +44,39 @@ class Admin_db extends My_Model{
         }
         return false;
     }
+
+    public function update_site_setting($img_file_name,$name,$phone,$email){
+        $this->db->empty_table('site_setting'); 
+        
+		$data		=array('site_name'=>$name,
+						   'site_email'=>$email,
+						   'site_phone'=>$phone,
+						   'site_logo'=>$img_file_name,
+						   
+						);
+
+
+		$this->db->set($data);
+		$this->db->insert('site_setting');
+		if($this->db->affected_rows() > 0){
+			return true;
+		}
+		return false;
+	}
+
+    public function update_payment_api($private,$public){
+        $this->db->empty_table('payment_method'); 
+
+		$data		=array('private_live_key'=>$private,
+						   'public_live_key'=>$public,
+						);
+
+
+		$this->db->set($data);
+		$this->db->insert('payment_method');
+		if($this->db->affected_rows() > 0){
+			return true;
+		}
+		return false;
+	}
 }

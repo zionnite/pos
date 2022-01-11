@@ -60,6 +60,8 @@
                         $this->load->view('nav_bar/manager_nav_sidebar');
                     }else if($user_status =='sales_rep'){
                         $this->load->view('nav_bar/staff_nav_sidebar');
+                    }else if($user_status =='admin'){
+                        $this->load->view('nav_bar/admin_nav_sidebar');
                     }
                 ?>
                     <div class="pcoded-content">
