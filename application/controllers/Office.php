@@ -1194,7 +1194,7 @@ class Office extends My_Controller {
         $store_id   = $this->input->post('store_id');
         $type       = $this->input->post('type');
 		
-		$this->load->library('pagination');
+		$this->load->library('pagination'); 
 		
 		$limit = 100;
 		$offset = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
