@@ -200,7 +200,8 @@ class Dashboard extends My_Controller {
 
 
     
+		$data['store_owner_id']			=$store_owner_id;
 		$data['content']	='more_about_store';
-		$this->load->view($data['content'],$data);
+		$this->load->view($this->layout,$data);
 	}
 }

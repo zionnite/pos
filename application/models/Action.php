@@ -2098,4 +2098,38 @@ class Action extends My_Model{
 		return false;
 	}
 
+	public function get_store_by_admin_with_store_owner_id($user_id){
+	
+		$this->db->where('store_owner_id',$user_id);
+		$query		=$this->db->get('office_store');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
+
+	public function count_total_transaction_by_admin($store_id){		
+		$this->db->where('store_id',$store_id);
+		return $this->db->from('transaction_history')->count_all_results();
+	}
+
+	public function count_total_item_sold_by_admin($store_id){
+		
+		$this->db->where('store_id',$store_id);
+	
+		$this->db->select_sum('quantity');
+		$query		=$this->db->get('transaction_history');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['quantity'];
+			}
+		}
+		return 0;
+	}
+
+	public function count_store_branch_by_admin($store_id){
+		$this->db->where('store_id',$store_id);
+		return $this->db->from('branch_office')->count_all_results();
+	}
+
 }

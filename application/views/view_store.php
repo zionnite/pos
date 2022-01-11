@@ -76,7 +76,7 @@
 												class="fooicon fooicon-sort"></span></th>
 
 										<th data-breakpoints="xs" class="footable-sortable"
-											style="display: table-cell;">Store Ower Phone<span
+											style="display: table-cell;">Store Owner Phone<span
 												class="fooicon fooicon-sort"></span></th>
 
 										<th data-breakpoints="xs" class="footable-sortable"

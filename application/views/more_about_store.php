@@ -38,7 +38,7 @@
 				<div class="col-md-12" id="slideshow">
 					<div class="card" id="slide_show">
 						<div class="card-header">
-							<h5>List Of Store Owner</h5>
+							<h5>List Of Store By Store Owner ID (<?php echo $store_owner_id;?></h5>
 
 						</div>
 
@@ -67,33 +67,33 @@
 
 										
 										<th data-breakpoints="xs" class="footable-sortable"
-											style="display: table-cell;">Store Owner Full Name<span
+											style="display: table-cell;">Name of Store<span
 												class="fooicon fooicon-sort"></span></th>
 
 
 										<th data-breakpoints="xs" class="footable-sortable"
-											style="display: table-cell;">Store Owner Email<span
+											style="display: table-cell;">Num Of Branch<span
 												class="fooicon fooicon-sort"></span></th>
 
 										<th data-breakpoints="xs" class="footable-sortable"
-											style="display: table-cell;">Store Ower Phone<span
+											style="display: table-cell;">Num Of Transaction<span
 												class="fooicon fooicon-sort"></span></th>
 
 										<th data-breakpoints="xs" class="footable-sortable"
-											style="display: table-cell;">Num Of Store<span
+											style="display: table-cell;">Num Of Items Sold<span
 												class="fooicon fooicon-sort"></span></th>
 
 										<!-- <th data-breakpoints="xs" class="footable-sortable"
 											style="display: table-cell;">Date Joined</th> -->
 										<th data-breakpoints="xs" class="footable-sortable"
-											style="display: table-cell;"></th>
+											style="display: table-cell;">Date Store Created</th>
 									</tr>
 								</thead>
 
 								<tbody>
 									<?php
 
-                                        $get_store_owner        =$this->Action->get_store_owner();
+                                        $get_store        =$this->Action->get_store_by_admin_with_store_owner_id($store_owner_id);
 										
 										// $get_store			    =$this->Action->get_store_by_admin();											
 										// $get_store			=$this->Action->get_my_store_sales_rep_filter_by_store_id($user_id,$dis_store_id);
@@ -101,32 +101,42 @@
 									
 						
 						$i=1;
-						if(is_array($get_store_owner)){
-							foreach($get_store_owner as $row){
-								$id		     		        =$row['id'];
-								$dis_user_name		        =$row['user_name'];
-								$dis_phone        	        =$row['phone'];
-								$dis_full_name     	        =$row['full_name'];
-								$dis_email      	        =$row['email'];	
+						if(is_array($get_store)){
+							foreach($get_store as $row){
+								$id             =$row['id'];
+                                $store_logo     =$row['store_img'];
+                                $store_name     =$row['store_name'];
+                                $store_name_2     =$row['store_name_2'];
+                                $date           =$row['date_created'];
+                                $time           =$row['time'];
+                                $store_owner_id     =$row['store_owner_id'];
                                 
-                                $count_dis_user_number_of_store             =$this->Action->count_my_store($id);
+                                $count_store_branch             =$this->Action->count_store_branch_by_admin($id);
+                                $count_store_transaction        =$this->Action->count_total_transaction_by_admin($id);
+                                $count_store_item_sold          =$this->Action->count_total_item_sold_by_admin($id);
 
                             
 					?>
 
 									<tr>
 										<td><?php echo $i++;?></td>
+
+                                        <td style="display: table-cell;"><img style="width:100px; height:100px;" 
+                                            src="<?php echo base_url();?>store_img/<?php echo $store_name_2;?>/images/<?php echo $store_logo;?>" 
+                                            alt=""><br> <?php echo $store_name;?>
+                                        </td>
 										
-										<td><?php echo $dis_full_name;?><br><small><b style="color:red;"><?php echo $dis_user_name;?></b></small></td>
-										<td><?php echo $dis_email;?></td>
-										<td><?php echo $dis_phone;?></td>
-										<td><?php echo $count_dis_user_number_of_store;?></td>
-										<td>
+										<td><?php echo $count_store_branch;?></td>
+										<td><?php echo $count_store_transaction;?></td>
+										<td><?php if(!empty($count_store_item_sold)){ echo $count_store_item_sold;} else{echo '0';}?></td>
+										
+                                        <td><?php echo $date;?></td>
+										<!-- <td>
 											<a href="<?php echo base_url();?>Dashboard/more_about_store_owner/<?php echo $id;?>"
 											 class="btn btn-success btn-sm"><i class="fa fa-door-open"></i>View More</a>
 											<a href="javascript:;" id="delete_branch_<?php echo $id;?>"
 												data-id="<?php echo $id;?>" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i>Delete</a>
-										</td>
+										</td> -->
 									</tr>
 
 									<script type="text/javascript"
