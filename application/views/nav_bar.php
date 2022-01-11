@@ -93,7 +93,7 @@ $site_logo      =$this->Admin_db->get_site_logo();
 							<!-- <li>
 								<a href="#!">
 									<i class="feather icon-settings"></i> Settings
-								</a>
+								</a> 
 							</li>
 							<li>
 								<a href="default/user-profile.html">
