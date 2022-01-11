@@ -145,7 +145,7 @@
 
 							</div>
                             
-                            <a href="<?php echo base_url();?>Office/add_stock" class="btn btn-danger btn-block"
+							<a href="<?php echo base_url();?>Office/add_stock" class="btn btn-danger btn-block"
 								style="margin-bottom:1%; float:left;">Add Product</a>
 
                             <div id="dataList">

@@ -57,7 +57,7 @@
 
 
 				<div class="col-xl-6 col-md-6">
-					<a href="<?php echo base_url();?>Transaction_history" style="color:white;">
+					<a href="<?php echo base_url();?>Office/view_product_in" style="color:white;">
 						<div class="card social-card bg-simple-c-yellow">
 							<div class="card-block">
 								<div class="row align-items-center">
@@ -71,14 +71,14 @@
 									</div>
 								</div>
 							</div>
-							<a href="<?php echo base_url();?>Transaction_history" class="download-icon"><i
+							<a href="<?php echo base_url();?>Office/view_product_in" class="download-icon"><i
 									class="feather icon-arrow-down"></i></a>
 						</div>
 					</a>
 				</div>
 
 				<div class="col-xl-6 col-md-6">
-					<a href="<?php echo base_url();?>Transaction_history" style="color:white;">
+					<a href="<?php echo base_url();?>Office/view_product_out" style="color:white;">
 						<div class="card social-card bg-simple-c-green">
 							<div class="card-block">
 								<div class="row align-items-center">
@@ -92,7 +92,7 @@
 									</div>
 								</div>
 							</div>
-							<a href="<?php echo base_url();?>Transaction_history" class="download-icon"><i
+							<a href="<?php echo base_url();?>Office/view_product_out" class="download-icon"><i
 									class="feather icon-arrow-down"></i></a>
 						</div>
 					</a>

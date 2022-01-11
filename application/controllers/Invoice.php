@@ -7,6 +7,8 @@ class Invoice extends My_Controller {
 	}
 
 	public function index(){
+		$this->session_checker->auto_logout();
+
 		$data['alert']			        =$this->session->flashdata('alert');
 
         $data['phone_no']         		=$this->session->userdata('phone_no');
@@ -94,6 +96,8 @@ class Invoice extends My_Controller {
 
 
 	public function view_invoice($invoice_no =NULL){
+		$this->session_checker->auto_logout();
+
 		$data['alert']			        =$this->session->flashdata('alert');
 
         $data['phone_no']         		=$this->session->userdata('phone_no');
@@ -124,6 +128,7 @@ class Invoice extends My_Controller {
 	}
 
 	public function filter_invoice($type =NULL,$store_id =NULL){
+		$this->session_checker->auto_logout();
     
 		$data['user_id']         		=$this->session->userdata('user_id');
 		$data['user_name']         		=$this->session->userdata('user_name');

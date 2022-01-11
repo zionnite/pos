@@ -77,4 +77,33 @@ class Session_checker{
 			return $user;
 		}
 	}
+
+	public function auto_logout(){
+		$status 		= $this->CI->session->userdata('user_status');
+        $user_id		=$this->CI->session->userdata('userid');
+		$user_name		=$this->CI->session->userdata('user_name');
+		$last_login_timestamp		=$this->CI->session->userdata('last_login_timestamp');
+
+		$data['alert']		='<p class="alert alert-danger" role="alert">You are Auto Logout due to inactivity</p>';
+		$this->CI->session->set_flashdata('alert',$data['alert']);
+
+		if(isset($user_name)) {  
+			if((time() - $last_login_timestamp) > 900) {  
+				if($status =='admin'){
+					redirect(base_url().'Login/admin');
+				}else if($status =='store_owner'){
+					redirect(base_url().'Login/owner');
+				}else if($status =='manager'){
+					redirect(base_url().'Login/manager_login');
+				}else if($status =='sales_rep'){
+					redirect(base_url().'Login/sales_login');
+				}
+			}else{  
+
+				$this->CI->session->set_userdata('last_login_timestamp', time());
+			}  
+		}else{
+			redirect(base_url().'Login/login_option');
+		}
+	}
 }

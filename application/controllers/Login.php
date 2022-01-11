@@ -216,5 +216,9 @@ class Login extends My_Controller {
 	}
 	
 	
-
+	public function login_option(){
+        $data['alert']			=$this->session->flashdata('alert');
+		$data['content']	='auth/login_option';
+		$this->load->view($this->auth_master,$data);
+	}
 }

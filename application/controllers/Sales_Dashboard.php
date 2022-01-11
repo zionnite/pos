@@ -7,6 +7,7 @@ class Sales_Dashboard extends My_Controller {
 	}
 
 	public function index(){
+		$this->session_checker->auto_logout();
         $data['alert']			        =$this->session->flashdata('alert');
 
         $data['phone_no']         		=$this->session->userdata('phone_no');

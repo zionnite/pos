@@ -29,7 +29,7 @@ $site_logo      =$this->Admin_db->get_site_logo();
 				</li>
 			</ul>
 			<ul class="nav-right">
-				<li class="header-notification">
+				<!-- <li class="header-notification">
 					<div class="dropdown-primary dropdown">
 						<div class="dropdown-toggle" data-toggle="dropdown">
 							<i class="feather icon-bell"></i>
@@ -56,7 +56,7 @@ $site_logo      =$this->Admin_db->get_site_logo();
 							<li>
 								<div class="media">
 									<img class="d-flex align-self-center img-radius"
-										src="files/assets/images/avatar-3.jpg" alt="Generic placeholder image">
+										src="<?php echo base_url();?>files/avatar.png" alt="Generic placeholder image">
 									<div class="media-body">
 										<h5 class="notification-user">Joseph William</h5>
 										<p class="notification-msg">Lorem ipsum dolor sit amet, consectetuer
@@ -79,18 +79,18 @@ $site_logo      =$this->Admin_db->get_site_logo();
 							</li>
 						</ul>
 					</div>
-				</li>
+				</li> -->
 				
 				<li class="user-profile header-notification">
 					<div class="dropdown-primary dropdown">
 						<div class="dropdown-toggle" data-toggle="dropdown">
-							<img src="files/assets/images/avatar-4.jpg" class="img-radius" alt="User-Profile-Image">
-							<span>John Doe</span>
+							<img src="<?php echo base_url();?>files/avatar.png" class="img-radius" alt="User-Profile-Image">
+							<span><?php echo $user_name;?></span>
 							<i class="feather icon-chevron-down"></i>
 						</div>
 						<ul class="show-notification profile-notification dropdown-menu" data-dropdown-in="fadeIn"
 							data-dropdown-out="fadeOut">
-							<li>
+							<!-- <li>
 								<a href="#!">
 									<i class="feather icon-settings"></i> Settings
 								</a>
@@ -104,17 +104,56 @@ $site_logo      =$this->Admin_db->get_site_logo();
 								<a href="default/email-inbox.html">
 									<i class="feather icon-mail"></i> My Messages
 								</a>
-							</li>
+							</li> -->
+							
+
 							<li>
-								<a href="default/auth-lock-screen.html">
-									<i class="feather icon-lock"></i> Lock Screen
+								<a href="<?php echo base_url();?>ChangePassword">
+									<i class="feather icon-lock"></i> Change Password
 								</a>
 							</li>
-							<li>
-								<a href="default/auth-normal-sign-in.html">
-									<i class="feather icon-log-out"></i> Logout
-								</a>
-							</li>
+							<?php
+								$user_status	=$this->session->userdata('user_status');
+								if($user_status =='admin'){
+							?>
+								
+								<li>
+									<a href="<?php echo base_url();?>Logout/admin_logout">
+										<i class="feather icon-log-out"></i> Logout
+									</a>
+								</li>
+							<?php 
+								}elseif($user_status =='store_owner'){
+							?>
+								
+								<li>
+									<a href="<?php echo base_url();?>Logout/owner_logout">
+										<i class="feather icon-log-out"></i> Logout
+									</a>
+								</li>
+							<?php
+								}else if($user_status =='manager'){
+							?>
+								
+								<li>
+									<a href="<?php echo base_url();?>Logout/manager_logout">
+										<i class="feather icon-log-out"></i> Logout
+									</a>
+								</li>
+							<?php
+								}else if($user_status =='sales_rep'){
+							?>
+
+								
+								<li>
+									<a href="<?php echo base_url();?>Logout/sales_logout">
+										<i class="feather icon-log-out"></i> Logout
+									</a>
+								</li>
+							
+							<?php
+								}
+							?>
 						</ul>
 
 					</div>
@@ -123,3 +162,7 @@ $site_logo      =$this->Admin_db->get_site_logo();
 		</div>
 	</div>
 </nav>
+
+
+
+

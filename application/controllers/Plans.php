@@ -7,6 +7,7 @@ class Plans extends My_Controller {
 	}
 
 	public function index(){
+        $this->session_checker->auto_logout();
 
 		$data['phone_no']         		=$this->session->userdata('phone_no');
 		$data['user_id']         		=$this->session->userdata('user_id');

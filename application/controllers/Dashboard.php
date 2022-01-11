@@ -7,6 +7,7 @@ class Dashboard extends My_Controller {
 	}
 
 	public function index(){
+		$this->session_checker->auto_logout();
 		$data['user_id']         		=$this->session->userdata('user_id');
 		$data['user_name']         		=$this->session->userdata('user_name');
         $data['user_status']            =$this->session->userdata('user_status');
@@ -17,7 +18,7 @@ class Dashboard extends My_Controller {
 	}
 
 	public function view_plan(){
-
+		$this->session_checker->auto_logout();
 		$data['user_id']         		=$this->session->userdata('user_id');
 		$data['user_name']         		=$this->session->userdata('user_name');
         $data['user_status']            =$this->session->userdata('user_status');
@@ -55,6 +56,7 @@ class Dashboard extends My_Controller {
 
 	public function manage_store(){
 
+		$this->session_checker->auto_logout();
 		$data['user_id']         		=$this->session->userdata('user_id');
 		$data['user_name']         		=$this->session->userdata('user_name');
         $data['user_status']            =$this->session->userdata('user_status');
@@ -76,6 +78,7 @@ class Dashboard extends My_Controller {
 	}
 
 	public function settings(){
+		$this->session_checker->auto_logout();
 		$data['user_id']         		=$this->session->userdata('user_id');
 		$data['user_name']         		=$this->session->userdata('user_name');
         $data['user_status']            =$this->session->userdata('user_status');
@@ -87,6 +90,7 @@ class Dashboard extends My_Controller {
 	}
 
 	public function settings_2(){
+		$this->session_checker->auto_logout();
 		$data['user_id']         		=$this->session->userdata('user_id');
 		$data['user_name']         		=$this->session->userdata('user_name');
         $data['user_status']            =$this->session->userdata('user_status');
@@ -98,6 +102,7 @@ class Dashboard extends My_Controller {
 	}
 
 	public function site_details(){
+		$this->session_checker->auto_logout();
 		$data['user_id']         		=$this->session->userdata('user_id');
 		$data['user_name']         		=$this->session->userdata('user_name');
         $data['user_status']            =$this->session->userdata('user_status');
@@ -163,6 +168,7 @@ class Dashboard extends My_Controller {
     }
 
 	public function set_payment_api(){
+		$this->session_checker->auto_logout();
 		$data['user_id']         		=$this->session->userdata('user_id');
 		$data['user_name']         		=$this->session->userdata('user_name');
         $data['user_status']            =$this->session->userdata('user_status');
@@ -199,6 +205,7 @@ class Dashboard extends My_Controller {
 	}
 
 	public function more_about_store_owner($store_owner_id =NULL){
+		$this->session_checker->auto_logout();
 		$data['user_id']         		=$this->session->userdata('user_id');
 		$data['user_name']         		=$this->session->userdata('user_name');
         $data['user_status']            =$this->session->userdata('user_status');
@@ -208,5 +215,33 @@ class Dashboard extends My_Controller {
 		$data['store_owner_id']			=$store_owner_id;
 		$data['content']	='more_about_store';
 		$this->load->view($this->layout,$data);
+	}
+
+	public function update_password(){
+		$user_name         		=$this->session->userdata('user_name');
+        $user_status            =$this->session->userdata('user_status');
+
+		$old	            	=$this->input->post('old');
+        $new		        	=$this->input->post('new');
+        $renew		        	=$this->input->post('renew');
+
+
+
+		if($user_status =='admin'){
+
+		}else if($user_status =='store_owner'){
+
+		}else if($user_status =='manager'){
+
+		}else if($user_status =='sales_rep'){
+
+		}
+        $action             =$this->Admin_db->change_password($old,$new,$renew);
+        if($action){
+            echo 'ok';
+        }
+        else{
+           echo $action;
+        }
 	}
 }

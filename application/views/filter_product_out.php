@@ -104,7 +104,7 @@
 												
 										?>
 												<a id="filter_by_store" data-store_id="<?php echo $store_id;?>" class="dropdown-item waves-light waves-effect"
-													href="<?php echo base_url();?>Office/filter_product_in/store/<?php echo $store_id;?>">
+													href="<?php echo base_url();?>Office/filter_product_out/store/<?php echo $store_id;?>">
 													<?php echo $store_name;?></a>
 
 												<?php
@@ -134,7 +134,7 @@
 												
 										?>
 												<a id="filter_by_branch" data-branch_id="<?php echo $branch_id;?>" class="dropdown-item waves-light waves-effect"
-													href="<?php echo base_url();?>Office/filter_product_in/branch/<?php echo $branch_id;?>"><?php echo $get_store_name;?>
+													href="<?php echo base_url();?>Office/filter_product_out/branch/<?php echo $branch_id;?>"><?php echo $get_store_name;?>
 													(<?php echo $branch_name;?> Branch)</a>
 
 
@@ -153,8 +153,8 @@
 
 							</div>
                             
-                            <a data-toggle="modal" href="#large-Modal" class="btn btn-danger btn-block"
-								style="margin-bottom:1%; float:left;">Add Customer</a>
+                            <a href="<?php echo base_url();?>Office/add_stock" class="btn btn-danger btn-block"
+								style="margin-bottom:1%; float:left;">Add Product</a>
 
                             <div id="dataList">
                                 

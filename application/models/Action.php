@@ -1194,9 +1194,11 @@ class Action extends My_Model{
 		if($type =='store'){
 
 			$this->db->where('store_id',$store_id);
+			$this->db->where('prod_bunk >', 0);
 		}else if($type =='branch'){
 
 			$this->db->where('branch_id', $store_id);
+			$this->db->where('prod_bunk >', 0);
 		}
 
 		
@@ -1236,9 +1238,11 @@ class Action extends My_Model{
 		if($type =='store'){
 
 			$this->db->where('store_id',$store_id);
+			$this->db->where('prod_bunk >', 0);
 		}else if($type =='branch'){
 
 			$this->db->where('branch_id', $store_id);
+			$this->db->where('prod_bunk >', 0);
 		}
 
 		if(!empty($keyword)){
@@ -1289,9 +1293,11 @@ class Action extends My_Model{
 		if($type =='store'){
 
 			$this->db->where('store_id',$store_id);
+			$this->db->where('prod_bunk <=', 0);
 		}else if($type =='branch'){
 
 			$this->db->where('branch_id', $store_id);
+			$this->db->where('prod_bunk <=', 0);
 		}
 
 		
@@ -1331,9 +1337,11 @@ class Action extends My_Model{
 		if($type =='store'){
 
 			$this->db->where('store_id',$store_id);
+			$this->db->where('prod_bunk <=', 0);
 		}else if($type =='branch'){
 
 			$this->db->where('branch_id', $store_id);
+			$this->db->where('prod_bunk <=', 0);
 		}
 
 		if(!empty($keyword)){

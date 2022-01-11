@@ -7,6 +7,7 @@ class Sales_rep extends My_Controller {
 	}
 
 	public function index(){
+        $this->session_checker->auto_logout();
         //$this->session_checker->my_session_2();
         $data['alert']			        =$this->session->flashdata('alert');
 
@@ -164,6 +165,7 @@ class Sales_rep extends My_Controller {
     }
 
 	public function load_sales_cart(){
+        $this->session_checker->auto_logout();
 		$data['alert']			        =$this->session->flashdata('alert');
 
         $data['phone_no']         		=$this->session->userdata('phone_no');

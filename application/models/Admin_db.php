@@ -100,5 +100,109 @@ class Admin_db extends My_Model{
         return false;
     }
 
+    public function change_password($old,$new){
+        $user_name         		=$this->session->userdata('user_name');
+        $user_status            =$this->session->userdata('user_status');
+        $email                  =$this->session->userdata('email');
 
+        $old_checker    =$this->Check_if_password_match($old);
+        if($old_checker){
+           
+
+            if($user_status =='admin'){
+                $data =array('password' => md5($new));
+                $this->db->set($data);
+                $this->db->where('user_name',$user_name);
+                $this->db->update('admin');
+                if($this->db->affected_rows() > 0){
+                    return 'ok';
+                }else{
+                    return  'Could not perform operation, please try again later';
+                }
+                
+
+            }else if($user_status =='store_owner'){
+
+                $data =array('password' => md5($new));
+                $this->db->set($data);
+                $this->db->where('email',$email);
+                $this->db->update('store_owner');
+                if($this->db->affected_rows() > 0){
+                    return 'ok';
+                }else{
+                    return 'Could not perform operation, please try again later';
+                }
+                
+            }else if($user_status =='manager'){
+
+                $data =array('password' => md5($new));
+                $this->db->set($data);
+                $this->db->where('email',$email);
+                $this->db->update('supervisor');
+                if($this->db->affected_rows() > 0){
+                    return 'ok';
+                }else{
+                    return 'Could not perform operation, please try again later';
+                }
+                
+    
+            }else if($user_status =='sales_rep'){
+
+                $data =array('password' => md5($new));
+                $this->db->set($data);
+                $this->db->where('email',$email);
+                $this->db->update('sales_rep');
+                if($this->db->affected_rows() > 0){
+                    return 'ok';
+                }else{
+                    return 'Could not perform operation, please try again later';
+                }
+                
+
+            }
+        }else{
+            return 'Your Old Password is incorrect';
+        }
+    }
+
+
+    public function Check_if_password_match($old){
+        $user_name         		=$this->session->userdata('user_name');
+        $user_status            =$this->session->userdata('user_status');
+        $email                  =$this->session->userdata('email');
+
+		if($user_status =='admin'){
+            $this->db->where('user_name',$user_name);
+            $this->db->where('password',md5($old));
+            $this->db->get('admin');
+            if($this->db->affected_rows() > 0){
+                return true;
+            }
+            return false;
+		}else if($user_status =='store_owner'){
+            $this->db->where('email',$email);
+            $this->db->where('password',md5($old));
+            $this->db->get('store_owner');
+            if($this->db->affected_rows() > 0){
+                return true;
+            }
+            return false;
+		}else if($user_status =='manager'){
+            $this->db->where('email',$email);
+            $this->db->where('password',md5($old));
+            $this->db->get('supervisor');
+            if($this->db->affected_rows() > 0){
+                return true;
+            }
+            return false;
+		}else if($user_status =='sales_rep'){
+			$this->db->where('email',$email);
+            $this->db->where('password',md5($old));
+            $this->db->get('sales_rep');
+            if($this->db->affected_rows() > 0){
+                return true;
+            }
+            return false;
+		}
+    }
 }

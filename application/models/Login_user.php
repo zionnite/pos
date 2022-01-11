@@ -96,6 +96,7 @@ class Login_user extends My_Model{
 				'store_owner_id'	=>$store_owner_id,
 				'user_status'		=>'manager',
 				'validation'		=>TRUE,
+				'last_login_timestamp' 	=> time(),
 				
 				
 			);
@@ -137,6 +138,7 @@ class Login_user extends My_Model{
 				'store_owner_id'	=>$store_owner_id,
 				'user_status'		=>'sales_rep',
 				'validation'		=>TRUE,
+				'last_login_timestamp' 	=> time(),
 				
 				
 			);
@@ -172,6 +174,7 @@ class Login_user extends My_Model{
 				'full_name'			=>$full_name,
 				'user_status'		=>'store_owner',
 				'validation'		=>TRUE,
+				'last_login_timestamp' 	=> time(),
 				
 				
 			);
@@ -199,7 +202,8 @@ class Login_user extends My_Model{
                 	'user_name'=>$user_name,
 					'user_status'=>'admin',
                 	'validation'=>TRUE,
-					'admin_status'=>TRUE
+					'admin_status'=>TRUE,
+					'last_login_timestamp' 	=> time(),
 				);
                 $this->session->set_userdata($data4);
                 return	$data4;

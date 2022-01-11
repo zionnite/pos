@@ -9,6 +9,7 @@ class Office extends My_Controller {
 	}
 
 	public function index(){
+        $this->session_checker->auto_logout();
         
         $data['alert']			        =$this->session->flashdata('alert');
 
@@ -30,6 +31,7 @@ class Office extends My_Controller {
 	}
 
     public function open_store(){
+        $this->session_checker->auto_logout();
 
         $data['alert']			        =$this->session->flashdata('alert');
 
@@ -50,6 +52,7 @@ class Office extends My_Controller {
     }
 
     public function list_store(){
+        $this->session_checker->auto_logout();
       
         $data['alert']			        =$this->session->flashdata('alert');
 
@@ -121,6 +124,8 @@ class Office extends My_Controller {
     }
 
     public function manage_store($store_id=NULL){
+        $this->session_checker->auto_logout();
+
         $data['alert']			        =$this->session->flashdata('alert');
 
         $data['phone_no']         		=$this->session->userdata('phone_no');
@@ -218,6 +223,8 @@ class Office extends My_Controller {
 
     /*Open Branch Stroe*/
     public function open_branch_store($store_id=NULL){
+        $this->session_checker->auto_logout();
+
         $data['alert']			        =$this->session->flashdata('alert');
 
         $data['phone_no']         		=$this->session->userdata('phone_no');
@@ -262,6 +269,8 @@ class Office extends My_Controller {
 
     /*Create Supervisor*/
     public function view_supervisor(){
+        $this->session_checker->auto_logout();
+
         $data['alert']			        =$this->session->flashdata('alert');
 
         $data['phone_no']         		=$this->session->userdata('phone_no');
@@ -278,6 +287,7 @@ class Office extends My_Controller {
     }
 
     public function get_supervisor_by_store_id($store_id=NULL){
+        $this->session_checker->auto_logout();
         $data['alert']			        =$this->session->flashdata('alert');
 
         $data['phone_no']         		=$this->session->userdata('phone_no');
@@ -296,6 +306,7 @@ class Office extends My_Controller {
     }
 
     public function get_supervisor_by_store_branch_id($branch_id=NULL){
+        $this->session_checker->auto_logout();
         $data['alert']			        =$this->session->flashdata('alert');
 
         $data['phone_no']         		=$this->session->userdata('phone_no');
@@ -360,6 +371,8 @@ class Office extends My_Controller {
 
     /*Create Supervisor*/
     public function view_sale_rep(){
+        $this->session_checker->auto_logout();
+
         $data['alert']			        =$this->session->flashdata('alert');
 
         $data['phone_no']         		=$this->session->userdata('phone_no');
@@ -403,6 +416,7 @@ class Office extends My_Controller {
     }
 
     public function get_sales_rep_by_store_id($store_id=NULL){
+        $this->session_checker->auto_logout();
         $data['alert']			        =$this->session->flashdata('alert');
 
         $data['phone_no']         		=$this->session->userdata('phone_no');
@@ -422,6 +436,7 @@ class Office extends My_Controller {
     }
 
     public function get_sales_rep_by_store_branch_id($branch_id=NULL){
+        $this->session_checker->auto_logout();
         $data['alert']			        =$this->session->flashdata('alert');
 
         $data['phone_no']         		=$this->session->userdata('phone_no');
@@ -444,6 +459,7 @@ class Office extends My_Controller {
  
 
     public function view_my_customer(){
+        $this->session_checker->auto_logout();
         $data['alert']			        =$this->session->flashdata('alert');
 
         $data['phone_no']         		=$this->session->userdata('phone_no');
@@ -513,6 +529,7 @@ class Office extends My_Controller {
     }
 
     public function filter_customer($type =NULL,$store_id =NULL){
+        $this->session_checker->auto_logout();
         $data['alert']			        =$this->session->flashdata('alert');
 
         $data['phone_no']         		=$this->session->userdata('phone_no');
@@ -596,6 +613,7 @@ class Office extends My_Controller {
     /*View My Supplier*/
 
     public function view_my_supplier(){
+        $this->session_checker->auto_logout();
          
         $data['alert']			        =$this->session->flashdata('alert');
 
@@ -668,6 +686,7 @@ class Office extends My_Controller {
     }
 
     public function filter_supplier($type =NULL,$store_id =NULL){
+        $this->session_checker->auto_logout();
         $data['alert']			        =$this->session->flashdata('alert');
 
         $data['phone_no']         		=$this->session->userdata('phone_no');
@@ -750,6 +769,7 @@ class Office extends My_Controller {
 
     /*View My Category*/
     public function view_my_category(){
+        $this->session_checker->auto_logout();
          
         $data['alert']			        =$this->session->flashdata('alert');
 
@@ -817,6 +837,7 @@ class Office extends My_Controller {
 
     /*Stock Product*/
     public function add_stock(){
+        $this->session_checker->auto_logout();
         $data['alert']			        =$this->session->flashdata('alert');
 
         $data['phone_no']         		=$this->session->userdata('phone_no');
@@ -957,8 +978,8 @@ class Office extends My_Controller {
 
 
     public function view_product(){
-         
-        // Load the list page view 
+        $this->session_checker->auto_logout();
+
         $data['alert']			        =$this->session->flashdata('alert');
 
         $data['phone_no']         		=$this->session->userdata('phone_no');
@@ -1032,8 +1053,8 @@ class Office extends My_Controller {
     }
 
     public function filter_product($type =NULL,$store_id =NULL){
-         
-        // Load the list page view 
+        $this->session_checker->auto_logout();
+
         $data['alert']			        =$this->session->flashdata('alert');
 
         $data['phone_no']         		=$this->session->userdata('phone_no');
@@ -1100,6 +1121,7 @@ class Office extends My_Controller {
 	}
 
     public function view_product_in(){
+        $this->session_checker->auto_logout();
          
         // Load the list page view 
         $data['alert']			        =$this->session->flashdata('alert');
@@ -1164,7 +1186,7 @@ class Office extends My_Controller {
 	}
 
     public function filter_product_in($type =NULL,$store_id =NULL){
-         
+        $this->session_checker->auto_logout();
         // Load the list page view 
         $data['alert']			        =$this->session->flashdata('alert');
 
@@ -1232,7 +1254,7 @@ class Office extends My_Controller {
 	}
 
     public function view_product_out(){
-         
+        $this->session_checker->auto_logout();
         // Load the list page view 
         $data['alert']			        =$this->session->flashdata('alert');
 
@@ -1296,7 +1318,7 @@ class Office extends My_Controller {
 	}
 
     public function filter_product_out($type =NULL,$store_id =NULL){
-         
+        $this->session_checker->auto_logout();
         // Load the list page view 
         $data['alert']			        =$this->session->flashdata('alert');
 
