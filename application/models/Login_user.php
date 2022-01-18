@@ -256,10 +256,11 @@ class Login_user extends My_Model{
                 
                 $user_id        	=$row->id;
                 $user_name	        =$row->user_name;
-				
+				$email				=$row->email;
 				
                 $data4=array(
                 	'user_id'=>$user_id,
+					'email'	=>$email,
                 	'user_name'=>$user_name,
 					'user_status'=>'admin',
                 	'validation'=>TRUE,

@@ -270,4 +270,60 @@ class Admin_db extends My_Model{
         }
         return false;
     }
+
+    public function update_user_activity($email,$status,$current_path,$type){
+
+        $data          =array(
+                            'email'=>$email,
+                            'user_status'=>$status,
+                            'path'=>$current_path,
+                            'type'=>$type,
+                            'time'=>time(),
+                            'date'=>date('Y-m-d H:i:sa'),
+                            'day' =>date('d'),
+                            'month'=>date('M'),
+                        );
+        $this->db->set($data);
+        $this->db->insert('user_activity');
+        if($this->db->affected_rows() > 0){
+            return true;
+        }
+        return false;
+    }
+
+    public function check_if_user_exist_in_activity_tbl($email){
+        $this->db->where('email',$email);
+        $this->db->limit(1);
+        $this->db->order_by('id','desc');
+        $query      =$this->db->get('user_activity');
+        if($query->num_rows() > 0){
+            return true;
+        }
+        return false;
+    }
+    public function get_last_activity_path($email){
+        $this->db->where('email',$email);
+        $this->db->limit(1);
+        $this->db->order_by('id','desc');
+        $query      =$this->db->get('user_activity');
+        if($query->num_rows() > 0){
+            foreach($query->result_array() as $row){
+                return $row['path'];
+            }
+        }
+        return false;
+    }
+
+    public function get_last_activity_type($email){
+        $this->db->where('email',$email);
+        $this->db->limit(1);
+        $this->db->order_by('id','desc');
+        $query      =$this->db->get('user_activity');
+        if($query->num_rows() > 0){
+            foreach($query->result_array() as $row){
+                return $row['type'];
+            }
+        }
+        return false;
+    }
 }

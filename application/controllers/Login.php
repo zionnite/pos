@@ -54,14 +54,36 @@ class Login extends My_Controller {
 						$data['alert']	='<div class="alert alert-success" role="alert">Welcome Again</div>';
 						$this->session->set_flashdata('alert',$data['alert']);
 						
-						if($data['user_status']	=='store_owner'){
-							
-							redirect('Store_Owner');
-						}else if($data['user_status']	=='manager'){
-							redirect('Manager');
-						}else if($data['user_status']	=='sales_rep'){
-							redirect('Pos');
+						$last_activity_existed		=$this->Admin_db->check_if_user_exist_in_activity_tbl($data['email']);
+						$last_activity_path			=$this->Admin_db->get_last_activity_path($data['email']);
+						$last_activity_type			=$this->Admin_db->get_last_activity_type($data['email']);
+
+						if($last_activity_existed){
+							if($last_activity_type =='inactivity'){
+								redirect($last_activity_path);
+							}else{
+								if($data['user_status']	=='store_owner'){
+									redirect('Store_Owner');
+								}else if($data['user_status']	=='manager'){
+									redirect('Manager');
+								}else if($data['user_status']	=='sales_rep'){
+									redirect('Pos');
+								}else if($data['user_status']	=='admin'){
+									redirect('Dashboard');
+								}
+							}
+						}else{
+							if($data['user_status']	=='store_owner'){
+								redirect('Store_Owner');
+							}else if($data['user_status']	=='manager'){
+								redirect('Manager');
+							}else if($data['user_status']	=='sales_rep'){
+								redirect('Pos');
+							}else if($data['user_status']	=='admin'){
+								redirect('Dashboard');
+							}
 						}
+						
                         
 					}
 			}

@@ -80,25 +80,34 @@ class Session_checker{
 	}
 
 	public function auto_logout(){
-		$status 		= $this->CI->session->userdata('user_status');
-        $user_id		=$this->CI->session->userdata('userid');
-		$user_name		=$this->CI->session->userdata('user_name');
+
+		$status 					= $this->CI->session->userdata('user_status');
+        $user_id					=$this->CI->session->userdata('userid');
+		$user_name					=$this->CI->session->userdata('user_name');
 		$last_login_timestamp		=$this->CI->session->userdata('last_login_timestamp');
+
+		$email						=$this->CI->session->userdata('email');
+		$current_path				= current_url();
 
 		$data['alert']		='<p class="alert alert-danger" role="alert">You are Auto Logout due to inactivity</p>';
 		$this->CI->session->set_flashdata('alert',$data['alert']);
 
 		if(isset($user_name)) {  
 			if((time() - $last_login_timestamp) > 900) {  
+				$this->CI->Admin_db->update_user_activity($email,$status,$current_path,'inactivity');
 				redirect(base_url().'Login');
 			}else{  
 
+				$this->CI->Admin_db->update_user_activity($email,$status,$current_path,'normal');
 				$this->CI->session->set_userdata('last_login_timestamp', time());
 			}  
 		}else{
+
 			$data['alert']		='<p class="alert alert-danger" role="alert">Your Session has Expire</p>';
 			$this->CI->session->set_flashdata('alert',$data['alert']);
 			redirect(base_url().'Login');
 		}
 	}
+
+
 }
