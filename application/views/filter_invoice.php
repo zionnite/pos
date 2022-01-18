@@ -57,11 +57,18 @@
 
 						<?php
 					
-							$get_store		=$this->Action->get_store($user_id);
-							$get_store_branch		=$this->Action->get_store_branches_by_owner_id($user_id);
+							($user_status =='store_owner') ? 
+                                $get_store          =$this->Action->get_store($user_id)
+								:
+								$get_store			=$this->Action->get_store($store_owner_id);
+
+							($user_status =='store_owner') ? 
+								$get_store_branch		=$this->Action->get_store_branches_by_owner_id($user_id)
+								:
+								$get_store_branch		=$this->Action->get_store_branches_by_owner_id($store_owner_id);
+							
 							
 						?>
-
 						<div class="card-block">
 							
 
@@ -94,9 +101,20 @@
 													$store_name		=$row['store_name'];
 												
 										?>
-												<a id="filter_by_store" data-store_id="<?php echo $store_id;?>" class="dropdown-item waves-light waves-effect"
-													href="<?php echo base_url();?>Invoice/filter_invoice/store/<?php echo $store_id;?>">
-													<?php echo $store_name;?></a>
+												<?php
+													if($user_status == 'manager'){?>
+														<a id="filter_by_store" data-store_id="<?php echo $store_id;?>" class="dropdown-item waves-light waves-effect"
+															href="<?php echo base_url();?>Manager/filter_invoice/store/<?php echo $store_id;?>">
+															<?php echo $store_name;?></a>
+												<?php
+													}else if($user_status =='store_owner'){?>
+														<a id="filter_by_store" data-store_id="<?php echo $store_id;?>" class="dropdown-item waves-light waves-effect"
+															href="<?php echo base_url();?>Store_Owner/filter_invoice/store/<?php echo $store_id;?>">
+															<?php echo $store_name;?></a>
+												<?php
+													}
+												?>
+												
 												<?php
 												}
 											}
@@ -123,9 +141,20 @@
 													$get_store_name		=$this->Action->get_store_name_by_branch_id($branch_id);
 												
 										?>
-												<a id="filter_by_branch" data-branch_id="<?php echo $branch_id;?>" class="dropdown-item waves-light waves-effect"
-													href="<?php echo base_url();?>Invoice/filter_invoice/branch/<?php echo $branch_id;?>"><?php echo $get_store_name;?>
-													(<?php echo $branch_name;?> Branch)</a>
+													<?php
+														if($user_status =='manager'){?>
+															<a id="filter_by_branch" data-branch_id="<?php echo $branch_id;?>" class="dropdown-item waves-light waves-effect"
+																href="<?php echo base_url();?>Manager/filter_invoice/branch/<?php echo $branch_id;?>"><?php echo $get_store_name;?>
+																(<?php echo $branch_name;?> Branch)</a>
+													<?php 
+														}else if($user_status =='store_owner'){?>
+															<a id="filter_by_branch" data-branch_id="<?php echo $branch_id;?>" class="dropdown-item waves-light waves-effect"
+																href="<?php echo base_url();?>Store_Owner/filter_invoice/branch/<?php echo $branch_id;?>"><?php echo $get_store_name;?>
+																(<?php echo $branch_name;?> Branch)</a>
+													<?php
+														}
+													?>
+												
 												<?php
 												}
 											}

@@ -6,7 +6,7 @@
 				<!-- task, page, download counter  start -->
 			
 				<div class="col-xl-6 col-md-6">
-					<a href="<?php echo base_url();?>Sales_rep" style="color:white;">
+					<a href="<?php echo base_url();?>Pos/add_sales" style="color:white;">
 					<div class="card social-card bg-simple-c-blue">
 						<div class="card-block">
 							<div class="row align-items-center">
@@ -20,13 +20,13 @@
 								</div>
 							</div>
 						</div>
-						<a href="<?php echo base_url();?>Sales_rep" class="download-icon"><i class="feather icon-arrow-down"></i></a>
+						<a href="<?php echo base_url();?>Pos/add_sales" class="download-icon"><i class="feather icon-arrow-down"></i></a>
 					</div>
 					</a>
 				</div>
 				
 				<div class="col-xl-6 col-md-6">
-					<a href="<?php echo base_url();?>Transaction_history" style="color:white;">
+					<a href="<?php echo base_url();?>Pos/history" style="color:white;">
 					<div class="card social-card bg-simple-c-pink">
 						<div class="card-block">
 							<div class="row align-items-center">
@@ -40,7 +40,7 @@
 								</div>
 							</div>
 						</div>
-						<a href="<?php echo base_url();?>Transaction_history" class="download-icon"><i class="feather icon-arrow-down"></i></a>
+						<a href="<?php echo base_url();?>Pos/history" class="download-icon"><i class="feather icon-arrow-down"></i></a>
 					</div>
 					</a>
 				</div>

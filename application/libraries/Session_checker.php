@@ -63,6 +63,7 @@ class Session_checker{
         $data['userid']			=$this->CI->session->userdata('userid');
 		$data['username']		=$this->CI->session->userdata('username');
 		if($this->CI->session->userdata('validation') == FALSE){
+			
 			$data['alert']		='<p class="alert alert-danger" role="alert">Session Has Expire,Pls Login To continue</p>';
 				$this->CI->session->set_flashdata('alert',$data['alert']);
 				redirect(base_url().'Auth/login_admin');
@@ -88,22 +89,16 @@ class Session_checker{
 		$this->CI->session->set_flashdata('alert',$data['alert']);
 
 		if(isset($user_name)) {  
-			if((time() - $last_login_timestamp) > 900) {  
-				if($status =='admin'){
-					redirect(base_url().'Login/admin');
-				}else if($status =='store_owner'){
-					redirect(base_url().'Login/owner');
-				}else if($status =='manager'){
-					redirect(base_url().'Login/manager_login');
-				}else if($status =='sales_rep'){
-					redirect(base_url().'Login/sales_login');
-				}
+			if((time() - $last_login_timestamp) > 90000) {  
+				redirect(base_url().'Login');
 			}else{  
 
 				$this->CI->session->set_userdata('last_login_timestamp', time());
 			}  
 		}else{
-			redirect(base_url().'Login/login_option');
+			$data['alert']		='<p class="alert alert-danger" role="alert">Your Session has Expire</p>';
+			$this->CI->session->set_flashdata('alert',$data['alert']);
+			redirect(base_url().'Login');
 		}
 	}
 }

@@ -7,8 +7,11 @@
 				<?php $this->load->view('short_statics');?>
 				<!-- task, page, download counter  end -->
 
-				<a data-toggle="modal" href="#large-Modal" class="col-md-12 btn btn-danger btn-block"
-					style="margin:1%;">Create Sales Rep.</a>
+				<div class="col-md-12">
+					<a data-toggle="modal" href="#large-Modal" class="btn btn-danger" style="margin-bottom:1%;"><i class="fa fa-plus"></i>Create Sales Rep.</a>
+				</div>
+
+			
 
 				<div class="col-md-12" id="slideshow">
 					<div class="card" id="slide_show">
@@ -35,6 +38,7 @@
 						
 
 						<div class="card-block">
+
 							<div class="my_filter" style="margin-bottom:1%; float:right;">
 								<div class="dropdown-inverse dropdown open">
 									<button class="btn btn-inverse dropdown-toggle waves-effect waves-light "
@@ -48,11 +52,25 @@
 												foreach($get_store as $row){
 													$store_name		=$row['store_name'];
 													$store_id		=$row['id'];
-												
-										?>
-										<a class="dropdown-item waves-light waves-effect"
-											href="<?php echo base_url();?>Office/get_sales_rep_by_store_id/<?php echo $store_id;?>">
-											<?php echo $store_name;?></a>
+													
+										
+										
+												if($user_status =='manager'){
+											?>
+													<a class="dropdown-item waves-light waves-effect"
+														href="<?php echo base_url();?>Manager/filter_staff_store/<?php echo $store_id;?>">
+														<?php echo $store_name;?></a>
+
+											<?php
+												}elseif($user_status =='store_owner'){?>
+														
+													<a class="dropdown-item waves-light waves-effect"
+														href="<?php echo base_url();?>Store_Owner/filter_staff_store/<?php echo $store_id;?>">
+														<?php echo $store_name;?></a>
+											<?php
+												}
+											?>
+													
 										<?php
 												}
 											}
@@ -75,10 +93,22 @@
 
 													$get_store_name		=$this->Action->get_store_name_by_branch_id($branch_id);
 												
+										
+													if($user_status =='manager'){
 										?>
-										<a class="dropdown-item waves-light waves-effect"
-											href="<?php echo base_url();?>Office/get_sales_rep_by_store_branch_id/<?php echo $branch_id;?>"><?php echo $get_store_name;?>
-											(<?php echo $branch_name;?> Branch)</a>
+														<a class="dropdown-item waves-light waves-effect"
+															href="<?php echo base_url();?>Manager/filter_staff_branch/<?php echo $branch_id;?>"><?php echo $get_store_name;?>
+															(<?php echo $branch_name;?> Branch)</a>
+
+												<?php 
+													}elseif($user_status =='store_owner'){?>
+														<a class="dropdown-item waves-light waves-effect"
+															href="<?php echo base_url();?>Store_Owner/filter_staff_branch/<?php echo $branch_id;?>"><?php echo $get_store_name;?>
+															(<?php echo $branch_name;?> Branch)</a>
+													<?php
+													}
+													?>
+
 										<?php
 												}
 											}
@@ -87,6 +117,8 @@
 								</div>
 
 							</div>
+
+							
 							<table id="demo-foo-filtering"
 								class="table table-striped footable footable-1 footable-paging footable-paging-center breakpoint-lg"
 								style="">
@@ -459,6 +491,13 @@
 							closeOnClickOutside: false,
 						});
 
+					}else{
+						swal({
+							title: "Oops!",
+							text: data,
+							icon: "info",
+							closeOnClickOutside: false,
+						});
 					}
 				}
 			});

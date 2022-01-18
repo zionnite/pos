@@ -81,6 +81,7 @@
 											<option value="desc">Descending</option>
 										</select>
 									</div>
+									
 									<div class="col-md-3 col-sm-12">
 										<div class="dropdown-inverse dropdown open">
 											<button class="btn btn-inverse dropdown-toggle waves-effect waves-light "
@@ -96,12 +97,20 @@
 											    foreach($get_store as $row){
                                                     $store_id		=$row['id'];
 													$store_name		=$row['store_name'];
+
+													if($user_status =='manager'){
 												
 										?>
-												<a id="filter_by_store" data-store_id="<?php echo $store_id;?>" class="dropdown-item waves-light waves-effect"
-													href="<?php echo base_url();?>Office/filter_product_in/store/<?php echo $store_id;?>">
-													<?php echo $store_name;?></a>
-												<?php
+														<a id="filter_by_store" data-store_id="<?php echo $store_id;?>" class="dropdown-item waves-light waves-effect"
+															href="<?php echo base_url();?>Manager/filter_product_in/store/<?php echo $store_id;?>">
+															<?php echo $store_name;?></a>
+													<?php 
+													}elseif($user_status =='store_owner'){?>
+														<a id="filter_by_store" data-store_id="<?php echo $store_id;?>" class="dropdown-item waves-light waves-effect"
+															href="<?php echo base_url();?>Store_Owner/filter_product_in/store/<?php echo $store_id;?>">
+															<?php echo $store_name;?></a>
+													<?php
+													}
 												}
 											}
 										?>
@@ -125,18 +134,28 @@
 													$branch_id			=$row['id'];
 
 													$get_store_name		=$this->Action->get_store_name_by_branch_id($branch_id);
+
+													if($user_status =='manager'){
 												
 										?>
-												<a id="filter_by_branch" data-branch_id="<?php echo $branch_id;?>" class="dropdown-item waves-light waves-effect"
-													href="<?php echo base_url();?>Office/filter_product_in/branch/<?php echo $branch_id;?>"><?php echo $get_store_name;?>
-													(<?php echo $branch_name;?> Branch)</a>
-												<?php
+														<a id="filter_by_branch" data-branch_id="<?php echo $branch_id;?>" class="dropdown-item waves-light waves-effect"
+															href="<?php echo base_url();?>Manager/filter_product_in/branch/<?php echo $branch_id;?>"><?php echo $get_store_name;?>
+															(<?php echo $branch_name;?> Branch)</a>
+
+													<?php 
+													}elseif($user_status =='store_owner'){?>
+														<a id="filter_by_branch" data-branch_id="<?php echo $branch_id;?>" class="dropdown-item waves-light waves-effect"
+															href="<?php echo base_url();?>Store_Owner/filter_product_in/branch/<?php echo $branch_id;?>"><?php echo $get_store_name;?>
+															(<?php echo $branch_name;?> Branch)</a>
+													<?php
+													}
 												}
 											}
 										?>
 											</div>
 										</div>
 									</div>
+
 								</div>
 
 
@@ -145,8 +164,19 @@
 
 							</div>
                             
-							<a href="<?php echo base_url();?>Office/add_stock" class="btn btn-danger btn-block"
-								style="margin-bottom:1%; float:left;">Add Product</a>
+							<?php
+								if($user_status =='manager'){
+							?>
+								<a href="<?php echo base_url();?>Manager_Dashboard/add_stock" class="btn btn-danger"
+									style="margin-bottom:1%; float:left;"><i class="fa fa-plus"></i> Add Product</a>
+							<?php
+								}else{
+							?>
+								<a href="<?php echo base_url();?>Office/add_stock" class="btn btn-danger"
+								style="margin-bottom:1%; float:left;"><i class="fa fa-plus"></i> Add Product</a>
+							<?php
+								}
+							?>
 
                             <div id="dataList">
                                 

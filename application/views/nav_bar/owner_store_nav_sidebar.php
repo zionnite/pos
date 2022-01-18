@@ -104,7 +104,7 @@ $count_product_out_stock 			=$this->Action->count_total_product_out_of_stock();
 			</li>
 
 			<li class="">
-				<a href="<?php echo base_url();?>Logout/owner_logout">
+				<a href="<?php echo base_url();?>Logout">
 					<span class="pcoded-micon"><i class="fa fa-sign-out-alt"></i></span>
 					<span class="pcoded-mtext">Logout</span>
 				</a>

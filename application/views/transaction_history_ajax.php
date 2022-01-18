@@ -93,7 +93,21 @@
 		
 			<td><?php echo $date;?></td>
 			<td>
-				<a href="<?php echo base_url();?>Invoice/view_invoice/<?php echo $invoice_no;?>" class="btn btn-inverse btn-sm"><i class="fab fa-buffer"></i>Invoice</a>
+			<?php
+				if($user_status =='sales_rep'){
+			?>
+					<a href="<?php echo base_url();?>Pos/view_invoice/<?php echo $invoice_no;?>" class="btn btn-inverse btn-sm"><i class="fab fa-buffer"></i>Invoice</a>
+			<?php
+
+				}else{
+			?>
+					<a href="<?php echo base_url();?>Invoice/view_invoice/<?php echo $invoice_no;?>" class="btn btn-inverse btn-sm"><i class="fab fa-buffer"></i>Invoice</a>
+
+			<?php 
+
+				}
+			?>
+				
 			</td>
 			<td>
 				<a href="javascript:;" id="delete_branch_<?php echo $id;?>" data-id="<?php echo $id;?>"

@@ -348,11 +348,15 @@ class Office extends My_Controller {
         $phone                  =$this->input->post('phone');
         $password                  =$this->input->post('password');
 
-        $action    =$this->Action->create_supervisor($store_id,$branch_id,$name,$email,$phone,$password);
-        if($action){
-            echo 'ok';
+        if(!$this->Login_user->check_if_user_exist_in_login_tbl($email)){
+            $action    =$this->Action->create_supervisor($store_id,$branch_id,$name,$email,$phone,$password);
+            if($action){
+                echo 'ok';
+            }else{
+                echo 'err';
+            }
         }else{
-            echo 'err';
+            echo 'User Email already exit on our database!';
         }
 
     }
@@ -397,11 +401,15 @@ class Office extends My_Controller {
         $phone                  =$this->input->post('phone');
         $password                  =$this->input->post('password');
 
-        $action    =$this->Action->create_sales_rep($store_id,$branch_id,$name,$email,$phone,$password);
-        if($action){
-            echo 'ok';
+        if(!$this->Login_user->check_if_user_exist_in_login_tbl($email)){
+            $action    =$this->Action->create_sales_rep($store_id,$branch_id,$name,$email,$phone,$password);
+            if($action){
+                echo 'ok';
+            }else{
+                echo 'err';
+            }
         }else{
-            echo 'err';
+            echo 'User Email already exit on our database!';
         }
 
     }

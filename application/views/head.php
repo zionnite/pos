@@ -95,6 +95,34 @@ $site_logo      =$this->Admin_db->get_site_logo();
           elseif($this->uri->segment(1) =='Sales_Dashboard'){
               echo $site_name.' | Dashboard (Staff)';
           }
+          elseif($this->uri->segment(1) =='Pos'){
+              if($this->uri->segment(2) ==''){
+                  echo 'Pos | Staff Dashboard';
+              }
+              elseif($this->uri->segment(2) =='add_sales'){
+                  echo 'Pos | Add Sales';
+              }
+              elseif($this->uri->segment(2) =='history'){
+                  echo 'Pos | History';
+              }
+              elseif($this->uri->segment(2) =='view_invoice'){
+                  echo 'Pos | View Invoice';
+              }
+          }
+          elseif($this->uri->segment(1) =='Manager'){
+              if($this->uri->segment(2) ==''){
+                  echo 'Pos | Staff Dashboard';
+              }
+              elseif($this->uri->segment(2) =='add_sales'){
+                  echo 'Pos | Add Sales';
+              }
+              elseif($this->uri->segment(2) =='history'){
+                  echo 'Pos | History';
+              }
+              elseif($this->uri->segment(2) =='view_invoice'){
+                  echo 'Pos | View Invoice';
+              }
+          }
           ?> 
   
   </title>

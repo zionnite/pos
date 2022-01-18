@@ -38,6 +38,10 @@
 
 
 
+				<div class="col-md-12">
+				<a data-toggle="modal" href="#large-Modal" class="btn btn-danger"
+								style="margin-bottom:1%; float:left;"><i class="fa fa-plus"></i>Add Category</a>
+				</div>
 				<div class="col-md-12" id="slideshow">
 					<div class="card" id="slide_show">
 						<div class="card-header">
@@ -55,9 +59,8 @@
 
 						<div class="card-block">
 
-
-							<a data-toggle="modal" href="#large-Modal" class="btn btn-danger btn-block"
-								style="margin-bottom:1%; float:left;">Add Category</a>
+							
+							
 
 							<div id="dataList">
 								<?php
@@ -310,7 +313,9 @@
 
 								<?php
                                         }
-                                    }
+                                    }else{
+										echo '<div class="alert alert-danger">Category is empty</div>';
+									}
                                 ?>
 							</div>
 

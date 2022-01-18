@@ -14,7 +14,7 @@
 				<!-- task, page, download counter  start -->
 
 				<div class="col-xl-6 col-md-6">
-					<a href="<?php echo base_url();?>Sales_rep" style="color:white;">
+					<a href="<?php echo base_url();?>Manager/add_sale" style="color:white;">
 						<div class="card social-card bg-simple-c-blue">
 							<div class="card-block">
 								<div class="row align-items-center">
@@ -28,14 +28,14 @@
 									</div>
 								</div>
 							</div>
-							<a href="<?php echo base_url();?>Sales_rep" class="download-icon"><i
+							<a href="<?php echo base_url();?>Manager/add_sale" class="download-icon"><i
 									class="feather icon-arrow-down"></i></a>
 						</div>
 					</a>
 				</div>
 
 				<div class="col-xl-6 col-md-6">
-					<a href="<?php echo base_url();?>Transaction_history" style="color:white;">
+					<a href="<?php echo base_url();?>Manager/history" style="color:white;">
 						<div class="card social-card bg-simple-c-pink">
 							<div class="card-block">
 								<div class="row align-items-center">
@@ -49,7 +49,7 @@
 									</div>
 								</div>
 							</div>
-							<a href="<?php echo base_url();?>Transaction_history" class="download-icon"><i
+							<a href="<?php echo base_url();?>Manager/history" class="download-icon"><i
 									class="feather icon-arrow-down"></i></a>
 						</div>
 					</a>
@@ -57,7 +57,7 @@
 
 
 				<div class="col-xl-6 col-md-6">
-					<a href="<?php echo base_url();?>Office/view_product_in" style="color:white;">
+					<a href="<?php echo base_url();?>Manager/product_in" style="color:white;">
 						<div class="card social-card bg-simple-c-yellow">
 							<div class="card-block">
 								<div class="row align-items-center">
@@ -71,14 +71,14 @@
 									</div>
 								</div>
 							</div>
-							<a href="<?php echo base_url();?>Office/view_product_in" class="download-icon"><i
+							<a href="<?php echo base_url();?>Manager/product_in" class="download-icon"><i
 									class="feather icon-arrow-down"></i></a>
 						</div>
 					</a>
 				</div>
 
 				<div class="col-xl-6 col-md-6">
-					<a href="<?php echo base_url();?>Office/view_product_out" style="color:white;">
+					<a href="<?php echo base_url();?>Manager/product_out" style="color:white;">
 						<div class="card social-card bg-simple-c-green">
 							<div class="card-block">
 								<div class="row align-items-center">
@@ -92,7 +92,7 @@
 									</div>
 								</div>
 							</div>
-							<a href="<?php echo base_url();?>Office/view_product_out" class="download-icon"><i
+							<a href="<?php echo base_url();?>Manager/product_out" class="download-icon"><i
 									class="feather icon-arrow-down"></i></a>
 						</div>
 					</a>
@@ -104,7 +104,7 @@
 						<div class="card-block-small text-center">
 							<h2><?php echo $this->cart->format_number($count_total_transaction);?></h2>
 							<h6>Total Tranasaction</h6>
-							<i class="feather icon-user"></i>
+							<i class="feather icon-usedr"></i>
 						</div>
 					</div>
 				</div>
@@ -114,7 +114,7 @@
 						<div class="card-block-small text-center">
 							<h2><?php echo $currency.$this->cart->format_number($count_total_sales);?></h2>
 							<h6>Total Sales</h6>
-							<i class="feather icon-user"></i>
+							<i class="feather icon-usedr"></i>
 						</div>
 					</div>
 				</div>
@@ -124,7 +124,7 @@
 						<div class="card-block-small text-center">
 							<h2><?php echo $this->cart->format_number($count_total_item_sold);?></h2>
 							<h6>Total Item Sold</h6>
-							<i class="feather icon-user"></i>
+							<i class="feather icon-usder"></i>
 						</div>
 					</div>
 				</div>

@@ -9,6 +9,7 @@ class Login extends My_Controller {
 	}
 
 	public function index(){
+		$data['alert']			=$this->session->flashdata('alert');
 		$data['content']	='auth/login';
 		$this->load->view($this->auth_master,$data);
 	}
@@ -19,7 +20,7 @@ class Login extends My_Controller {
 		$this->load->view($this->auth_master,$data);
 	}
 
-    public function manager(){
+    public function login_user(){
 		if($this->input->post('login')){	
 			$this->form_validation->set_rules('email','Email','required');
 			$this->form_validation->set_rules('password','Password','required');
@@ -30,13 +31,13 @@ class Login extends My_Controller {
 			if($this->form_validation->run() == FALSE){
 				$data['alert']	='<div class="alert alert-danger" role="alert">Email Or Password not Filled</div>';
 				$this->session->set_flashdata('alert',$data['alert']);
-                redirect('Login/manager_login');
+                redirect('Login');
 			}else{
-				$login	=$this->Login_user->login_manager($this->u_name,$this->pass);
+				$login	=$this->Login_user->login_user($this->u_name,$this->pass);
 					if($login	== FALSE){	
 						$data['alert']	='<div class="alert alert-danger" role="alert">Invalid Login Input,Use Sign Up button to register Or Click Forget Password</div>';
 						$this->session->set_flashdata('alert',$data['alert']);
-                        redirect('Login/manager_login');
+                        redirect('Login');
 					}else{
 						/*retrieve Session data*/
 						$data['phone_no']         		=$this->session->userdata('phone_no');
@@ -49,16 +50,25 @@ class Login extends My_Controller {
                         $data['store_owner_id']         =$this->session->userdata('store_owner_id');
                         $data['user_status']            =$this->session->userdata('user_status');
 						
-						
-                        $data['alert']	='<div class="alert alert-success" role="alert">Welcome Again</div>';
+
+						$data['alert']	='<div class="alert alert-success" role="alert">Welcome Again</div>';
 						$this->session->set_flashdata('alert',$data['alert']);
-						redirect('Manager_Dashboard');
+						
+						if($data['user_status']	=='store_owner'){
+							
+							redirect('Store_Owner');
+						}else if($data['user_status']	=='manager'){
+							redirect('Manager');
+						}else if($data['user_status']	=='sales_rep'){
+							redirect('Pos');
+						}
+                        
 					}
 			}
 		}else{
 			$data['alert']	='<div class="alert alert-danger" role="alert">Please Use the button to login</div>';
 			$this->session->set_flashdata('alert',$data['alert']);
-            redirect('Login/manager_login');
+            redirect('Login');
 		}
 		
 	}
@@ -102,7 +112,11 @@ class Login extends My_Controller {
 						
                         $data['alert']	='<div class="alert alert-success" role="alert">Welcome Again</div>';
 						$this->session->set_flashdata('alert',$data['alert']);
-						redirect('Sales_Dashboard');
+
+						if($data['user_status'] =='sales_rep'){
+							redirect('Pos');
+						}
+						
 					}
 			}
 		}else{

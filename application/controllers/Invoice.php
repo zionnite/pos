@@ -132,8 +132,8 @@ class Invoice extends My_Controller {
     
 		$data['user_id']         		=$this->session->userdata('user_id');
 		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['store_owner_id']         =$this->session->userdata('store_owner_id');
         $data['user_status']            =$this->session->userdata('user_status');
-        
 
         $data['dis_store_id']   =$store_id;
         $data['type']           =$type;

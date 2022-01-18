@@ -33,17 +33,23 @@ class Register extends My_Controller {
 				$data['content']	='auth/signup';
 		        $this->load->view($this->auth_master,$data);
 			}else{
-				$login	=$this->Login_user->register($user_name,$pass,$email,$phone,$full_name);
+				if(!$this->Login_user->check_if_user_exist_in_login_tbl($email)){
+					$login	=$this->Login_user->register($user_name,$pass,$email,$phone,$full_name);
 					if($login	== FALSE){	
 						$data['alert']	='<div class="alert alert-danger" role="alert">Registration Failed, please try again later</div>';
 						$this->session->set_flashdata('alert',$data['alert']);
-                        redirect('Register');
+						redirect('Register');
 					}else{
 						/*retrieve Session data*/
-                        $data['alert']	='<div class="alert alert-success" role="alert">Registration Successful</div>';
+						$data['alert']	='<div class="alert alert-success" role="alert">Registration Successful</div>';
 						$this->session->set_flashdata('alert',$data['alert']);
 						redirect('Login/owner');
 					}
+				}else{
+					$data['alert']	='<div class="alert alert-success" role="alert">This User aleready exist in our database</div>';
+					$this->session->set_flashdata('alert',$data['alert']);
+					redirect('Login/owner');
+				}
 			}
 		}else{
 			$data['alert']	='<div class="alert alert-danger" role="alert">Please Use the button to login</div>';

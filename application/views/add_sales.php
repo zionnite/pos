@@ -50,8 +50,20 @@
                     <div id="cart_item_detail">
 
                     </div> -->
+					<?php
+						if($user_status =='sales_rep'){
+					?>
+							<a href="<?php echo base_url();?>Pos/cart" class="btn btn-sm btn-danger">Go to Cart page</a>
+					<?php
 
-                    <a href="<?php echo base_url();?>Sales_rep/load_sales_cart" class="btn btn-sm btn-danger">Go to Cart page</a>
+						}else{
+					?>
+							<a href="<?php echo base_url();?>Manager/cart" class="btn btn-sm btn-danger">Go to Cart page</a>
+					<?php 
+
+						}
+					?>
+                    
 				</div>
 				
 			</div>

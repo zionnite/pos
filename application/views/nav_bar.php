@@ -112,48 +112,13 @@ $site_logo      =$this->Admin_db->get_site_logo();
 									<i class="feather icon-lock"></i> Change Password
 								</a>
 							</li>
-							<?php
-								$user_status	=$this->session->userdata('user_status');
-								if($user_status =='admin'){
-							?>
-								
-								<li>
-									<a href="<?php echo base_url();?>Logout/admin_logout">
-										<i class="feather icon-log-out"></i> Logout
-									</a>
-								</li>
-							<?php 
-								}elseif($user_status =='store_owner'){
-							?>
-								
-								<li>
-									<a href="<?php echo base_url();?>Logout/owner_logout">
-										<i class="feather icon-log-out"></i> Logout
-									</a>
-								</li>
-							<?php
-								}else if($user_status =='manager'){
-							?>
-								
-								<li>
-									<a href="<?php echo base_url();?>Logout/manager_logout">
-										<i class="feather icon-log-out"></i> Logout
-									</a>
-								</li>
-							<?php
-								}else if($user_status =='sales_rep'){
-							?>
 
-								
-								<li>
-									<a href="<?php echo base_url();?>Logout/sales_logout">
-										<i class="feather icon-log-out"></i> Logout
-									</a>
-								</li>
+							<li>
+								<a href="<?php echo base_url();?>Logout">
+									<i class="feather icon-log-out"></i> Logout
+								</a>
+							</li>
 							
-							<?php
-								}
-							?>
 						</ul>
 
 					</div>

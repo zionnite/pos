@@ -13,8 +13,8 @@
 
 					if($count_store <= $max_store){
 				?>
-				<a data-toggle="modal" href="#large-Modal" class="col-md-12 btn btn-danger btn-block"
-					style="margin:1%;">Create Store</a>
+				<a data-toggle="modal" href="#large-Modal" class="btn btn-danger"
+					style="margin:1%;"><i class="fa fa-plus"></i>Create Store</a>
 
 				<?php
 					}

@@ -7,8 +7,8 @@
 				<?php $this->load->view('short_statics');?>
 				<!-- task, page, download counter  end -->
 
-				<a data-toggle="modal" href="#large-Modal" class="col-md-12 btn btn-danger btn-block"
-					style="margin:1%;">Create Branch Store</a>
+				<a data-toggle="modal" href="#large-Modal" class="btn btn-danger"
+					style="margin:1%;"><i class="fa fa-plus"></i>Create Branch Store</a>
 
 				<div class="col-md-12" id="slideshow">
 					<div class="card" id="slide_show">

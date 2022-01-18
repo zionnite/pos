@@ -77,7 +77,7 @@
 
 
 								<div class="row">
-									<div class="col-md-4 col-sm-12">
+									<div class="<?php if($user_status =='sales_rep'){ echo 'col-md-12 col-sm-12'; }else{ echo 'col-md-4 col-sm-12';}?>">
 										<select class="form-select form-control" id="sortBy" onchange="searchFilter();">
 											<option selected>Sort By</option>
 
@@ -85,6 +85,9 @@
 											<option value="desc">Descending</option>
 										</select>
 									</div>
+									<?php
+										if($user_status !='sales_rep'){
+									?>
 									<div class="col-md-3 col-sm-12">
 										<div class="dropdown-inverse dropdown open">
 											<button class="btn btn-inverse dropdown-toggle waves-effect waves-light "
@@ -102,9 +105,21 @@
 													$store_name		=$row['store_name'];
 												
 										?>
-												<a id="filter_by_store" data-store_id="<?php echo $store_id;?>" class="dropdown-item waves-light waves-effect"
-													href="<?php echo base_url();?>Transaction_history/filter_transaction/store/<?php echo $store_id;?>">
-													<?php echo $store_name;?></a>
+
+													<?php
+														if($user_status =='manager'){?>
+															<a id="filter_by_store" data-store_id="<?php echo $store_id;?>" class="dropdown-item waves-light waves-effect"
+																href="<?php echo base_url();?>Manager/filter_transaction/store/<?php echo $store_id;?>">
+																<?php echo $store_name;?></a>
+													<?php	
+														}elseif($user_status =='store_owner'){?>
+															<a id="filter_by_store" data-store_id="<?php echo $store_id;?>" class="dropdown-item waves-light waves-effect"
+																href="<?php echo base_url();?>Store_Owner/filter_transaction/store/<?php echo $store_id;?>">
+																<?php echo $store_name;?></a>
+													<?php 
+														}
+													?>
+												
 												<?php
 												}
 											}
@@ -112,6 +127,9 @@
 											</div>
 										</div>
 									</div>
+
+									
+
 									<div class="col-md-4 col-sm-12">
 										<div class="dropdown-inverse dropdown open">
 											<button class="btn btn-primary dropdown-toggle waves-effect waves-light "
@@ -131,9 +149,20 @@
 													$get_store_name		=$this->Action->get_store_name_by_branch_id($branch_id);
 												
 										?>
-												<a id="filter_by_branch" data-branch_id="<?php echo $branch_id;?>" class="dropdown-item waves-light waves-effect"
-													href="<?php echo base_url();?>Transaction_history/filter_transaction/branch/<?php echo $branch_id;?>"><?php echo $get_store_name;?>
-													(<?php echo $branch_name;?> Branch)</a>
+													<?php
+														if($user_status =='manager'){?>
+															<a id="filter_by_branch" data-branch_id="<?php echo $branch_id;?>" class="dropdown-item waves-light waves-effect"
+																href="<?php echo base_url();?>Manager/filter_transaction/branch/<?php echo $branch_id;?>"><?php echo $get_store_name;?>
+																(<?php echo $branch_name;?> Branch)</a>
+													<?php 
+														}elseif($user_status =='store_owner'){?>
+															<a id="filter_by_branch" data-branch_id="<?php echo $branch_id;?>" class="dropdown-item waves-light waves-effect"
+																href="<?php echo base_url();?>Store_Owner/filter_transaction/branch/<?php echo $branch_id;?>"><?php echo $get_store_name;?>
+																(<?php echo $branch_name;?> Branch)</a>
+													<?php 
+														}
+													?>
+												
 												<?php
 												}
 											}
@@ -141,6 +170,10 @@
 											</div>
 										</div>
 									</div>
+
+									<?php 
+										}
+									?>
 								</div>
 
 

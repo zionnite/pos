@@ -5,62 +5,123 @@ class Login_user extends My_Model{
 	}
 	public function login_user($u_name,$pass){
 
-			$query	=$this->db->get_where('user_detail',array(
-														'phone_no'=>$u_name,
+			$query	=$this->db->get_where('login_tbl',array(
+														'email'=>$u_name,
 														'password'=>md5($pass))
 														);
             if($query->num_rows() == 1){
                 $row	=$query->row();
                 
-                $phone_no       	=$row->phone_no;
-                $user_id        	=$row->user_id;
-                $user_name	        =$row->user_name;
-                $sex				=$row->sex;
-                $age 				=$row->age;
-                $ip_address			=$row->ip_address;
-                $user_agent			=$row->browser;
+                $id		        	=$row->id;
                 $email				=$row->email;
-                $user_img			=$row->user_img;
-                $online_status		=$row->online_status;
-                $last_login_date	=$row->last_login_date;
-                $date_register		=$row->date_register;
-                $status         	=$row->status;
-                $full_name			=$row->full_name;
-				$ddress				=$row->address;
-				$city				=$row->city;
-				$country			=$row->country;
-				$postal_code		=$row->postal_code;
-                
-				$data		=array('last_login_date'=>date('Y-m-d H:i:sa',now()),
-						   'ip_address'=>$ip_address,'browser'=>$browser,'online_status'=>'online');
-				$this->db->set($data);
-				$this->db->where('user_id',$user_id);
-				$this->db->update('user_detail');
-				
-                $data4=array(
-                	'phone_no'=>$phone_no,
-                	'user_id'=>$user_id,
-                	'user_name'=>$user_name,
-                	'user_img'=>$user_img,
-                	'sex'=>$sex,
-                	'age'=>$age,
-                	'email'=>$email,
-                	'ip_address'=>$ip_address,
-                	'user_agent'=>$user_agent,
-                	'full_name'=>$full_name,
-                	'last_login_date'=>$last_login_date,
-                	'date_register'=>$date_register,
-                	'status'=>$status,
-                	'validation'=>TRUE,
-					'user_status'=>TRUE,
-                	'online_status'=>'online',
-					'address'=>$address,
-					'city'=>$city,
-					'country'=>$country,
-					'postal_code'=>$postal_code
-				);
-                $this->session->set_userdata($data4);
-                return	$data4;
+                $user_status        =$row->user_status;
+
+				if($user_status == 'store_owner'){
+					$query	=$this->db->get_where('store_owner',array('email'=>$email));
+					if($query->num_rows() == 1){
+						$row	=$query->row();
+
+						$user_id        			=$row->id;
+						$user_name 					=$row->user_name;
+						$email 						=$row->email;
+						$phone_no					=$row->phone;
+						$full_name					=$row->full_name;
+
+
+
+						$data4= array(
+						'phone_no'			=>$phone_no,
+						'user_id'			=>$user_id,
+						'user_name'			=>$user_name,
+						'email'				=>$email,
+						'full_name'			=>$full_name,
+						'user_status'		=>'store_owner',
+						'validation'		=>TRUE,
+						'last_login_timestamp' 	=> time(),
+
+
+						);
+						$this->session->set_userdata($data4);
+						return	$data4;
+					}else{
+						return 	FALSE;
+					}
+
+				}else if($user_status =='manager'){
+
+					$query	=$this->db->get_where('supervisor',array('email'=>$email));
+						if($query->num_rows() == 1){
+							$row	=$query->row();
+
+							$user_id        			=$row->id;
+							$store_owner_id 			=$row->store_owner_id;
+							$store_id       			=$row->store_id;
+							$store_name					=$row->store_name;
+							$branch_store_id 			=$row->branch_store_id;
+							$user_name 					=$row->name;
+							$email 						=$row->email;
+							$phone_no					=$row->phone_no;
+
+
+
+							$data4= array(
+							'phone_no'			=>$phone_no,
+							'user_id'			=>$user_id,
+							'user_name'			=>$user_name,
+							'email'				=>$email,
+							'store_id'			=>$store_id,
+							'store_name'		=>$store_name,
+							'branch_id'			=>$branch_store_id,
+							'store_owner_id'	=>$store_owner_id,
+							'user_status'		=>'manager',
+							'validation'		=>TRUE,
+							'last_login_timestamp' 	=> time(),
+
+
+							);
+							$this->session->set_userdata($data4);
+							return	$data4;
+						}else{
+							return 	FALSE;
+						}
+				}else if($user_status =='sales_rep'){
+					
+					$query	=$this->db->get_where('sales_rep',array('email'=>$email));
+					if($query->num_rows() == 1){
+						$row	=$query->row();
+
+						$user_id        			=$row->id;
+						$store_owner_id 			=$row->store_owner_id;
+						$store_id       			=$row->store_id;
+						$store_name					=$row->store_name;
+						$branch_store_id 			=$row->branch_store_id;
+						$user_name 					=$row->name;
+						$email 						=$row->email;
+						$phone_no					=$row->phone_no;
+
+
+
+						$data4= array(
+						'phone_no'			=>$phone_no,
+						'user_id'			=>$user_id,
+						'user_name'			=>$user_name,
+						'email'				=>$email,
+						'store_id'			=>$store_id,
+						'store_name'		=>$store_name,
+						'branch_id'			=>$branch_store_id,
+						'store_owner_id'	=>$store_owner_id,
+						'user_status'		=>'sales_rep',
+						'validation'		=>TRUE,
+						'last_login_timestamp' 	=> time(),
+
+
+						);
+						$this->session->set_userdata($data4);
+						return	$data4;
+					}else{
+						return 	FALSE;
+					}
+				}
             }else{
                 return 	FALSE;
             }
@@ -293,6 +354,19 @@ class Login_user extends My_Model{
 		$data  			=array('user_name'=>$user_name,'password'=>md5($pass),'email'=>$email,'phone'=>$phone,'full_name'=>$full_name);
 		$this->db->set($data);
 		$this->db->insert('store_owner');
+		if($this->db->affected_rows() > 0){
+
+			$data			=array('email'=>$email,'password'=>md5($pass),'user_status'=>'store_owner');
+			$this->db->set($data);
+			$this->db->insert('login_tbl');
+			return true;
+		}
+		return false;
+	}
+
+	public function check_if_user_exist_in_login_tbl($email){
+		$this->db->where('email',$email);
+		$this->db->get('login_tbl');
 		if($this->db->affected_rows() > 0){
 			return true;
 		}

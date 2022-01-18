@@ -6,13 +6,13 @@
 			<div class="col-sm-12">
 				<!-- Authentication card start -->
 
-				<form class="md-float-material form-material" method="POST" action="<?php echo base_url();?>Login/manager">
+				<form class="md-float-material form-material" method="POST" action="<?php echo base_url();?>Login/login_user">
                 
 					<div class="auth-box card">
 						<div class="card-block">
 							<div class="row m-b-20">
 								<div class="col-md-12">
-									<h3 class="text-center">Sign In (Manager)</h3>
+									<h3 class="text-center">Sign In</h3>
                                     <?php echo isset($alert)?$alert:NULL;?>
 								</div>
 							</div>

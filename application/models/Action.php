@@ -239,6 +239,10 @@ class Action extends My_Model{
 		$this->db->set($data);
 		$this->db->insert('supervisor');
 		if($this->db->affected_rows() > 0){
+
+			$data			=array('email'=>$email,'password'=>md5($password),'user_status'=>'manager');
+			$this->db->set($data);
+			$this->db->insert('login_tbl');
 			return true;
 		}
 		return false;
@@ -287,6 +291,11 @@ class Action extends My_Model{
 		$this->db->set($data);
 		$this->db->insert('sales_rep');
 		if($this->db->affected_rows() > 0){
+
+			$data			=array('email'=>$email,'password'=>md5($password),'user_status'=>'sales_rep');
+			$this->db->set($data);
+			$this->db->insert('login_tbl');
+
 			return true;
 		}
 		return false;
@@ -2467,6 +2476,31 @@ class Action extends My_Model{
 	public function count_store_branch_by_admin($store_id){
 		$this->db->where('store_id',$store_id);
 		return $this->db->from('branch_office')->count_all_results();
+	}
+
+	public function count_total_customers(){
+		$user_id		         		=$this->session->userdata('user_id');
+        $store_id		                =$this->session->userdata('store_id');
+        $store_name			            =$this->session->userdata('store_name');
+        $branch_id			            =$this->session->userdata('branch_id');
+        $store_owner_id			        =$this->session->userdata('store_owner_id');
+        $user_status		            =$this->session->userdata('user_status');
+
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+			
+		if($user_status == 'store_owner'){
+			$this->db->where('store_owner_id',$store_owner_id);
+			return $this->db->from('customers_tbl')->count_all_results();
+		}else{
+			$this->db->where('branch_store_id',$branch_id);
+			return $this->db->from('customers_tbl')->count_all_results();
+		}
+
+
 	}
 
 }
