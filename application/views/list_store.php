@@ -29,7 +29,6 @@
 						<th data-breakpoints="xs" class="footable-sortable" style="display: table-cell;">Store Name<span
 								class="fooicon fooicon-sort"></span></th>
 						<th data-breakpoints="xs" class="footable-sortable" style="display: table-cell;"></th>
-						<th data-breakpoints="xs" class="footable-sortable" style="display: table-cell;"></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -49,18 +48,15 @@
 					<tr>
 
 						<td class="footable-first-visible" style="display: table-cell;"><?php echo $i++;?></td>
-						<td style="display: table-cell;"><img style="width:100px; height:100px;"
+						<td style="display: table-cell;"><img style="width:50px; height:50px;"
 								src="<?php echo base_url();?>store_img/<?php echo $store_name_2;?>/images/<?php echo $store_logo;?>"
 								alt=""></td>
 						<td style="display: table-cell;"><?php echo $store_name;?></td>
 						<td>
-							<a href="<?php echo base_url();?>Office/manage_store/<?php echo $id;?>" class="btn btn-success btn-sm btn-block"><i class="fa fa-store"></i> Manage Store</a>
-						</td>
-						<td>
-							<!-- <a href="#edit_store_<?php echo $id;?>" class="btn btn-info btn-sm"
-								data-toggle="modal">Edit</a> -->
-							<a href="javascript:;" class="btn btn-danger btn-sm" id="delete_store_<?php echo $id;?>"
-								data-store_id="<?php echo $id;?>"><i class="fa fa-trash"></i>Delete</a>
+							<a href="<?php echo base_url();?>Office/manage_store/<?php echo $id;?>" class="label label-success"><i class="fa fa-store"></i> Manage Store</a>
+					
+							<a href="javascript:;" class="label label-danger" id="delete_store_<?php echo $id;?>"
+								data-store_id="<?php echo $id;?>"><i class="fa fa-trash"></i> Delete</a>
 						</td>
 					</tr>
 

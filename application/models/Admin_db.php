@@ -100,6 +100,26 @@ class Admin_db extends My_Model{
         return false;
     }
 
+    public function get_site_phone(){
+        $query      =$this->db->get('site_setting');
+        if($query->num_rows() > 0){
+            foreach($query->result_array() as $row){
+                return $row['site_phone'];
+            }
+        }
+        return false;
+    }
+
+    public function get_site_email(){
+        $query      =$this->db->get('site_setting');
+        if($query->num_rows() > 0){
+            foreach($query->result_array() as $row){
+                return $row['site_email'];
+            }
+        }
+        return false;
+    }
+
     public function change_password($old,$new){
         $user_name         		=$this->session->userdata('user_name');
         $user_status            =$this->session->userdata('user_status');
@@ -204,5 +224,50 @@ class Admin_db extends My_Model{
             }
             return false;
 		}
+    }
+
+
+    public function get_plan_name($plan_id){
+        $this->db->where('id',$plan_id);
+        $query      =$this->db->get('plan');
+        if($query->num_rows() > 0){
+            foreach($query->result_array() as $row){
+                return $row['title'];
+            }
+        }
+        return false;
+    }
+
+    public function get_plan_num_store($plan_id){
+        $this->db->where('id',$plan_id);
+        $query      =$this->db->get('plan');
+        if($query->num_rows() > 0){
+            foreach($query->result_array() as $row){
+                return $row['store_num'];
+            }
+        }
+        return false;
+    }
+
+    public function get_plan_amount($plan_id){
+        $this->db->where('id',$plan_id);
+        $query      =$this->db->get('plan');
+        if($query->num_rows() > 0){
+            foreach($query->result_array() as $row){
+                return $row['amount'];
+            }
+        }
+        return false;
+    }
+
+    public function update_plan($plan_name,$num_store,$amount,$plan_id){
+        $data       =array('title'=>$plan_name,'store_num'=>$num_store,'amount'=>$amount);
+        $this->db->set($data);
+        $this->db->where('id',$plan_id);
+        $this->db->update('plan');
+        if($this->db->affected_rows() > 0){
+            return true;
+        }
+        return false;
     }
 }

@@ -158,7 +158,7 @@
 									<tr>
 										<td><?php echo $i++;?></td>
 										<td>
-											<img style="height:100px;width:100px"
+											<img style="height:50px;width:50px"
 												src="<?php echo base_url();?>store_img/<?php echo $store_name_2;?>/images/<?php echo $store_logo;?>"
 												alt="">
 											<br /><?php echo $store_name;?>
@@ -170,7 +170,7 @@
 										<td><?php echo $date;?></td>
 										<td>
 											<a href="javascript:;" id="delete_branch_<?php echo $id;?>"
-												data-id="<?php echo $id;?>" class="btn btn-danger btn-sm">Delete</a>
+												data-id="<?php echo $id;?>" class="label label-danger"><i class="fa fa-trash"></i> Delete</a>
 										</td>
 									</tr>
 

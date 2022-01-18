@@ -883,13 +883,16 @@ class Office extends My_Controller {
             $prod_desc                =$this->input->post('prod_desc');
             $prod_cost                =$this->input->post('prod_cost');
             $prod_price                =$this->input->post('prod_price');
-            $prod_whole                =$this->input->post('prod_whole');
-            $prod_weight                =$this->input->post('prod_weight');
-            $prod_discount                =$this->input->post('prod_discount');
+            
+            // $prod_whole                =$this->input->post('prod_whole');
+            // $prod_weight                =$this->input->post('prod_weight');
+            // $prod_discount                =$this->input->post('prod_discount');
+
             // $prod_image                =$this->input->post('prod_image');
-            $metal_title                =$this->input->post('metal_title');
-            $metal_key                =$this->input->post('metal_key');
-            $metal_desc                =$this->input->post('metal_desc');
+
+            // $metal_title                =$this->input->post('metal_title');
+            // $metal_key                =$this->input->post('metal_key');
+            // $metal_desc                =$this->input->post('metal_desc');
 
             
             // $store_id       ='101';
@@ -900,8 +903,8 @@ class Office extends My_Controller {
             $store_owner_id     = $this->Action->get_store_owner_id_by_store_id($store_id);
 
 
-            $prod_name  = preg_replace("/\s+/", "_", $prod_name);
-            $prod_name  = preg_replace('/[^A-Za-z0-9\_]/', '', $prod_name);
+            // $prod_name  = preg_replace("/\s+/", "_", $prod_name);
+            // $prod_name  = preg_replace('/[^A-Za-z0-9\_]/', '', $prod_name);
 
            
             
@@ -929,8 +932,8 @@ class Office extends My_Controller {
                 // $prod_whole.br().$prod_weight.br().$prod_discount.br().$metal_title.br().$metal_key.br().$metal_desc;
                
 
-                $result =   $this->Action->create_product($img_file_name,$store_id,$store_name,$branch_id,$branch_name,$store_owner_id,$prod_name,$prod_size,$prod_bunk,$prod_cat,$prod_sub_cat,$prod_color,$prod_sup/*,$prod_brand*/,$prod_desc,$prod_cost,$prod_price,
-                $prod_whole,$prod_weight,$prod_discount,$metal_title,$metal_key,$metal_desc);
+                $result =   $this->Action->create_product($img_file_name,$store_id,$store_name,$branch_id,$branch_name,$store_owner_id,$prod_name,$prod_size,$prod_bunk,$prod_cat,$prod_sub_cat,$prod_color,$prod_sup/*,$prod_brand*/,$prod_desc,$prod_cost,$prod_price/*,
+            $prod_whole,$prod_weight,$prod_discount,$metal_title,$metal_key,$metal_desc*/);
 
                 if($result == TRUE){
                 echo 'ok';

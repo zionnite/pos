@@ -89,7 +89,7 @@ class Session_checker{
 		$this->CI->session->set_flashdata('alert',$data['alert']);
 
 		if(isset($user_name)) {  
-			if((time() - $last_login_timestamp) > 90000) {  
+			if((time() - $last_login_timestamp) > 900) {  
 				redirect(base_url().'Login');
 			}else{  
 

@@ -121,7 +121,7 @@
 									<tr>
 										<td><?php echo $i++;?></td>
 
-                                        <td style="display: table-cell;"><img style="width:100px; height:100px;" 
+                                        <td style="display: table-cell;"><img style="width:50px; height:50px;" 
                                             src="<?php echo base_url();?>store_img/<?php echo $store_name_2;?>/images/<?php echo $store_logo;?>" 
                                             alt=""><br> <?php echo $store_name;?>
                                         </td>

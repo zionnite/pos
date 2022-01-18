@@ -53,12 +53,12 @@
 									</td>
 									
 									<td>
-										<a href="#edit_store" class="btn btn-info btn-sm" data-toggle="modal">Edit
+										<a href="#edit_store" class="label label-info" data-toggle="modal"><i class="fa fa-pen"></i> Edit
 											Store</a>
 									</td>
 									<td>
-										<a href="javascript:;" class="btn btn-danger btn-sm" id="delete_store"
-											data-store_id="<?php echo $store_id;?>">Delete</a>
+										<a href="javascript:;" class="label label-danager" id="delete_store"
+											data-store_id="<?php echo $store_id;?>"><i class="fa fa-trash"></i> Delete</a> Delete</a>
 									</td>
 								</tbody>
 						</div>

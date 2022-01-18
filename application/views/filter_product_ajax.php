@@ -1,10 +1,11 @@
+<div class="table-responsive">
 <table class="table table-striped footable footable-1 footable-paging footable-paging-center breakpoint-lg" style="">
 	<thead>
 		<tr class="footable-header">
 			<th class="footable-sortable footable-first-visible" style="display: table-cell;">
 				S/N<span class="fooicon fooicon-sort"></span></th>
 
-			<th class="footable-sortable footable-first-visible" style="display: table-cell;">Barcode
+			<th class="footable-sortable footable-first-visible" style="display: table-cell;">Product Image
 				<span class="fooicon fooicon-sort"></span></th>
 
 			<th class="footable-sortable footable-first-visible" style="display: table-cell;">Product Name
@@ -16,9 +17,6 @@
 					class="fooicon fooicon-sort"></span></th>
 
 			<th data-breakpoints="xs" class="footable-sortable" style="display: table-cell;">Selling Price<span
-					class="fooicon fooicon-sort"></span></th>
-
-			<th data-breakpoints="xs" class="footable-sortable" style="display: table-cell;">Wholesale Price<span
 					class="fooicon fooicon-sort"></span></th>
 
 			<th data-breakpoints="xs" class="footable-sortable" style="display: table-cell;">Category<span
@@ -77,21 +75,20 @@
 		<tr>
 			<td><?php echo $i++;?></td>
 			<td>
-				<img style="height:100px;width:100px"
+				<img style="height:50px;width:50px"
 					src="<?php echo base_url();?>store_img/<?php echo $store_name_2;?>/product/<?php echo $prod_image;?>"
 					alt="">
-				<br /><?php echo $prod_name;?>
+				
 			</td>
 			<td><?php echo $prod_name;?></td>
 			<td><?php echo $currency.$this->cart->format_number($prod_cost);?></td>
 			<td><?php echo $currency.$this->cart->format_number($prod_price);?></td>
-			<td><?php echo $currency.$this->cart->format_number($prod_whole);?></td>
 			<td><?php echo $cat_name;?><br /> <small style="color:red;"><?php echo $sub_cat_name;?></small></td>
 			<td><?php echo $prod_bunk;?></td>
 			<td><?php echo $date;?></td>
 			<td>
 				<a href="javascript:;" id="delete_branch_<?php echo $prod_id;?>" data-id="<?php echo $prod_id;?>"
-					class="btn btn-danger btn-sm">Delete</a>
+					class="label label-danger"><i class="fa fa-trash"></i> Delete</a>
 			</td>
 		</tr>
 
@@ -161,6 +158,7 @@
 		
 	</tfoot>
 </table>
+</div>
 
 <?php 
     if(!is_array($get_info)){

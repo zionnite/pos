@@ -36,31 +36,25 @@
 
 										<th data-breakpoints="xs" class="footable-sortable"
 											style="display: table-cell;"></th>
-										<th data-breakpoints="xs" class="footable-sortable"
-											style="display: table-cell;"></th>
-										<th data-breakpoints="xs" class="footable-sortable"
-											style="display: table-cell;"></th>
+								
 									</tr>
 								</thead>
 								<tbody>
 									<td>
-										<img style="width:100px; height:100px;"
+										<img style="width:50px; height:50px;"
 											src="<?php echo base_url();?>store_img/<?php echo $store_name_2;?>/images/<?php echo $store_logo;?>"
 											alt=""> <br> <?php echo $store_name;?>
 									</td>
 
 									<td>
-										<a href="<?php echo base_url();?>Office/open_branch_store/<?php echo $store_id;?>" class="btn btn-inverse btn-sm"><i class="fa fa-boxes"></i>Manage
+										<a href="<?php echo base_url();?>Office/open_branch_store/<?php echo $store_id;?>" class="label label-inverse"><i class="fa fa-boxes"></i> Manage
 											Store Branch</a>
-									</td>
-
-									<td>
-										<a href="#edit_store" class="btn btn-info btn-sm" data-toggle="modal"><i class="fa fa-pen"></i>Edit
+									
+										<a href="#edit_store" class="label label-info" data-toggle="modal"><i class="fa fa-pen"></i> Edit
 											Store</a>
-									</td>
-									<td>
-										<a href="javascript:;" class="btn btn-danger btn-sm" id="delete_store"
-											data-store_id="<?php echo $store_id;?>"><i class="fa fa-trash"></i>Delete</a>
+								
+										<a href="javascript:;" class="label label-danger" id="delete_store"
+											data-store_id="<?php echo $store_id;?>"><i class="fa fa-trash"></i> Delete</a>
 									</td>
 								</tbody>
 						</div>

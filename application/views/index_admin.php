@@ -46,7 +46,7 @@
 									<div class="col">
 										<h3 class="m-b-0">Number</h3>
 										<p>Store</p>
-										<h4><?php echo $this->cart->format_number($count_store);?></h3>
+										<h4><?php echo $count_store;?></h3>
 
 									</div>
 								</div>

@@ -168,7 +168,7 @@
 							</div>
                             
                             <a data-toggle="modal" href="#large-Modal" class="btn btn-danger"
-								style="margin-bottom:1%; float:left;"><i class="fa fa-plus"></i>Add Supplier</a>
+								style="margin-bottom:1%; float:left;"><i class="fa fa-plus"></i> Add Supplier</a>
 
                             <div id="dataList">
                                 

@@ -7,8 +7,8 @@
 				<?php $this->load->view('short_statics');?>
 				<!-- task, page, download counter  end -->
 
-				<a data-toggle="modal" href="#large-Modal" class="col-md-12 btn btn-danger btn-block"
-					style="margin:1%;">Add Plan</a>
+				<a data-toggle="modal" href="#large-Modal" class="btn btn-danger"
+					style="margin:1%;"><i class="fa fa-plus"></i>Add Plan</a>
 
 				<div class="col-md-12" id="slideshow">
 					<div class="card" id="slide_show">
@@ -83,8 +83,9 @@
 										<td><?php echo $currency.$this->cart->format_number($amount);?></td>
 										
 										<td>
+											<a href="<?php echo base_url();?>Dashboard/edit_plan/<?php echo $id;?>" class="label label-primary"><i class="fa fa-pen"></i>  Edit</a>
 											<a href="javascript:;" id="delete_branch_<?php echo $id;?>"
-												data-id="<?php echo $id;?>" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i>Delete</a>
+												data-id="<?php echo $id;?>" class="label label-danger"><i class="fa fa-trash"></i> Delete</a>
 										</td>
 									</tr>
 

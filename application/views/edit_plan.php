@@ -6,7 +6,7 @@
 				<div class="col-lg-8">
 					<div class="page-header-title">
 						<div class="d-inline">
-							<h4>Update Site Details</h4>
+							<h4>Update Plan</h4>
 						</div>
 					</div>
 				</div>
@@ -18,8 +18,8 @@
 							</li>
 							<li class="breadcrumb-item" style="float: left;"><a href="javascript:;">Site Setting</a>
 							</li>
-							<li class="breadcrumb-item" style="float: left;"><a href="javascript:;">Update Site
-									Details</a> </li>
+							<li class="breadcrumb-item" style="float: left;"><a href="javascript:;">Update Plan
+									</a> </li>
 						</ul>
 					</div>
 				</div>
@@ -32,63 +32,42 @@
 					<div class="card" id="">
 						<div class="card-block">
 							<?php
-								$site_name 			=$this->Admin_db->get_site_name();
-								$site_logo			=$this->Admin_db->get_site_logo();
-								$site_phone 		=$this->Admin_db->get_site_phone();
-								$site_email 		=$this->Admin_db->get_site_email();
+								$plan_name 			=$this->Admin_db->get_plan_name($plan_id);
+								$num_store			=$this->Admin_db->get_plan_num_store($plan_id);
+								$amount     		=$this->Admin_db->get_plan_amount($plan_id);
 							?>
 
 							<form id="uploadForm" enctype="multipart/form-data">
 								
 								<div class="form-group row">
-									<label class="col-sm-2 col-form-label">Site Name</label>
+									<label class="col-sm-2 col-form-label">Plan Name</label>
 									<div class="col-sm-10">
-										<input type="text" name="site_name" id="site_name" class="form-control" value="<?php echo $site_name;?>">
+										<input type="text" name="plan_name" id="plan_name" class="form-control" value="<?php echo $plan_name;?>">
 									</div>
 								</div>
 								<div class="form-group row">
-									<label class="col-sm-2 col-form-label">Site Phone</label>
+									<label class="col-sm-2 col-form-label">Number of Store</label>
 									<div class="col-sm-10">
-										<input type="text" name="phone" id="phone" class="form-control" value="<?php echo $site_phone;?>">
+										<input type="number" name="num_store" id="num_store" class="form-control" value="<?php echo $num_store;?>">
 									</div>
 								</div>
 								<div class="form-group row">
-									<label class="col-sm-2 col-form-label">Site Email</label>
+									<label class="col-sm-2 col-form-label">Amount</label>
 									<div class="col-sm-10">
-										<input type="text" name="email" id="email" class="form-control" value="<?php echo $site_email;?>">
+										<input type="number" name="amount" id="amount" class="form-control" value="<?php echo $amount;?>">
+                                        <input type="hidden" name="plan_id" value="<?php echo $plan_id;?>">
 									</div>
 								</div>
 
-								<div class="form-group row">
-									<label class="col-sm-2 col-form-label">Site Logo</label>
-									<div class="col-sm-10">
-										<input type="file" name="file" id="fileInput" class="form-control">
-										<!-- <small><b style="color:red;">Note: Width must be 150px and Height must 30px</b></small> -->
-										<small><b style="color:red;">Note: Width must be 220px and Height must 75px</b></small>
-									</div>
-								</div>
-
-								<div class="form-group row">
-
-									<label class="col-sm-2 col-form-label">&nbsp;</label>
-									<div class="col-sm-10">
-										<?php
-											if(isset($site_logo)){?>
-												<img class="" style="width:220px; height:75px;" src="<?php echo base_url();?>files/site_logo/<?php echo $site_logo;?>" alt="">
-										<?php
-											}
-
-										?>
-									</div>
-									
-								</div>
+								
+							
 
 								<div class="form-group row">
 
 									<label class="col-sm-2 col-form-label">&nbsp;</label>
 									<div class="col-sm-10">
 										<input type="submit" class="btn btn-primary waves-effect waves-light"
-										value="Update Site Details">
+										value="Update Plan">
 									</div>
 									
 								</div>
@@ -130,7 +109,7 @@
 					return xhr;
 				},
 				type: 'POST',
-				url: '<?php echo base_url();?>Dashboard/update_site_details',
+				url: '<?php echo base_url();?>Dashboard/update_plan',
 				data: new FormData(this),
 				contentType: false,
 				cache: false,
@@ -160,7 +139,7 @@
 						$('#slideshow').load('<?php echo base_url();?>Dashboard/settings_2').fadeIn(1000);
 						swal({
 							title: "Success",
-							text: "Site Details Updated!",
+							text: "Plan Details Updated!",
 							icon: "success",
 							closeOnClickOutside: false,
 

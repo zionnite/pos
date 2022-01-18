@@ -739,8 +739,8 @@ class Action extends My_Model{
 	}
 
 	/*Creaate Product*/
-	public function create_product($img_file_name,$store_id,$store_name,$branch_id,$branch_name,$store_owner_id,$prod_name,$prod_size,$prod_bunk,$prod_cat,$prod_sub_cat,$prod_color,$prod_sup,/*$prod_brand,*/$prod_desc,$prod_cost,$prod_price,
-	$prod_whole,$prod_weight,$prod_discount,$metal_title,$metal_key,$metal_desc){
+	public function create_product($img_file_name,$store_id,$store_name,$branch_id,$branch_name,$store_owner_id,$prod_name,$prod_size,$prod_bunk,$prod_cat,$prod_sub_cat,$prod_color,$prod_sup,/*$prod_brand,*/$prod_desc,$prod_cost,$prod_price/*,
+	$prod_whole,$prod_weight,$prod_discount ,$metal_title,$metal_key,$metal_desc*/){
 
 		$data		=array('store_id'=>$store_id,
 			  			   'store_name'=>$store_name,
@@ -758,13 +758,13 @@ class Action extends My_Model{
 						   'prod_desc'=>$prod_desc,
 						   'prod_cost'=>$prod_cost,
 						   'prod_price'=>$prod_price,
-						   'prod_whole'=>$prod_whole,
-						   'prod_weight'=>$prod_weight,
-						   'prod_discount'=>$prod_discount,
+						//    'prod_whole'=>$prod_whole,
+						//    'prod_weight'=>$prod_weight,
+						//    'prod_discount'=>$prod_discount,
 						   'prod_image'=>$img_file_name,
-						   'meta_title'=>$metal_title,
-						   'meta_key'=>$metal_key,
-						   'meta_desc'=>$metal_key,
+						//    'meta_title'=>$metal_title,
+						//    'meta_key'=>$metal_key,
+						//    'meta_desc'=>$metal_key,
 						   'date_created'=>date('Y-m-d'),
 						   'time'=>time(),
 						);

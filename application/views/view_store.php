@@ -15,9 +15,9 @@
                 <div class="col-sm-6">
 					<div class="card bg-c-yellow text-white widget-visitor-card">
 						<div class="card-block-small text-center">
-							<h2><?php echo $this->cart->format_number($count_store);?></h2>
+							<h2><?php echo $count_store;?></h2>
 							<h6>Number Of Store</h6>
-							<i class="feather icon-user"></i>
+							<i class="fa fa-shopping-cart"></i>
 						</div>
 					</div>
 				</div>
@@ -25,7 +25,7 @@
                 <div class="col-sm-6">
 					<div class="card bg-c-blue text-white widget-visitor-card">
 						<div class="card-block-small text-center">
-							<h2><?php echo $this->cart->format_number($count_store_owner);?></h2>
+							<h2><?php echo $count_store_owner;?></h2>
 							<h6>Total Store Owner</h6>
 							<i class="feather icon-user"></i>
 						</div>
@@ -123,9 +123,9 @@
 										<td><?php echo $count_dis_user_number_of_store;?></td>
 										<td>
 											<a href="<?php echo base_url();?>Dashboard/more_about_store_owner/<?php echo $id;?>"
-											 class="btn btn-success btn-sm"><i class="fa fa-door-open"></i>View More</a>
+											 class="label label-success"><i class="fa fa-door-open"></i> View More</a>
 											<a href="javascript:;" id="delete_branch_<?php echo $id;?>"
-												data-id="<?php echo $id;?>" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i>Delete</a>
+												data-id="<?php echo $id;?>" class="label label-danger"><i class="fa fa-trash"></i> Delete</a>
 										</td>
 									</tr>
 

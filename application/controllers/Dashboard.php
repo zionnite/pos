@@ -161,7 +161,7 @@ class Dashboard extends My_Controller {
 				}
 			}  
     	}else{
-			echo 'hello';
+			echo 'failed';
 		}
      
         
@@ -243,5 +243,33 @@ class Dashboard extends My_Controller {
         else{
            echo $action;
         }
+	}
+
+	public function edit_plan($id =NULL){
+		$this->session_checker->auto_logout();
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['user_status']            =$this->session->userdata('user_status');
+
+		$data['plan_id']                     =$id;
+
+    
+		$data['content']	='edit_plan';
+		$this->load->view($this->layout,$data);
+	}
+
+	public function update_plan(){
+		$plan_name		=$this->input->post('plan_name');
+		$num_store 		=$this->input->post('num_store');
+		$amount			=$this->input->post('amount');
+		$plan_id 		=$this->input->post('plan_id');
+
+		$action 		=$this->Admin_db->update_plan($plan_name,$num_store,$amount,$plan_id);
+		if($action){
+			echo 'ok';
+		}else{
+			echo 'err';
+		}
+
 	}
 }

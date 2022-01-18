@@ -60,7 +60,7 @@
 										<td><?php echo $branch_name;?></td>
 										<td><?php echo $date;?></td>
 										<td>
-											<a href="javascript:;" id="delete_branch_<?php echo $id;?>" data-branch_id="<?php echo $id;?>" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i>Delete</a>
+											<a href="javascript:;" id="delete_branch_<?php echo $id;?>" data-branch_id="<?php echo $id;?>" class="label label-danger"><i class="fa fa-trash"></i> Delete</a>
 										</td>
 									</tr>
 

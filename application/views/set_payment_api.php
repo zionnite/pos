@@ -31,24 +31,38 @@
 					<div class="card" id="">
 						<div class="card-block">
 
+						<?php
+
+						$public_key        =$this->Admin_db->get_public_live_key();
+						$private_key       =$this->Admin_db->get_private_live_key();
+						//$full_name         =str_replace(" ","_",$full_name);
+						$token  =time();
+							
+						?>
+
 							<form id="uploadForm" enctype="multipart/form-data">
 								
 								<div class="form-group row">
 									<label class="col-sm-2 col-form-label">Public Live Key</label>
 									<div class="col-sm-10">
-										<input type="text" name="public" id="public" class="form-control">
+										<input type="text" name="public" id="public" class="form-control" value="<?php echo $public_key;?>">
 									</div>
 								</div>
 								<div class="form-group row">
 									<label class="col-sm-2 col-form-label">Prive or Seceret Live Key</label>
 									<div class="col-sm-10">
-										<input type="text" name="private" id="private" class="form-control">
+										<input type="text" name="private" id="private" class="form-control" value="<?php echo $private_key;?>">
 									</div>
 								</div>
 								
 
-								<input type="submit" class="btn btn-primary waves-effect waves-light"
-									value="Update Payment API">
+								<div class="form-group row">
+									<div class="col-sm-2">&nbsp;</div>
+									<div class="col-sm-10">
+										<input type="submit" class="btn btn-primary waves-effect waves-light"
+										value="Update Payment API">
+									</div>
+								</div>
 							</form>
 						</div>
 					</div>

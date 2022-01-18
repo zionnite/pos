@@ -68,10 +68,10 @@
 
 
 													<input type="text" name="prod_size" id="prod_size"
-														class="form-control" value="S,M, L, XXL, XXXL"
+														class="form-control" placeholder="S,M, L, XXL, XXXL"
 														data-role="tagsinput" style="display: none;" required>
 													<br />
-													<small style="color:red;">Enter size by comma (,)</small>
+													<small style="color:red;">Enter size separated by comma (,)</small>
 												</div>
 											</div>
 											<div class="form-group row">
@@ -92,10 +92,10 @@
 												</div>
 												<div class="col-sm-12">
 													<input type="text" name="prod_color" id="prod_color"
-														class="form-control" value="red,green" data-role="tagsinput"
+														class="form-control" placeholder="red,green" data-role="tagsinput"
 														style="display: none;" required>
 													<br />
-													<small style="color:red;">Enter color by comma (,)</small>
+													<small style="color:red;">Enter Colour separated by comma (,)</small>
 												</div>
 											</div>
 
@@ -104,16 +104,18 @@
 													<label for="prod_color" class="block">Product Description *</label>
 												</div>
 												<div class="col-sm-12">
-													<textarea id="summernote" name="prod_desc" class="form-control" required>Hello Summernote
-													</textarea>
+													<textarea id="summernote" name="prod_desc" class="form-control" required></textarea>
 												</div>
 
 											</div>
 
+											<!-- <div class="col-sm-12"> -->
+												<a href="javascript:;" id="moveToSecond" class="btn btn-danger">Move To Next</a>
+											<!-- </div> -->
 											
 										</div>
 
-                                        <a href="javascript:;" id="moveToSecond" class="btn btn-danger">Move To Next</a>
+                                        
 									</div>
 								</div>
 							</div>
@@ -322,13 +324,11 @@
 
 											
 
-											<div class="card-block">
-												<div class="row">
-													<div class="col-md-12"></div>
-												</div>
-											</div>
+										
+
+											<a href="javascript:;" id="moveToThird" class="btn btn-danger">Move To Next</a>
 										</div>
-										<a href="javascript:;" id="moveToThird" class="btn btn-danger">Move To Next</a>
+										
 									</div>
 								</div>
 
@@ -370,7 +370,7 @@
 												</div>
 											</div>
 
-											<div class="form-group row">
+											<!-- <div class="form-group row">
 												<div class="col-sm-12">
 													<label for="prod_whole" class="block">Whosale Price *</label>
 												</div>
@@ -398,11 +398,13 @@
 													<input type="number" id="prod_discount" name="prod_discount"
 														class="form-control" required>
 												</div>
-											</div>
+											</div> -->
 
+
+											<a href="javascript:;" id="moveToForth" class="btn btn-danger">Move To Next</a>
 										</div>
 
-										<a href="javascript:;" id="moveToForth" class="btn btn-danger">Move To Next</a>
+										
 									</div>
 								</div>
 							</div>
@@ -423,16 +425,22 @@
 											<input type="file" class="form-control" id="file" name="file" required>
 											<small style="color:red;">You can add multiple image later</small>
 
+
+											
 										</div>
 
-                                        <a href="javascript:;" id="moveToFifth" class="btn btn-danger">Move To Next</a>
+										<div class="col-md-12" style="margin-top:1%;">
+										<!-- <a href="javascript:;" id="moveToFifth" class="btn btn-danger">Move To Next</a> -->
+											<input type="submit" class="btn btn-success" value="Submit Product" id="submit" name="submit">
+										</div>
+                                        
 									</div>
 								</div>
 							</div>
 						</div>
 
 
-						<div class="col-sm-12" id="fifth">
+						<!-- <div class="col-sm-12" id="fifth">
 							<div class="card">
 								<div class="card-header">
 									<h5>Meta Data Information</h5>
@@ -474,15 +482,16 @@
 												</div>
 											</div>
 
+											
 										</div>
 
 
-                                        <input type="submit" class="btn btn-success" value="Submit Product" id="submit" name="submit">
+                                        
 									</div>
 								</div>
 							</div>
 
-						</div>
+						</div> -->
 
 
 					</div>
