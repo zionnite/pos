@@ -22,7 +22,7 @@ class Office extends My_Controller {
 
         $checker                        =$this->Action->check_if_user_select_plan($data['user_id']);
 
-        if($checker){
+        if(!$checker){
             redirect('Plans');
         }
 
