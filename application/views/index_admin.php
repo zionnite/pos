@@ -13,7 +13,7 @@
 			<div class="row">
 				<!-- task, page, download counter  start -->
 
-				<div class="col-xl-6 col-md-6">
+				<div class="col-xl-4 col-md-4">
 					<a href="<?php echo base_url();?>Dashboard/view_plan" style="color:white;">
 						<div class="card social-card bg-simple-c-blue">
 							<div class="card-block">
@@ -35,7 +35,7 @@
 					</a>
 				</div>
 
-				<div class="col-xl-6 col-md-6">
+				<div class="col-xl-4 col-md-4">
 					<a href="<?php echo base_url();?>Dashboard/manage_store" style="color:white;">
 						<div class="card social-card bg-simple-c-pink">
 							<div class="card-block">
@@ -44,7 +44,7 @@
 										<i class="fa fa-store f-34 text-c-pink social-icon"></i>
 									</div>
 									<div class="col">
-										<h3 class="m-b-0">Number</h3>
+										<h3 class="m-b-0">Total</h3>
 										<p>Store</p>
 										<h4><?php echo $count_store;?></h3>
 
@@ -57,7 +57,7 @@
 					</a>
 				</div>
 
-				<div class="col-xl-6 col-md-6">
+				<div class="col-xl-4 col-md-4">
 					<a href="<?php echo base_url();?>Dashboard/set_payment_api" style="color:white;">
 						<div class="card social-card bg-simple-c-yellow">
 							<div class="card-block">

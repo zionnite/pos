@@ -11,6 +11,7 @@
 	<div class="page-wrapper">
 
 		<div class="page-body">
+			<?php echo isset($main_alert)?$main_alert:NULL;?>
 			<div class="row">
 				<!-- task, page, download counter  start -->
 

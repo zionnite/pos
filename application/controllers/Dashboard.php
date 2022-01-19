@@ -216,6 +216,18 @@ class Dashboard extends My_Controller {
 		$data['content']	='more_about_store';
 		$this->load->view($this->layout,$data);
 	}
+	public function more_about_store_owner_2($store_owner_id =NULL){
+		$this->session_checker->auto_logout();
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['user_status']            =$this->session->userdata('user_status');
+
+
+    
+		$data['store_owner_id']			=$store_owner_id;
+		$data['content']	='more_about_store_2';
+		$this->load->view($data['content'],$data);
+	}
 
 	public function update_password(){
 		$user_name         		=$this->session->userdata('user_name');
@@ -271,5 +283,35 @@ class Dashboard extends My_Controller {
 			echo 'err';
 		}
 
+	}
+
+	public function suspend_store($id=NULL){
+		$action    =$this->Admin_db->suspend_store($id);
+        if($action){
+            echo 'ok';
+        }else{
+            echo 'err';
+        }
+	}
+	public function unsuspend_store($id=NULL){
+		$action    =$this->Admin_db->unsuspend_store($id);
+        if($action){
+            echo 'ok';
+        }else{
+            echo 'err';
+        }
+	}
+
+	public function view_store_detail($store_id =NULL){
+		$this->session_checker->auto_logout();
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['user_status']            =$this->session->userdata('user_status');
+
+
+    
+		$data['store_id']			=$store_id;
+		$data['content']	='view_store_detail';
+		$this->load->view($this->layout,$data);
 	}
 }

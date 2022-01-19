@@ -11,7 +11,7 @@ class Office extends My_Controller {
 	public function index(){
         $this->session_checker->auto_logout();
         
-        $data['alert']			        =$this->session->flashdata('alert');
+        $data['main_alert']			        =$this->session->flashdata('main_alert');
 
         $data['phone_no']         		=$this->session->userdata('phone_no');
 		$data['user_id']         		=$this->session->userdata('user_id');
@@ -22,7 +22,7 @@ class Office extends My_Controller {
 
         $checker                        =$this->Action->check_if_user_select_plan($data['user_id']);
 
-        if(!$checker){
+        if($checker){
             redirect('Plans');
         }
 

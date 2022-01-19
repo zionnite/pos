@@ -16,7 +16,7 @@
 					<div class="card bg-c-yellow text-white widget-visitor-card">
 						<div class="card-block-small text-center">
 							<h2><?php echo $count_store;?></h2>
-							<h6>Number Of Store</h6>
+							<h6>Total Store</h6>
 							<i class="fa fa-shopping-cart"></i>
 						</div>
 					</div>

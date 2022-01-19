@@ -326,4 +326,25 @@ class Admin_db extends My_Model{
         }
         return false;
     }
+
+    public function suspend_store($id){
+        $data       =array('store_status'=>'suspend');
+        $this->db->set($data);
+        $this->db->where('id',$id);
+        $this->db->update('office_store');
+        if($this->db->affected_rows() > 0){
+            return true;
+        }
+        return false;
+    }
+    public function unsuspend_store($id){
+        $data       =array('store_status'=>'normal');
+        $this->db->set($data);
+        $this->db->where('id',$id);
+        $this->db->update('office_store');
+        if($this->db->affected_rows() > 0){
+            return true;
+        }
+        return false;
+    }
 }

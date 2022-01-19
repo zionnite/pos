@@ -373,4 +373,14 @@ class Login_user extends My_Model{
 		}
 		return false;
 	}
+
+	public function check_if_store_is_suspended($store_id){
+		$this->db->where('id',$store_id);
+		$this->db->where('store_status','suspend');
+		$this->db->get('office_store');
+		if($this->db->affected_rows() > 0){
+			return true;
+		}
+		return false;
+	}
 }

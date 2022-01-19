@@ -39,7 +39,7 @@
 			<div class="row">
 
 
-				<div class="card">
+				<div class="card col-md-12">
 					<div class="card-block">
 						<div class="row" id="">
 
@@ -57,8 +57,8 @@
                         ?>
 							<div class="col-lg-12 col-xl-3"  style="margin-top:1.5%;">
 								<div class="card-sub">
-									<img class="card-img-top img-fluid"
-										src="<?php echo base_url();?>files/assets/images/card-block/card1.jpg" alt="Card image cap">
+									<!-- <img class="card-img-top img-fluid"
+										src="<?php echo base_url();?>files/assets/images/card-block/card1.jpg" alt="Card image cap"> -->
 									<div class="card-block">
 										<h4 class="card-title"><?php echo $title;?></h4>
                                         <div style="margin-top:1.5%;">

@@ -271,6 +271,16 @@ class Action extends My_Model{
 		return false;
 	}
 
+	
+	public function get_my_store_supervisor_by_store_id($store_id){
+		$this->db->where(array('store_id'=>$store_id));
+		$query		=$this->db->get('supervisor');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
+
 	/*Sales Rep*/
 	public function create_sales_rep($store_id,$branch_id,$name,$email,$phone,$password){
 		$store_owner_id 			=$this->get_store_owner_id_by_store_id($store_id);
@@ -336,6 +346,15 @@ class Action extends My_Model{
 		return false;
 	}
 
+	
+	public function get_my_store_sales_rep_by_store_id($store_id){
+		$this->db->where(array('store_id'=>$store_id));
+		$query		=$this->db->get('sales_rep');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
 
 	/*Customer*/
 	public function count_customers($search){
@@ -2478,6 +2497,15 @@ class Action extends My_Model{
 		return $this->db->from('branch_office')->count_all_results();
 	}
 
+	public function count_store_supervisor_by_admin($store_id){
+		$this->db->where('store_id',$store_id);
+		return $this->db->from('supervisor')->count_all_results();
+	}
+	public function count_store_staff_by_admin($store_id){
+		$this->db->where('store_id',$store_id);
+		return $this->db->from('sales_rep')->count_all_results();
+	}
+
 	public function count_total_customers(){
 		$user_id		         		=$this->session->userdata('user_id');
         $store_id		                =$this->session->userdata('store_id');
@@ -2502,5 +2530,12 @@ class Action extends My_Model{
 
 
 	}
+
+	//Count Store Owner Params
+	public function count_store_by_store_owner_id($store_owner_id){}
+	public function count_branch_by_store_owner_id($store_owner_id){}
+	public function count_item_sold_by_store_owner_id($store_owner_id){}
+	public function count_transaction_by_store_owner_id($store_owner_id){}
+
 
 }

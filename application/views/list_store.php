@@ -43,6 +43,7 @@
                             $store_name_2     =$row['store_name_2'];
                             $date           =$row['date_created'];
                             $time           =$row['time'];
+							$store_status	=$row['store_status'];
                     
                 ?>
 					<tr>
@@ -57,6 +58,10 @@
 					
 							<a href="javascript:;" class="label label-danger" id="delete_store_<?php echo $id;?>"
 								data-store_id="<?php echo $id;?>"><i class="fa fa-trash"></i> Delete</a>
+
+							<?php if($store_status =='suspend'){?>
+								<a href="javascript:;" class="label label-danger"><i class="fa fa-stop-circle"></i> Suspended</a>
+							<?php }?>
 						</td>
 					</tr>
 
