@@ -30,3 +30,27 @@
 <script type="text/javascript" src="<?php echo base_url();?>files/assets/js/modalEffects.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>files/assets/js/classie.js"></script>
 
+
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        setInterval(function() { 
+            $.ajax({
+                url: '<?php echo base_url();?>CheckSession/check_session',
+                type: 'POST',
+                data: {dis_current_url:'<?php echo current_url();?>'},
+                success: function(data) {
+                    if(data =='inactivity'){
+                        window.location = '<?php echo base_url();?>Login';
+                    }
+                    
+                }
+            });
+        },5000);
+    });
+
+</script>
+
+
+

@@ -94,8 +94,8 @@ class Session_checker{
 
 		if(isset($user_name)) {  
 			if((time() - $last_login_timestamp) > 900) {  
-				$this->CI->Admin_db->update_user_activity($email,$status,$current_path,'inactivity');
-				redirect(base_url().'Login');
+				// $this->CI->Admin_db->update_user_activity($email,$status,$current_path,'inactivity');
+				// redirect(base_url().'Login');
 			}else{  
 
 				$this->CI->Admin_db->update_user_activity($email,$status,$current_path,'normal');
@@ -108,6 +108,9 @@ class Session_checker{
 			redirect(base_url().'Login');
 		}
 	}
+
+
+	
 
 
 }
