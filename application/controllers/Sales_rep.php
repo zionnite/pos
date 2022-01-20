@@ -44,12 +44,18 @@ class Sales_rep extends My_Controller {
 		
 		if($this->input->post('search_term')){
 			$search_term	=$this->input->post('search_term');
+
+            
 		}
-		$data['get_product']		=$this->Action->search_product_N_add_to_cart($data['store_id'],$data['branch_id'],$data['store_owner_id'],$search_term);
+
+        $data['get_product']		=$this->Action->search_product_N_add_to_cart($data['store_id'],$data['branch_id'],$data['store_owner_id'],$search_term);
+        $data['content']	='add_sales_cart_ajax';
+		$this->load->view($data['content'],$data);
+		
 		
 
-		$data['content']	='add_sales_cart_ajax';
-		$this->load->view($data['content'],$data);
+        
+		
 	}
 
 

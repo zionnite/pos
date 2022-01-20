@@ -54,9 +54,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /*Sales*/
 $route['Pos']                                                          ='Sales_Dashboard';
 $route['Pos/add_sales']                                                ='Sales_Dashboard/add_sales';
-$route['Pos/cart']                                                     ='Sales_Dashboard/add_sales';
+$route['Pos/cart']                                                     ='Sales_Dashboard/load_sales_cart';
 $route['Pos/history']                                                  ='Sales_Dashboard/transaction_history';
-$route['Pos/view_invoice/(:any)']                                      ='Sales_Dashboard/load_sales_cart';
+$route['Pos/view_invoice/(:any)']                                      ='Sales_Dashboard/view_invoice/$1';
 
 
 /*Manager*/

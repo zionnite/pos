@@ -102,7 +102,7 @@
                                                                     data-id="<?php echo $id;?>" class="label label-danger"><i class="fa fa-lock"></i> Suspend</a>
                                                             <?php }elseif($store_status =='suspend'){?>
 
-                                                                <a href="javascript:;" id="delete_branch_<?php echo $id;?>"
+                                                                <a href="javascript:;" id="undelete_branch_<?php echo $id;?>"
                                                                     data-id="<?php echo $id;?>" class="label label-info"><i class="fa fa-lock-open"></i> Remove Suspension</a>
                                                             <?php
                                                             }?>
@@ -140,6 +140,60 @@
                                                                                         swal({
                                                                                             title: "Success",
                                                                                             text: "Store has been place on Suspension",
+                                                                                            icon: "success",
+                                                                                            closeOnClickOutside: false,
+
+                                                                                        });
+
+                                                                                    } else if (resp == 'err') {
+
+                                                                                        swal({
+                                                                                            title: "Oops!",
+                                                                                            text: "Database Could not connect to server!",
+                                                                                            icon: "info",
+                                                                                            closeOnClickOutside: false,
+
+                                                                                        });
+
+                                                                                    }
+                                                                                }
+                                                                            });
+
+                                                                        } 
+                                                                    });
+                                                            });
+
+                                                        });
+
+                                                    </script>
+
+                                                    <script>
+                                                        $(document).ready(function () {
+                                                            $('#undelete_branch_<?php echo $id;?>').click(function (e) {
+                                                                e.preventDefault();
+                                                                var id = $(this).data('id');
+                                                                swal({
+                                                                        title: "Are you sure you want to Remove Suspension from this STORE?",
+                                                                        icon: "warning",
+                                                                        buttons: true,
+                                                                        dangerMode: true,
+                                                                    })
+                                                                    .then((willDelete) => {
+                                                                        if (willDelete) {
+
+                                                                            $.ajax({
+                                                                                type: 'POST',
+                                                                                url: '<?php echo base_url();?>Dashboard/unsuspend_store/' +
+                                                                                    id,
+
+                                                                                success: function (resp) {
+                                                                                    if (resp == 'ok') {
+
+                                                                                        $('#dataList').load('<?php echo base_url();?>Dashboard/more_about_store_owner_2/<?php echo $store_owner_id;?>');
+
+                                                                                        swal({
+                                                                                            title: "Success",
+                                                                                            text: "Suspension Removed",
                                                                                             icon: "success",
                                                                                             closeOnClickOutside: false,
 

@@ -53,4 +53,24 @@
 </script>
 
 
+<script>
+	$('document').on('load', load_cart());
+      
+        function load_cart() {
+        	var search_term = $('#search_term').val();
+			var dataString = 'search_term=' + search_term;
+			// alert(dataString);
+			$.ajax({
+				type: "POST",
+				url: "<?php echo base_url();?>Sales_rep/add_sales_cart_ajax",
+				data: dataString,
+				cache: false,
+				success: function (html) {
+					$("#dataList").html(html);
+
+				}
+			});
+    	}
+</script>
+
 
