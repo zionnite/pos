@@ -66,7 +66,7 @@
 				data: dataString,
 				cache: false,
 				success: function (html) {
-					$("#dataList").html(html);
+					$(".dataList").html(html);
 
 				}
 			});
