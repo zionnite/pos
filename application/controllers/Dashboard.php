@@ -10,6 +10,7 @@ class Dashboard extends My_Controller {
 		$this->session_checker->auto_logout();
 		$data['user_id']         		=$this->session->userdata('user_id');
 		$data['user_name']         		=$this->session->userdata('user_name');
+		$data['email']         		=$this->session->userdata('email');
         $data['user_status']            =$this->session->userdata('user_status');
 
     

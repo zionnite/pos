@@ -2,6 +2,8 @@
 class Action extends My_Model{
 	public function __construct(){
 		parent::__construct();
+
+		$this->load->model('Admin_db');
 	}
 	
 
@@ -796,6 +798,29 @@ class Action extends My_Model{
 		return false;
 	}
 
+	public function current_stock($prod_id){
+		$this->db->where('prod_id',$prod_id);
+		$query			=$this->db->get('product_tbl');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['prod_bunk'];
+			}
+		}
+		return false;
+	}
+	public function re_stock_product($prod_id,$qty){
+		$current_stock 		=$this->current_stock($prod_id);
+		$new_stock 	=$qty+$current_stock;
+		$data =array('prod_bunk'=>$new_stock);
+		$this->db->set($data);
+		$this->db->where('prod_id',$prod_id);
+		$this->db->update('product_tbl');
+		if($this->db->affected_rows() > 0){
+			return true;
+		}
+		return false;
+	}
+
 	public function get_store_supplier_by_branch_store_id($branch_id){
 		$this->db->where('branch_store_id',$branch_id);
 		$query		=$this->db->get('suppliers_tbl');
@@ -1415,6 +1440,7 @@ class Action extends My_Model{
 			$this->db->where('store_id',$store_id);
 			$this->db->where('branch_id',$branch_id);
 			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('prod_bunk >', 0);
 			$this->db->like('prod_name',$this->db->escape_like_str($search_term,'both'));
 
 			$this->db->order_by('prod_name','desc');
@@ -1501,6 +1527,10 @@ class Action extends My_Model{
 								'branch_id'			=> $branch_id,
 								'invoice'			=> $invoice_no,
 								'store_owner_id'	=> $store_owner_id,
+								'day'				=> date('d'),
+								'month'				=> date('M'),
+								'year'				=> date('Y'),
+
 						);
 		$this->db->set($data);
 		$this->db->insert('transaction_history');
@@ -1536,7 +1566,16 @@ class Action extends My_Model{
 	public function create_invoice($invoice_no,$store_id,$branch_id){
 		$store_owner_id		=$this->get_store_owner_id_by_store_id($store_id);
 		if(!$this->check_if_invoice_exist($invoice_no)){
-			$data		= array('invoice_number'=>$invoice_no,'store_id'=>$store_id,'branch_id'=>$branch_id,'date_created'=>date('Y-m-d H:i:sa'),'time'=>time(),'store_owner_id'=>$store_owner_id);
+			$data		= array('invoice_number'	=>$invoice_no,
+								'store_id'			=>$store_id,
+								'branch_id'			=>$branch_id,
+								'date_created'		=>date('Y-m-d H:i:sa'),
+								'time'				=>time(),
+								'store_owner_id'	=>$store_owner_id,
+								'month'				=>date('M'),
+								'day' 				=>date('d'),
+								'year'				=>date('Y'),
+							);
 			$this->db->set($data);
 			$this->db->insert('invoice_tbl');
 			if($this->db->affected_rows() > 0){
@@ -2538,4 +2577,941 @@ class Action extends My_Model{
 	public function count_transaction_by_store_owner_id($store_owner_id){}
 
 
+	public function get_my_recent_activity($email){
+		$this->db->where('email',$email);
+		$this->db->order_by('id','desc');
+		$this->db->limit(5);
+		$query			=$this->db->get('user_activity');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
+
+	//drawing Chart Details
+
+	public function draw_transaction_by_month(){
+		$user_status		=$this->session->userdata('user_status');
+		$store_id           =$this->session->userdata('store_id');
+		$branch_id          =$this->session->userdata('branch_id');
+		$user_id 			=$this->session->userdata('user_id');
+
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		if($user_status =='store_owner'){
+
+			$this->db->select('month, COUNT("month") AS total_transaction,');
+			$this->db->group_by("month");
+			$this->db->where('year',date('Y'));
+			$this->db->order_by('id','asc');
+
+			$this->db->where('store_owner_id',$store_owner_id);
+			$query		=$this->db->get('transaction_history');
+			if($query->num_rows() > 0){
+				return $query->result_array();
+			}
+			return false;
+		}else if($user_status =='manager'){
+
+			$this->db->select('month, COUNT("month") AS total_transaction');
+			$this->db->group_by("month");
+			$this->db->where('year',date('Y'));
+			$this->db->order_by('id','asc');
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+			$query		=$this->db->get('transaction_history');
+			if($query->num_rows() > 0){
+				return $query->result_array();
+			}
+			return false;
+		}else if($user_status =='sales_rep'){
+
+			$this->db->select('month, COUNT("month") AS total_transaction');
+			$this->db->group_by("month");
+			$this->db->where('year',date('Y'));
+			$this->db->order_by('id','asc');
+
+			$this->db->where('user_id',$user_id);
+			$this->db->where('branch_id',$branch_id);
+			$this->db->where('user_status',$user_status);
+			$query		=$this->db->get('transaction_history');
+			if($query->num_rows() > 0){
+				return $query->result_array();
+			}
+			return false;
+		}else{
+
+			$this->db->select('month, COUNT("month") AS total_transaction');
+			$this->db->group_by("month");
+			$this->db->where('year',date('Y'));
+			$this->db->order_by('id','asc');
+			
+			$query		=$this->db->get('transaction_history');
+			if($query->num_rows() > 0){
+				return $query->result_array();
+			}
+			return false;
+		}
+		
+	}
+
+	public function draw_product_by_month(){
+		$user_status		=$this->session->userdata('user_status');
+		$store_id           =$this->session->userdata('store_id');
+		$branch_id          =$this->session->userdata('branch_id');
+		$user_id 			=$this->session->userdata('user_id');
+
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		if($user_status =='store_owner'){
+
+			$this->db->select('prod_name, prod_bunk');
+			$this->db->group_by("prod_name");
+			$this->db->order_by('prod_id','asc');
+
+			$this->db->where('store_owner_id',$store_owner_id);
+			$query		=$this->db->get('product_tbl');
+			if($query->num_rows() > 0){
+				return $query->result_array();
+			}
+			return false;
+		}else if($user_status =='manager'){
+
+			$this->db->select('prod_name, prod_bunk');
+			$this->db->group_by("prod_name");
+			$this->db->order_by('prod_id','asc');
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+			$query		=$this->db->get('product_tbl');
+			if($query->num_rows() > 0){
+				return $query->result_array();
+			}
+			return false;
+		}else if($user_status =='sales_rep'){
+
+			$this->db->select('prod_name, prod_bunk');
+			$this->db->group_by("prod_name");
+			$this->db->order_by('prod_id','asc');
+
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('branch_id',$branch_id);
+			//$this->db->where('user_status',$user_status);
+			$query		=$this->db->get('product_tbl');
+			if($query->num_rows() > 0){
+				return $query->result_array();
+			}
+			return false;
+		}else{
+
+			$this->db->select('prod_name, prod_bunk');
+			$this->db->group_by("prod_name");
+			$this->db->order_by('prod_id','asc');
+			
+			$query		=$this->db->get('product_tbl');
+			if($query->num_rows() > 0){
+				return $query->result_array();
+			}
+			return false;
+		}
+		
+	}
+
+	public function get_all_total_product_bunk(){
+		$user_status		=$this->session->userdata('user_status');
+		$store_id           =$this->session->userdata('store_id');
+		$branch_id          =$this->session->userdata('branch_id');
+		$user_id 			=$this->session->userdata('user_id');
+
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		if($user_status =='store_owner'){
+
+			$this->db->select('COUNT("prod_bunk") AS prod_bunk,');
+			$this->db->group_by("store_owner_id");
+
+			$this->db->where('store_owner_id',$store_owner_id);
+			$query		=$this->db->get('product_tbl');
+			if($query->num_rows() > 0){
+				foreach($query->result_array() as $row){
+					return $row['prod_bunk'];
+				}
+			}
+			return false;
+		}elseif($user_status =='manager'){
+
+			$this->db->select('COUNT("prod_bunk") AS prod_bunk,');
+			$this->db->group_by("store_owner_id");
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+			$query		=$this->db->get('product_tbl');
+			if($query->num_rows() > 0){
+				foreach($query->result_array() as $row){
+					return $row['prod_bunk'];
+				}
+			}
+			return false;
+		}elseif($user_status =='sales_rep'){
+
+			$this->db->select('COUNT("prod_bunk") AS prod_bunk,');
+			$this->db->group_by("store_owner_id");
+
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('branch_id',$branch_id);
+			$query		=$this->db->get('product_tbl');
+			if($query->num_rows() > 0){
+				foreach($query->result_array() as $row){
+					return $row['prod_bunk'];
+				}
+			}
+			return false;
+		}else{
+			$this->db->select('COUNT("prod_bunk") AS prod_bunk,');
+			$this->db->group_by("store_owner_id");
+
+			$query		=$this->db->get('product_tbl');
+			if($query->num_rows() > 0){
+				foreach($query->result_array() as $row){
+					return $row['prod_bunk'];
+				}
+			}
+			return false;
+		}
+		
+	}
+
+	public function get_all_total_product_in_bunk(){
+		$user_status		=$this->session->userdata('user_status');
+		$store_id           =$this->session->userdata('store_id');
+		$branch_id          =$this->session->userdata('branch_id');
+		$user_id 			=$this->session->userdata('user_id');
+
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		if($user_status =='store_owner'){
+
+			$this->db->select('COUNT("prod_bunk") AS prod_bunk,');
+			$this->db->group_by("store_owner_id");
+			$this->db->where('prod_bunk >', 0);
+
+			$this->db->where('store_owner_id',$store_owner_id);
+			$query		=$this->db->get('product_tbl');
+			if($query->num_rows() > 0){
+				foreach($query->result_array() as $row){
+					return $row['prod_bunk'];
+				}
+			}
+			return false;
+		}elseif($user_status =='manager'){
+
+			$this->db->select('COUNT("prod_bunk") AS prod_bunk,');
+			$this->db->group_by("store_owner_id");
+			$this->db->where('prod_bunk >', 0);
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+			$query		=$this->db->get('product_tbl');
+			if($query->num_rows() > 0){
+				foreach($query->result_array() as $row){
+					return $row['prod_bunk'];
+				}
+			}
+			return false;
+		}elseif($user_status =='sales_rep'){
+
+			$this->db->select('COUNT("prod_bunk") AS prod_bunk,');
+			$this->db->group_by("store_owner_id");
+			$this->db->where('prod_bunk >', 0);
+
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('branch_id',$branch_id);
+			$query		=$this->db->get('product_tbl');
+			if($query->num_rows() > 0){
+				foreach($query->result_array() as $row){
+					return $row['prod_bunk'];
+				}
+			}
+			return false;
+		}else{
+			$this->db->select('COUNT("prod_bunk") AS prod_bunk,');
+			$this->db->group_by("store_owner_id");
+			$this->db->where('prod_bunk >', 0);
+
+			$query		=$this->db->get('product_tbl');
+			if($query->num_rows() > 0){
+				foreach($query->result_array() as $row){
+					return $row['prod_bunk'];
+				}
+			}
+			return false;
+		}
+		
+	}
+
+	public function get_all_total_product_out_bunk(){
+		$user_status		=$this->session->userdata('user_status');
+		$store_id           =$this->session->userdata('store_id');
+		$branch_id          =$this->session->userdata('branch_id');
+		$user_id 			=$this->session->userdata('user_id');
+
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		if($user_status =='store_owner'){
+
+			$this->db->select('COUNT("prod_bunk") AS prod_bunk,');
+			$this->db->group_by("store_owner_id");
+			$this->db->where('prod_bunk <=', 0);
+
+			$this->db->where('store_owner_id',$store_owner_id);
+			$query		=$this->db->get('product_tbl');
+			if($query->num_rows() > 0){
+				foreach($query->result_array() as $row){
+					return $row['prod_bunk'];
+				}
+			}
+			return 0;
+		}elseif($user_status =='manager'){
+
+			$this->db->select('COUNT("prod_bunk") AS prod_bunk,');
+			$this->db->group_by("store_owner_id");
+			$this->db->where('prod_bunk <=', 0);
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+			$query		=$this->db->get('product_tbl');
+			if($query->num_rows() > 0){
+				foreach($query->result_array() as $row){
+					return $row['prod_bunk'];
+				}
+			}
+			return false;
+		}elseif($user_status =='sales_rep'){
+
+			$this->db->select('COUNT("prod_bunk") AS prod_bunk,');
+			$this->db->group_by("store_owner_id");
+			$this->db->where('prod_bunk <=', 0);
+
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('branch_id',$branch_id);
+			$query		=$this->db->get('product_tbl');
+			if($query->num_rows() > 0){
+				foreach($query->result_array() as $row){
+					return $row['prod_bunk'];
+				}
+			}
+			return false;
+		}else{
+			$this->db->select('COUNT("prod_bunk") AS prod_bunk,');
+			$this->db->group_by("store_owner_id");
+			$this->db->where('prod_bunk <=', 0);
+
+			$query		=$this->db->get('product_tbl');
+			if($query->num_rows() > 0){
+				foreach($query->result_array() as $row){
+					return $row['prod_bunk'];
+				}
+			}
+			return false;
+		}
+		
+	}
+
+
+
+	/*TODO*/
+	public function get_the_most_purchase_product(){
+		$user_status		=$this->session->userdata('user_status');
+		$store_id           =$this->session->userdata('store_id');
+		$branch_id          =$this->session->userdata('branch_id');
+		$user_id 			=$this->session->userdata('user_id');
+
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		// $this->db->select_max('quantity');
+		$this->db->select('COUNT("quantity") AS quantity, id, prod_id, prod_name');
+		
+		$this->db->group_by('prod_id');
+		$this->db->where('store_owner_id',$store_owner_id);
+		$query		=$this->db->get('transaction_history');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+			
+		}
+		return false;
+	}
+
+	public function get_total_category(){
+		$user_status		=$this->session->userdata('user_status');
+		$store_id           =$this->session->userdata('store_id');
+		$branch_id          =$this->session->userdata('branch_id');
+		$user_id 			=$this->session->userdata('user_id');
+
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		if($user_status =='store_owner'){
+
+			$this->db->where('store_owner_id',$store_owner_id);
+			return $this->db->from('product_category')->count_all_results();
+		}elseif($user_status =='manager'){
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+			return $this->db->from('product_category')->count_all_results();
+		}elseif($user_status =='sales_rep'){
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+			return $this->db->from('product_category')->count_all_results();
+		}else{
+
+			return $this->db->from('product_category')->count_all_results();
+		}
+	}
+
+
+	//Insight Transaction analyst
+	public function total_transaction_generated(){
+		$user_status		=$this->session->userdata('user_status');
+		$store_id           =$this->session->userdata('store_id');
+		$branch_id          =$this->session->userdata('branch_id');
+		$user_id 			=$this->session->userdata('user_id');
+
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		if($user_status =='store_owner'){
+
+			$this->db->where('store_owner_id',$store_owner_id);
+			return $this->db->from('transaction_history')->count_all_results();
+		}elseif($user_status =='manager'){
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+			return $this->db->from('transaction_history')->count_all_results();
+		}elseif($user_status =='sales_rep'){
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+			$this->db->where('user_id',$user_id);
+			$this->db->where('user_status',$user_status);
+
+			return $this->db->from('transaction_history')->count_all_results();
+		}else{
+
+			return $this->db->from('transaction_history')->count_all_results();
+		}
+	}
+
+	public function transaction_generated_this_month(){
+		$user_status		=$this->session->userdata('user_status');
+		$store_id           =$this->session->userdata('store_id');
+		$branch_id          =$this->session->userdata('branch_id');
+		$user_id 			=$this->session->userdata('user_id');
+
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		if($user_status =='store_owner'){
+
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('month',date('M'));
+			return $this->db->from('transaction_history')->count_all_results();
+		}elseif($user_status =='manager'){
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+			$this->db->where('month',date('M'));
+			return $this->db->from('transaction_history')->count_all_results();
+		}elseif($user_status =='sales_rep'){
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+			$this->db->where('user_id',$user_id);
+			$this->db->where('user_status',$user_status);
+			$this->db->where('month',date('M'));
+
+			return $this->db->from('transaction_history')->count_all_results();
+		}else{
+
+			$this->db->where('month',date('M'));
+			return $this->db->from('transaction_history')->count_all_results();
+		}
+	}
+
+	public function transaction_generated_this_week(){
+		$user_status		=$this->session->userdata('user_status');
+		$store_id           =$this->session->userdata('store_id');
+		$branch_id          =$this->session->userdata('branch_id');
+		$user_id 			=$this->session->userdata('user_id');
+
+		$week_start	=date('Y-m-d H:i:sa',strtotime('last sunday'));
+        $week_end	=date('Y-m-d H:i:sa',strtotime('next sunday'));
+
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		if($user_status =='store_owner'){
+
+			$this->db->where('store_owner_id',$store_owner_id);
+
+			$this->db->where('date_created >', $week_start);
+        	$this->db->where('date_created <', $week_end);
+
+			return $this->db->from('transaction_history')->count_all_results();
+		}elseif($user_status =='manager'){
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+
+			$this->db->where('date_created >', $week_start);
+        	$this->db->where('date_created <', $week_end);
+
+			return $this->db->from('transaction_history')->count_all_results();
+		}elseif($user_status =='sales_rep'){
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+			$this->db->where('user_id',$user_id);
+			$this->db->where('user_status',$user_status);
+
+			$this->db->where('date_created >', $week_start);
+        	$this->db->where('date_created <', $week_end);
+
+			return $this->db->from('transaction_history')->count_all_results();
+		}else{
+
+			$this->db->where('date_created >', $week_start);
+        	$this->db->where('date_created <', $week_end);
+
+			return $this->db->from('transaction_history')->count_all_results();
+		}
+	}
+	
+	public function transaction_generated_today(){
+		$user_status		=$this->session->userdata('user_status');
+		$store_id           =$this->session->userdata('store_id');
+		$branch_id          =$this->session->userdata('branch_id');
+		$user_id 			=$this->session->userdata('user_id');
+
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		if($user_status =='store_owner'){
+
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('day',date('d'));
+			return $this->db->from('transaction_history')->count_all_results();
+		}elseif($user_status =='manager'){
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+			$this->db->where('day',date('d'));
+			return $this->db->from('transaction_history')->count_all_results();
+		}elseif($user_status =='sales_rep'){
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+			$this->db->where('user_id',$user_id);
+			$this->db->where('user_status',$user_status);
+			$this->db->where('day',date('d'));
+
+			return $this->db->from('transaction_history')->count_all_results();
+		}else{
+
+			$this->db->where('day',date('d'));
+			return $this->db->from('transaction_history')->count_all_results();
+		}
+	}
+
+	public function overall_monthly_transaction(){
+		
+		return round($this->Admin_db->calculate_percentage($this->transaction_generated_this_month(),$this->total_transaction_generated()));
+	}
+
+	public function overall_weekly_transaction(){
+
+		return round($this->Admin_db->calculate_percentage($this->transaction_generated_this_week(),$this->total_transaction_generated()));
+	}
+	public function overall_dailly_transaction(){
+		// return $this->transaction_generated_today();
+		// return $this->total_transaction_generated();
+
+		return round($this->Admin_db->calculate_percentage($this->transaction_generated_today(),$this->total_transaction_generated()));
+	}
+	
+
+
+	//Insight Transaction analyst
+	public function total_invoice_generated(){
+		$user_status		=$this->session->userdata('user_status');
+		$store_id           =$this->session->userdata('store_id');
+		$branch_id          =$this->session->userdata('branch_id');
+		$user_id 			=$this->session->userdata('user_id');
+
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		if($user_status =='store_owner'){
+
+			$this->db->where('store_owner_id',$store_owner_id);
+			return $this->db->from('invoice_tbl')->count_all_results();
+		}elseif($user_status =='manager'){
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+			return $this->db->from('invoice_tbl')->count_all_results();
+		}elseif($user_status =='sales_rep'){
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+			
+			return $this->db->from('invoice_tbl')->count_all_results();
+		}else{
+
+			return $this->db->from('invoice_tbl')->count_all_results();
+		}
+	}
+
+	public function invoice_generated_this_month(){
+		$user_status		=$this->session->userdata('user_status');
+		$store_id           =$this->session->userdata('store_id');
+		$branch_id          =$this->session->userdata('branch_id');
+		$user_id 			=$this->session->userdata('user_id');
+
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		if($user_status =='store_owner'){
+
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('month',date('M'));
+			return $this->db->from('invoice_tbl')->count_all_results();
+		}elseif($user_status =='manager'){
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+			$this->db->where('month',date('M'));
+			return $this->db->from('invoice_tbl')->count_all_results();
+		}elseif($user_status =='sales_rep'){
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+			$this->db->where('month',date('M'));
+
+			return $this->db->from('invoice_tbl')->count_all_results();
+		}else{
+
+			$this->db->where('month',date('M'));
+			return $this->db->from('invoice_tbl')->count_all_results();
+		}
+	}
+
+	public function invoice_generated_this_week(){
+		$user_status		=$this->session->userdata('user_status');
+		$store_id           =$this->session->userdata('store_id');
+		$branch_id          =$this->session->userdata('branch_id');
+		$user_id 			=$this->session->userdata('user_id');
+
+		$week_start	=date('Y-m-d H:i:sa',strtotime('last sunday'));
+        $week_end	=date('Y-m-d H:i:sa',strtotime('next sunday'));
+
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		if($user_status =='store_owner'){
+
+			$this->db->where('store_owner_id',$store_owner_id);
+
+			$this->db->where('date_created >', $week_start);
+        	$this->db->where('date_created <', $week_end);
+
+			return $this->db->from('invoice_tbl')->count_all_results();
+		}elseif($user_status =='manager'){
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+
+			$this->db->where('date_created >', $week_start);
+        	$this->db->where('date_created <', $week_end);
+
+			return $this->db->from('invoice_tbl')->count_all_results();
+		}elseif($user_status =='sales_rep'){
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+
+			$this->db->where('date_created >', $week_start);
+        	$this->db->where('date_created <', $week_end);
+
+			return $this->db->from('invoice_tbl')->count_all_results();
+		}else{
+
+			$this->db->where('date_created >', $week_start);
+        	$this->db->where('date_created <', $week_end);
+
+			return $this->db->from('invoice_tbl')->count_all_results();
+		}
+	}
+	
+	public function invoice_generated_today(){
+		$user_status		=$this->session->userdata('user_status');
+		$store_id           =$this->session->userdata('store_id');
+		$branch_id          =$this->session->userdata('branch_id');
+		$user_id 			=$this->session->userdata('user_id');
+
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		if($user_status =='store_owner'){
+
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('day',date('d'));
+			return $this->db->from('invoice_tbl')->count_all_results();
+		}elseif($user_status =='manager'){
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+			$this->db->where('day',date('d'));
+			return $this->db->from('invoice_tbl')->count_all_results();
+		}elseif($user_status =='sales_rep'){
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+			$this->db->where('day',date('d'));
+
+			return $this->db->from('invoice_tbl')->count_all_results();
+		}else{
+
+			$this->db->where('day',date('d'));
+			return $this->db->from('invoice_tbl')->count_all_results();
+		}
+	}
+
+	public function overall_monthly_invoice(){
+		
+		return round($this->Admin_db->calculate_percentage($this->invoice_generated_this_month(),$this->total_invoice_generated()));
+	}
+
+	public function overall_weekly_inovice(){
+
+		return round($this->Admin_db->calculate_percentage($this->invoice_generated_this_week(),$this->total_invoice_generated()));
+	}
+	public function overall_dailly_invoice(){
+		// return $this->transaction_generated_today();
+		// return $this->total_transaction_generated();
+
+		return round($this->Admin_db->calculate_percentage($this->invoice_generated_today(),$this->total_invoice_generated()));
+	}
+	
+
+
+	//Insight Activity analyst
+	public function total_activity_generated(){
+		$user_status		=$this->session->userdata('user_status');
+		$store_id           =$this->session->userdata('store_id');
+		$branch_id          =$this->session->userdata('branch_id');
+		$user_id 			=$this->session->userdata('user_id');
+
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		if($user_status =='store_owner'){
+
+			$this->db->where('store_owner_id',$store_owner_id);
+			return $this->db->from('user_activity')->count_all_results();
+		}elseif($user_status =='manager'){
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+			return $this->db->from('user_activity')->count_all_results();
+		}elseif($user_status =='sales_rep'){
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+			
+			return $this->db->from('user_activity')->count_all_results();
+		}else{
+
+			return $this->db->from('user_activity')->count_all_results();
+		}
+	}
+
+	public function activity_generated_this_month(){
+		$user_status		=$this->session->userdata('user_status');
+		$store_id           =$this->session->userdata('store_id');
+		$branch_id          =$this->session->userdata('branch_id');
+		$user_id 			=$this->session->userdata('user_id');
+
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		if($user_status =='store_owner'){
+
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('month',date('M'));
+			return $this->db->from('user_activity')->count_all_results();
+		}elseif($user_status =='manager'){
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+			$this->db->where('month',date('M'));
+			return $this->db->from('user_activity')->count_all_results();
+		}elseif($user_status =='sales_rep'){
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+			$this->db->where('month',date('M'));
+
+			return $this->db->from('user_activity')->count_all_results();
+		}else{
+
+			$this->db->where('month',date('M'));
+			return $this->db->from('user_activity')->count_all_results();
+		}
+	}
+
+	public function activity_generated_this_week(){
+		$user_status		=$this->session->userdata('user_status');
+		$store_id           =$this->session->userdata('store_id');
+		$branch_id          =$this->session->userdata('branch_id');
+		$user_id 			=$this->session->userdata('user_id');
+
+		$week_start	=date('Y-m-d H:i:sa',strtotime('last sunday'));
+        $week_end	=date('Y-m-d H:i:sa',strtotime('next sunday'));
+
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		if($user_status =='store_owner'){
+
+			$this->db->where('store_owner_id',$store_owner_id);
+
+			$this->db->where('date >', $week_start);
+        	$this->db->where('date <', $week_end);
+
+			return $this->db->from('user_activity')->count_all_results();
+		}elseif($user_status =='manager'){
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+
+			$this->db->where('date >', $week_start);
+        	$this->db->where('date <', $week_end);
+
+			return $this->db->from('user_activity')->count_all_results();
+		}elseif($user_status =='sales_rep'){
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+
+			$this->db->where('date >', $week_start);
+        	$this->db->where('date <', $week_end);
+
+			return $this->db->from('user_activity')->count_all_results();
+		}else{
+
+			$this->db->where('date >', $week_start);
+        	$this->db->where('date <', $week_end);
+
+			return $this->db->from('user_activity')->count_all_results();
+		}
+	}
+	
+	public function activity_generated_today(){
+		$user_status		=$this->session->userdata('user_status');
+		$store_id           =$this->session->userdata('store_id');
+		$branch_id          =$this->session->userdata('branch_id');
+		$user_id 			=$this->session->userdata('user_id');
+
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		if($user_status =='store_owner'){
+
+			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('day',date('d'));
+			return $this->db->from('user_activity')->count_all_results();
+		}elseif($user_status =='manager'){
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+			$this->db->where('day',date('d'));
+			return $this->db->from('user_activity')->count_all_results();
+		}elseif($user_status =='sales_rep'){
+
+			$this->db->where('store_id',$store_id);
+			$this->db->where('branch_id',$branch_id);
+			$this->db->where('day',date('d'));
+
+			return $this->db->from('user_activity')->count_all_results();
+		}else{
+
+			$this->db->where('day',date('d'));
+			return $this->db->from('user_activity')->count_all_results();
+		}
+	}
+
+	public function overall_monthly_activity(){
+		// return $this->activity_generated_this_month();
+		// return $this->total_activity_generated();
+		
+		return round($this->Admin_db->calculate_percentage($this->activity_generated_this_month(),$this->total_activity_generated()));
+	}
+
+	public function overall_weekly_activity(){
+
+		return round($this->Admin_db->calculate_percentage($this->activity_generated_this_week(),$this->total_activity_generated()));
+	}
+
+	public function overall_dailly_activity(){
+
+		return round($this->Admin_db->calculate_percentage($this->activity_generated_today(),$this->total_activity_generated()));
+	}
 }

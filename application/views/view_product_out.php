@@ -175,9 +175,7 @@
 							<?php
 								}
 							?>
-                            <div id="dataList">
-                                
-                            </div>
+                            <div id="mega"></div>
 
 							
 						</div>
@@ -200,7 +198,10 @@
 
 <script>
 	$(document).ready(function () {
-		$("#store_id").change(function () {
+		$("#store_id").change(function (e) {
+					e.preventDefault();
+					e.stopPropagation();
+					
 			var store_id = $('#store_id').val();
 			var dataString = 'store_id=' + store_id;
 			//alert(dataString);
@@ -220,52 +221,36 @@
 </script>
 
 
-<!-- <script>
-	function searchFilter(page_num) {
-		page_num = page_num ? page_num : 0;
-		var keywords = $('#keywords').val();
-		var sortBy = $('#sortBy').val();
 
-		$.ajax({
-			type: 'POST',
-			url: '<?php echo base_url('Office/customerPaginationData/'); ?>'+page_num,
-			data: 'page=' + page_num + '&keywords=' + keywords + '&sortBy=' + sortBy,
-			beforeSend: function () {
-				$('.loading').show();
-			},
-			success: function (html) {
-				$('#dataList').html(html);
-				$('.loading').fadeOut("slow");
-			}
-		});
-	}
-
-</script> -->
 
 <script>
 	$(function() {
 		
-		/*--first time load--*/
+		// /*--first time load--*/
 		ajaxlist(page_url=false);
 		
-		/*-- Search keyword--*/
-		$(document).keyup("#keywords", function(event) {
+		// /*-- Search keyword--*/
+		$(document).on('keyup', "#keywords", function(e) {
+					e.preventDefault();
+					e.stopPropagation();
 			ajaxlist(page_url=false);
-			event.preventDefault();
 		});
 		
 
 		/*-- Reset Search--*/
-		$(document).on('change', "#sortBy", function(event) {
+		$(document).on('change', "#sortBy", function(e) {
+					e.preventDefault();
+					e.stopPropagation();
 			ajaxlist(page_url=false);
-			event.preventDefault();
 		});
 		
 		/*-- Page click --*/
-		$(document).on('click', ".pagination li a", function(event) {
+		$(document).on('click', ".pagination li a", function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+
 			var page_url = $(this).attr('href');
 			ajaxlist(page_url);
-			event.preventDefault();
 		});
 		
 		/*-- create function ajaxlist --*/
@@ -273,13 +258,12 @@
 		{
 			var search_key = $("#keywords").val();
             var sortBy = $('#sortBy').val();
-
 			
 			var dataString = 'search_key=' + search_key + '&sortBy=' + sortBy;
           
 			var base_url = '<?php echo site_url('Office/view_product_out_ajax/') ?>';
 			
-			if(page_url == false) {
+			if (page_url == false) {
 				var page_url = base_url;
 			}
 
@@ -291,12 +275,10 @@
 				success: function(response) {
                     // alert(response);
 					console.log(response);
-					$("#dataList").html(response);
+					$("#mega").html(response);
 				}
 			});
 		}
-
-      
 	});
 
 </script>

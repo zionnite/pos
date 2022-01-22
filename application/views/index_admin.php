@@ -5,6 +5,26 @@
 	$count_total_transaction			=$this->Action->count_total_transaction();
 	$count_total_sales	    			=$this->Action->count_total_sales();
 	$count_total_item_sold    			=$this->Action->count_total_item_sold();
+
+	//
+
+
+	$draw_chart_month					=$this->Action->draw_transaction_by_month();
+	$draw_product_chart					=$this->Action->draw_product_by_month();
+
+	$recent_activity 					=$this->Action->get_my_recent_activity($email);
+
+	$total_product_bunk					=$this->Action->get_all_total_product_bunk();
+	$total_product_in_bunk				=$this->Action->get_all_total_product_in_bunk();
+	$total_product_out_bunk				=$this->Action->get_all_total_product_out_bunk();
+
+	$per_prod_in_stock					=round($this->Admin_db->calculate_percentage($total_product_in_bunk,$total_product_bunk));
+	$per_prod_out_stock					=round($this->Admin_db->calculate_percentage($total_product_out_bunk,$total_product_bunk));
+
+	$in_stock 							=$this->Admin_db->get_comparison_number($per_prod_in_stock);
+	$out_stock 							=$this->Admin_db->get_comparison_number($per_prod_out_stock);
+
+	$most_purchase 						=$this->Action->get_the_most_purchase_product();
 ?>
 <div class="main-body">
 	<div class="page-wrapper">
@@ -93,9 +113,235 @@
 				</div> -->
 
 				
+				
+
+			</div>
+
+			<div class="row">
+				<div class="col-xl-8 col-md-12">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-header-left ">
+								<h5>Monthly View</h5>
+							</div>
+						</div>
+						<div class="card-block-big">
+							<div id="top_x_div" style="width: 900px; height: 300px;"></div>
+						</div>
+					</div>
+				</div>
+
+
+
+
+
+				<div class="col-xl-4 col-md-12">
+					<div class="card">
+						<div class="card-header">Prouduct</div>
+						<div class="card-block-big">
+							<div id="piechart" style="width: 200px; height: 300px;"></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-xl-8 col-md-12">
+					<div class="card feed-card">
+						<div class="card-header">
+							<h5>Your Recent Activity</h5>
+						</div>
+						<?php
+							if(is_array($recent_activity)){
+						?>
+						<div class="card-block">
+							<?php
+								foreach($recent_activity as $row){
+									$id						=$row['id'];
+									$dis_email 				=$row['email'];
+									$user_status 			=$row['user_status'];
+									$path 					=$row['path'];
+									$type					=$row['type'];
+									$time 					=$row['time'];
+									$date					=$row['date'];
+									$day 					=$row['day'];
+									$month					=$row['month'];
+									$year					=$row['year'];
+
+							?>
+							<div class="row m-b-30">
+								<div class="col-auto p-r-0">
+									<?php 
+												if($type =='normal'){
+													echo '<i class="fa fa-check bg-simple-c-green feed-icon"></i>';
+												}else if($type =='inactivity'){
+													echo '<i class="fa fa-bacon bg-simple-c-yellow feed-icon"></i>';
+												}else if($type =='logout'){
+													echo '<i class="fa fa-sign-out-alt bg-simple-c-pink feed-icon"></i>';
+												}
+											?>
+								</div>
+								<div class="col">
+									<?php
+												if($type =='normal'){?>
+									<h6 class="m-b-5">You visited <?php echo $path;?></h6>
+									<?php
+												}else if($type =='inactivity'){?>
+									<h6 class="m-b-5">You were Auto-logout within 15mins of inactiveness</h6>
+									<?php 
+												}else if($type =='logout'){?>
+									<h6 class="m-b-5">You Logout </h6>
+									<?php 
+												}
+											?>
+									<h6 class="text-muted f-left f-13"><?php $this->Admin_db->time_stamp($time);?></h6>
+								</div>
+							</div>
+							<?php 
+								}
+							?>
+
+						</div>
+						<?php
+							}else{
+								echo '<div class="alert alert-warning">Your Activity is not yet record</div>';
+							}
+						?>
+					</div>
+				</div>
+
+				<div class="col-xl-4 col-md-12">
+					<div class="card per-task-card">
+						<div class="card-header">
+							<h5>Product Insight</h5>
+						</div>
+						<div class="card-block">
+							<div class="row per-task-block text-center">
+								<div class="col-6">
+									<div data-label="<?php echo $per_prod_in_stock;?>%"
+										class="radial-bar radial-bar-<?php echo $in_stock;?> radial-bar-lg radial-bar-primary">
+									</div>
+									<h6 class="text-muted">Product Instock</h6>
+									<p class="text-muted"><?php echo $total_product_in_bunk;?></p>
+									<a href="<?php echo base_url();?>Store_Owner/product_in" class="btn btn-primary btn-round btn-sm">Manage</a>
+								</div>
+
+
+								<div class="col-6">
+									
+									<div data-label="<?php echo $per_prod_out_stock;?>%" class="radial-bar radial-bar-<?php echo $out_stock;?> radial-bar-lg radial-bar-primary">
+                                    </div>
+
+									<h6 class="text-muted">Product Out of Stuck</h6>
+									<p class="text-muted"><?php echo $total_product_out_bunk;?></p>
+									<a href="<?php echo base_url();?>Store_Owner/product_out" class="btn btn-primary btn-outline-primary btn-round btn-sm">Manage</a>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+					
+
+				</div>
 
 			</div>
 		</div>
 	</div>
 
 </div>
+
+
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+	google.charts.load('current', {
+		'packages': ['bar']
+	});
+	google.charts.setOnLoadCallback(drawStuff);
+
+	function drawStuff() {
+		var data = new google.visualization.arrayToDataTable([
+			['Sales Chart', 'Transaction'],
+			<?php
+			if (is_array($draw_chart_month)) {
+				foreach($draw_chart_month as $row) {
+					$month = $row['month'];
+					$total_trans = $row['total_transaction'];
+
+					echo "['".$month.
+					"', '".$total_trans.
+					"'],";
+					// echo "['".$month."', ".$total_trans.",".$total_qty.",],";
+				}
+			} ?>
+		]);
+
+		var options = {
+			title: 'Sales Chart',
+			width: 750,
+			legend: {
+				position: 'none'
+			},
+			chart: {
+				title: 'Monthly Transaction',
+				subtitle: 'Sale Chart Overview'
+			},
+			bars: 'vertical', // Required for Material Bar Charts.
+			axes: {
+				x: {
+					0: {
+						side: 'bottom',
+						label: 'Total Transaction'
+					} // Top x-axis.
+				}
+			},
+			bar: {
+				groupWidth: "90%"
+			}
+		};
+
+		var chart = new google.charts.Bar(document.getElementById('top_x_div'));
+		chart.draw(data, options);
+	};
+
+</script>
+
+
+<script type="text/javascript">
+	google.charts.load('current', {
+		'packages': ['corechart']
+	});
+	google.charts.setOnLoadCallback(drawChart);
+
+	function drawChart() {
+
+		var data = google.visualization.arrayToDataTable([
+			['Product Name', 'In Stock'],
+			<?php
+			if (is_array($draw_product_chart)) {
+				foreach($draw_product_chart as $row) {
+					$prod_name = $row['prod_name'];
+					$total_bunk = $row['prod_bunk'];
+
+					$prod_name = preg_replace("/\s+/", "_", $prod_name);
+					$prod_name = preg_replace("/\s+/", "'", $prod_name);
+					$prod_name = preg_replace('/[^A-Za-z0-9\_]/', '', $prod_name);
+
+					echo "['$prod_name', $total_bunk],";
+				}
+			} ?>
+		]);
+
+		var options = {
+			title: 'Product Stock Overview',
+			width: 500,
+			//   is3D: true,
+			pieHole: 0.4,
+		};
+
+		var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+		chart.draw(data, options);
+	}
+
+</script>

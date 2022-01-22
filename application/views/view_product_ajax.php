@@ -1,3 +1,4 @@
+
 <div class="table-responsive">
 <table class="table table-striped footable footable-1 footable-paging footable-paging-center breakpoint-lg" style="">
 	<thead>
@@ -88,18 +89,40 @@
 			<td><?php echo $prod_bunk;?></td>
 			<td><?php echo $date;?></td>
 			<td>
+				<a href="javascript:;" id="open_stock_field_<?php echo $prod_id;?>" 
+					class="label label-success"><i class="fa fa-cart-plus"></i> Refill</a>
+
 				<a href="javascript:;" id="delete_branch_<?php echo $prod_id;?>" data-id="<?php echo $prod_id;?>"
 					class="label label-danger"><i class="fa fa-trash"></i> Delete</a>
+					
+
+				<div id="add_stock_div_<?php echo $prod_id;?>" style="display:none;">
+					<br style="margin-top:1.5%;" />
+					<form>
+						<input type="number" name="qty" id="qty_<?php echo $prod_id;?>" /><br/>
+						<input type="hidden" name="prod_id" value="<?php echo $prod_id;?>" id="prod_id_<?php echo $prod_id;?>">
+						<input type="submit" name="submit" id="add_stock_<?php echo $prod_id;?>" value="Add" class="label label-inverse" />
+					</form>
+				</div>
+				
+
 			</td>
 		</tr>
 
-		<script type="text/javascript" src="<?php echo base_url();?>files/bower_components/jquery/dist/jquery.min.js">
-		</script>
+	
+
+
+
+
+		
+
 
 		<script>
 			$(document).ready(function () {
 				$('#delete_branch_<?php echo $prod_id;?>').click(function (e) {
 					e.preventDefault();
+					e.stopPropagation();
+
 					var id = $(this).data('id');
 					swal({
 							title: "Are you sure you want to DELETE this Product?",
@@ -150,25 +173,83 @@
 
 		</script>
 
+		<script>
+			$(document).ready(function (){
+				$('#open_stock_field_<?php echo $prod_id;?>').click(function(e){
+					e.preventDefault();
+					e.stopPropagation();
+
+					$('#add_stock_div_<?php echo $prod_id;?>').toggle();
+				});
+			});
+		</script>
+
+		<script type="text/javascript">
+			$(document).ready(function () {
+				$("#add_stock_<?php echo $prod_id;?>").click(function (e) {
+					e.preventDefault();
+					e.stopPropagation();
+
+					var prod_id 		= $('#prod_id_<?php echo $prod_id;?>').val();
+					var qty      		= $('#qty_<?php echo $prod_id;?>').val();
+
+					var dataString 		={'prod_id': prod_id,'qty':qty};
+
+					$.ajax({
+						
+						type: 'POST',
+						url: '<?php echo base_url();?>Office/re_stock_product',
+						data: dataString,
+					
+						success: function (resp) {
+							if (resp == 'ok') {
+								swal({
+									title: "Success",
+									text: "Product Stock updated!",
+									icon: "success",
+									closeOnClickOutside: false,
+
+								});
+
+							} else if (resp == 'err') {
+
+								swal({
+									title: "Oops!",
+									text: "Database Could not connect to server!",
+									icon: "info",
+									closeOnClickOutside: false,
+
+								});
+
+							} 
+						}
+					});
+				});
+
+
+			});
+
+		</script>
+
+
 		<?php
                                             }
                                         }
                                         ?>
 	</tbody>
-	<tfoot>
-		
-	</tfoot>
+
+	
 </table>
 </div>
 
 <?php 
     if(!is_array($get_info)){
 ?>
-    <div class="alert alert-warning" style="margin-top:1%;">No Product has been added to Database yet!</div>
+    <div class="alert alert-warning" style="margin-top:1%;">No data found yet!</div>
 <?php
     }
 ?>
 
 <ul class="pagination">
-		<?php echo $pagelinks ?>
-	</ul>
+	<?php echo $pagelinks ?>
+</ul>

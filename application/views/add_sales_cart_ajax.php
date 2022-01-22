@@ -18,6 +18,9 @@
 			<th data-breakpoints="xs" class="footable-sortable" style="display: table-cell;">Selling Price<span
 					class="fooicon fooicon-sort"></span></th>
 
+			<th data-breakpoints="xs" class="footable-sortable" style="display: table-cell;">In Stock<span
+					class="fooicon fooicon-sort"></span></th>
+
 			<th data-breakpoints="xs" class="footable-sortable" style="display: table-cell;">Qty<span
 					class="fooicon fooicon-sort"></span></th>
 			<th data-breakpoints="xs" class="footable-sortable" style="display: table-cell;">Color<span
@@ -81,6 +84,7 @@
 			<td><?php echo $prod_name;?></td>
 			<td><?php echo $currency.$this->cart->format_number($prod_cost);?></td>
 			<td><?php echo $currency.$this->cart->format_number($prod_price);?></td>
+			<td><b style="color:red;"><?php echo $prod_bunk;?></b></td>
 			<td><input class="form-control" type="number" name="qty" value="1" id="prod_qty_<?php echo $prod_id;?>" /></td>
             <td>
                 <select class="form-control color" name="color" id="prod_color_<?php echo $prod_id;?>">

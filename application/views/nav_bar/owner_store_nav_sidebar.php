@@ -94,7 +94,15 @@ $count_product_out_stock 			=$this->Action->count_total_product_out_of_stock();
 					</li>
 					<li class=" ">
 						<a href="<?php echo base_url();?>Office/view_product_out">
-							<span class="pcoded-mtext">Out Of Stock</span>
+							<span class="pcoded-mtext">Out Of Stock 
+								<?php
+								if($count_product_out_stock > 0){
+								?>
+								<span class="pcoded-badge label label-danger"><?php echo $count_product_out_stock;?></span>
+								<?php
+									}
+								?>
+							</span>
 						</a>
 					</li>
 					

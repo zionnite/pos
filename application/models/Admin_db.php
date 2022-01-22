@@ -5,6 +5,57 @@ class Admin_db extends My_Model{
     }
     
 
+    public function time_stamp($session_time) {
+        $time_difference = time() - $session_time ;
+        $seconds = $time_difference ;
+        $minutes = round($time_difference / 60 );
+        $hours = round($time_difference / 3600 );
+        $days = round($time_difference / 86400 );
+        $weeks = round($time_difference / 604800 );
+        $months = round($time_difference / 2419200 );
+        $years = round($time_difference / 29030400 );
+
+        if($seconds <= 60){
+            echo"$seconds seconds ago";
+        }elseif($minutes <=60){
+            if($minutes==1){
+                echo"one minute ago";
+            }else{
+                echo"$minutes minutes ago";
+            }
+        }else if($hours <=24){
+            if($hours==1){
+                echo"one hour ago";
+            }else{
+                echo"$hours hours ago";
+            }
+        }else if($days <=7){
+            if($days==1){
+                echo"one day ago";
+            }else{
+                echo"$days days ago";
+            }
+        }else if($weeks <=4){
+            if($weeks==1){
+                echo"one week ago";
+            }else{
+                echo"$weeks weeks ago";
+            }
+        }else if($months <=12){
+            if($months==1){
+                echo"one month ago";
+            }else{
+                echo"$months months ago";
+            }
+        }else{
+            if($years==1){
+                echo"one year ago";
+            }else{
+                echo"$years years ago";
+            }
+        }
+    }
+
     public function get_public_live_key(){
         $query	=$this->db->get('payment_method');
 		if($query->num_rows() > 0){
@@ -272,18 +323,48 @@ class Admin_db extends My_Model{
     }
 
     public function update_user_activity($email,$status,$current_path,$type){
+		$store_id           =$this->session->userdata('store_id');
+		$branch_id          =$this->session->userdata('branch_id');
 
-        $data          =array(
-                            'email'=>$email,
-                            'user_status'=>$status,
-                            'path'=>$current_path,
-                            'type'=>$type,
-                            'time'=>time(),
-                            'date'=>date('Y-m-d H:i:sa'),
-                            'day' =>date('d'),
-                            'month'=>date('M'),
-                        );
-        $this->db->set($data);
+
+		($status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+
+        if($status == 'store_owner'){
+            $data          =array(
+                'email'=>$email,
+                'user_status'=>$status,
+                'path'=>$current_path,
+                'type'=>$type,
+                'time'=>time(),
+                'date'=>date('Y-m-d H:i:sa'),
+                'day' =>date('d'),
+                'month'=>date('M'),
+                'year'=>date('Y'),
+                'store_owner_id'=>$store_owner_id,
+            );
+            $this->db->set($data);
+        }else{
+            $data          =array(
+                'email'=>$email,
+                'user_status'=>$status,
+                'path'=>$current_path,
+                'type'=>$type,
+                'time'=>time(),
+                'date'=>date('Y-m-d H:i:sa'),
+                'day' =>date('d'),
+                'month'=>date('M'),
+                'year'=>date('Y'),
+                'store_owner_id'=>$store_owner_id,
+                'branch_id'     =>$branch_id,
+                'store_id'      =>$store_id,
+            );
+            $this->db->set($data);
+        }
+
+        
         $this->db->insert('user_activity');
         if($this->db->affected_rows() > 0){
             return true;
@@ -346,5 +427,67 @@ class Admin_db extends My_Model{
             return true;
         }
         return false;
+    }
+
+
+    public function calculate_percentage($number, $total) {
+
+        if ($total == 0) {
+            return 0;
+        }
+    
+        return ($number / $total) * 100;
+    }
+
+    public function get_comparison_number($number){
+
+        if($number == '100'){
+            return $number = '100';
+    
+        }
+        elseif($number > '95'){
+            return $number ='95';
+    
+        }
+        elseif($number > '85'){
+    
+            return $number ='85';
+        }
+        elseif($number > '75' ){
+    
+            return  $number ='75';
+        }
+        elseif($number > '65' ){
+    
+            return $number ='65';
+        }
+        elseif($number > '55'){
+    
+            return $number ='55';
+        }
+        elseif($number > '45'){
+    
+            return $number ='45';
+        }
+        elseif($number > '35'){
+    
+            return $number ='35';
+        }
+        elseif($number > '25'){
+    
+            return $number ='25';
+        }
+        elseif($number > '15'){
+    
+            return $number ='15';
+        }
+        elseif($number > '10'){
+    
+            return $number ='10';
+        }
+        elseif($number <='9'){
+    
+            return $number ='5';
+        }
     }
 }

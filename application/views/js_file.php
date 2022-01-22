@@ -36,6 +36,7 @@
 
     $(document).ready(function(){
         setInterval(function() { 
+            //alert('h');
             $.ajax({
                 url: '<?php echo base_url();?>CheckSession/check_session',
                 type: 'POST',

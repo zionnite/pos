@@ -111,16 +111,16 @@ $site_logo      =$this->Admin_db->get_site_logo();
           }
           elseif($this->uri->segment(1) =='Manager'){
               if($this->uri->segment(2) ==''){
-                  echo 'Pos | Staff Dashboard';
+                  echo 'Manager | Manager Dashboard';
               }
               elseif($this->uri->segment(2) =='add_sales'){
-                  echo 'Pos | Add Sales';
+                  echo 'Manager | Add Sales';
               }
               elseif($this->uri->segment(2) =='history'){
-                  echo 'Pos | History';
+                  echo 'Manager | History';
               }
               elseif($this->uri->segment(2) =='view_invoice'){
-                  echo 'Pos | View Invoice';
+                  echo 'Manager | View Invoice';
               }
           }
           ?> 
@@ -160,5 +160,7 @@ $site_logo      =$this->Admin_db->get_site_logo();
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 
 
+    <!-- radial chart.css -->
+    <link rel="stylesheet" href="<?php echo base_url();?>files/assets/pages/chart/radial/css/radial.css" type="text/css" media="all">
 
 </head>

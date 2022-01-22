@@ -944,6 +944,18 @@ class Office extends My_Controller {
         }
     }
 
+    public function re_stock_product(){
+        $prod_id            =$this->input->post('prod_id');
+        $qty                =$this->input->post('qty');
+
+        $action             =$this->Action->re_stock_product($prod_id,$qty);
+        if($action){
+            echo 'ok';
+        }else{
+            echo 'err';
+        }
+    }
+
     public function get_store_supplier(){
 		$branch_id	=$this->input->post('branch_id');
 		$get_sub_cat_name	=$this->Action->get_store_supplier_by_branch_store_id($branch_id);
