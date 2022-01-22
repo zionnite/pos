@@ -24,7 +24,7 @@ class Plans extends My_Controller {
 	}
 
 
-	public function verify_payment(){
+	public function verify_payment_2(){
         //http://localhost/ecard9jaPlus/Profile/verify_payment?status=successful&tx_ref=%2B2349034286339-1606327921&transaction_id=332165918
         $public_key   =$this->Admin_db->get_public_live_key();
         $secure_key   =$this->Admin_db->get_private_live_key();
@@ -65,7 +65,7 @@ class Plans extends My_Controller {
         $v_customer         = $v_data['customer'];
         $v_meta             = $v_data['meta'];
         
-        print_r($v_meta);
+        // print_r($v_meta);
         if($v_status =='success'){
             $v_amount           = $v_data['amount'];
             
@@ -92,6 +92,75 @@ class Plans extends My_Controller {
             $this->session->set_flashdata('alert',$data['alert']);
 			redirect('Plans');
         }        
+    }
+
+    public function verify_payment($ref){
+        $secure_key   =$this->Admin_db->get_private_live_key();
+        $curl = curl_init();
+  
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => "https://api.paystack.co/transaction/verify/$ref",
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => "",
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 30,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => "GET",
+          CURLOPT_HTTPHEADER => array(
+            "Authorization: Bearer $secure_key",
+            "Cache-Control: no-cache",
+          ),
+        ));
+        
+        $response = curl_exec($curl);
+        $result  = json_decode($response, true);
+        $result  = array_change_key_case($result, CASE_LOWER);
+
+        $err = curl_error($curl);
+        curl_close($curl);
+        
+        if ($err) {
+            $data['alert']	='<div class="alert alert-warning" role="alert"><strong>Success:</strong>Oops!! An Error occur while trying to verify your payment</div>';
+            $this->session->set_flashdata('alert',$data['alert']);
+            redirect('Plans');
+        } else {
+        //   echo print_r($result);
+
+            $v_status           = $result['status'];
+            $v_data             = $result['data'];
+
+            if($v_status == true){
+                $v_id               = $v_data['id'];
+                $v_amount           = $v_data['amount'];
+                $v_ref              = $v_data['reference'];
+                $v_meta             = $v_data['metadata'];
+
+                $v_user_id               =$v_meta['user_id'];
+                $v_plan_id          =$v_meta['plan_id'];
+
+
+                $v_customer         = $v_data['customer'];
+                $v_phone            = $v_customer['phone'];
+                $v_email            = $v_customer['email'];
+                $v_name             = $v_customer['first_name'];
+
+
+                $action             =$this->Admin_db->select_plan($v_user_id,$v_plan_id,$v_name,$v_phone,$v_email,$v_amount,$v_ref,$v_id);
+                if($action == true){
+                    $data['alert']	='<div class="alert alert-success" role="alert"><strong>Success:</strong> Your Payment was successful! </div>';
+                    $this->session->set_flashdata('main_alert',$data['alert']);
+                    redirect('Store_Owner');
+                }else{
+                    $data['alert']	='<div class="alert alert-warning" role="alert"><strong>Success:</strong>Oops!! Your Transaction was successful but we can\'t verify your payment </div>';
+                    $this->session->set_flashdata('alert',$data['alert']);
+                    redirect('Plans');
+                }
+            }else{
+                $data['alert']	='<div class="alert alert-warning" role="alert"><strong>Success:</strong>Oops!! Could not verify your transaction </div>';
+                $this->session->set_flashdata('alert',$data['alert']);
+                redirect('Plans');
+            }
+        }
     }
 
 }

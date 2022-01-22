@@ -332,7 +332,21 @@ class Admin_db extends My_Model{
 			$store_owner_id  =$this->session->userdata('store_owner_id');
 
 
-        if($status == 'store_owner'){
+        if($status =='admin'){
+            $data          =array(
+                'email'=>$email,
+                'user_status'=>$status,
+                'path'=>$current_path,
+                'type'=>$type,
+                'time'=>time(),
+                'date'=>date('Y-m-d H:i:sa'),
+                'day' =>date('d'),
+                'month'=>date('M'),
+                'year'=>date('Y'),
+            );
+            $this->db->set($data);
+        }
+        else if($status == 'store_owner'){
             $data          =array(
                 'email'=>$email,
                 'user_status'=>$status,

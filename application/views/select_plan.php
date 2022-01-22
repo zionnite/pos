@@ -4,7 +4,8 @@
     $private_key       =$this->Admin_db->get_private_live_key();
     //$full_name         =str_replace(" ","_",$full_name);
     $token  =time();
-        
+	$site_name      =$this->Admin_db->get_site_name();
+
 ?>
 <style>
 	.pagination {
@@ -70,9 +71,8 @@
 
 
 
-										<form method="POST" action="https://checkout.flutterwave.com/v3/hosted/pay">
-											<!-- Message Input Area Start -->
-											<!--  <input type="hidden" name="public_key" value="FLWPUBK_TEST-SANDBOXDEMOKEY-X" />-->
+										<!-- <form method="POST" action="https://checkout.flutterwave.com/v3/hosted/pay">
+											 <input type="hidden" name="public_key" value="FLWPUBK_TEST-SANDBOXDEMOKEY-X" />
 											<input type="hidden" name="public_key" value="<?php echo $public_key;?>" />
 											<input type="hidden" name="customer[email]" value="<?php echo $email;?>" />
 											<input type="hidden" name="customer[phone_number]" value="<?php echo $phone_no;?>" />
@@ -86,8 +86,70 @@
 											<input type="hidden" name="redirect_url" value="<?php echo base_url();?>Plans/verify_payment" />
 
 											<button type="submit" class="btn btn-danger btn-block" style="margin-top:1%;">Select Plan</button>
-											<!-- Message Input Area End -->
+										</form> -->
+
+
+										<form id="paymentForm_<?php echo $id;?>">
+											<input type="hidden" id="email-address" required value="<?php echo $email;?>" />
+											<input type="hidden" id="amount" required value="<?php echo $amount;?>" />
+											<input type="hidden" id="first-name" value="<?php echo $full_name;?>" />
+											<input type="hidden" id="last-name" value="<?php echo $user_name;?>" />
+
+											<input class="btn btn-danger btn-block" id="pay" type="submit" value="Pay" />
+											
 										</form>
+
+										<script type="text/javascript" src="<?php echo base_url();?>files/bower_components/jquery/dist/jquery.min.js"></script>
+										<script src="https://js.paystack.co/v1/inline.js"></script> 
+										<script>
+											function payWithPayStack() {
+												
+												var reference = '<?php echo $token;?>';
+												var customerName = '<?php echo $full_name;?>';
+												var site_name = '<?php echo $site_name;?>';
+												var pay_phone = <?php echo $phone_no;?>;
+												var Pay_Amount = '<?php echo $amount;?>';
+												var payemail = '<?php echo $email;?>'; 
+												var plan_id 	='<?php echo $id;?>';
+												var user_id 	='<?php echo $user_id;?>';
+												var handler = PaystackPop.setup({
+															key: '<?php echo $public_key;?>',
+															email: payemail,
+															amount: Pay_Amount * 100,
+															currency: 'NGN', 
+															ref: reference,
+															metadata: {
+																"user_id":user_id,
+																"plan_id": plan_id,
+																// custom_fields: [
+																// 	{
+																// 		"user_id":user_id,
+																// 		"plan_id": plan_id,
+																// 	}
+																// ]
+															},
+															async: false,
+															callback: function(response) {
+																var reference = response.reference;
+     															// alert('Payment complete! Reference: ' + reference);
+																window.location = "<?php echo base_url();?>Plans/verify_payment/" + response.reference;
+															},
+															onClose: function() {
+																alert('transaction cancelled');
+																return false;
+															}
+														});
+												handler.openIframe();
+											}
+
+
+											$('#paymentForm_<?php echo $id;?>').click(function(e){
+												e.preventDefault();
+												payWithPayStack();
+											});
+										</script>
+
+										
 									</div>
 								</div>
 							</div>
