@@ -2778,7 +2778,7 @@ class Action extends My_Model{
 			return false;
 		}else{
 			$this->db->select('COUNT("prod_bunk") AS prod_bunk,');
-			$this->db->group_by("store_owner_id");
+			//$this->db->group_by("store_owner_id");
 
 			$query		=$this->db->get('product_tbl');
 			if($query->num_rows() > 0){
@@ -2848,7 +2848,7 @@ class Action extends My_Model{
 			return false;
 		}else{
 			$this->db->select('COUNT("prod_bunk") AS prod_bunk,');
-			$this->db->group_by("store_owner_id");
+			//$this->db->group_by("store_owner_id");
 			$this->db->where('prod_bunk >', 0);
 
 			$query		=$this->db->get('product_tbl');
@@ -2919,7 +2919,7 @@ class Action extends My_Model{
 			return false;
 		}else{
 			$this->db->select('COUNT("prod_bunk") AS prod_bunk,');
-			$this->db->group_by("store_owner_id");
+			//$this->db->group_by("store_owner_id");
 			$this->db->where('prod_bunk <=', 0);
 
 			$query		=$this->db->get('product_tbl');
