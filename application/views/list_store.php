@@ -54,7 +54,7 @@
 								alt=""></td>
 						<td style="display: table-cell;"><?php echo $store_name;?></td>
 						<td>
-							<a href="<?php echo base_url();?>Office/manage_store/<?php echo $id;?>" class="label label-success"><i class="fa fa-store"></i> Manage Store</a>
+							<a href="<?php echo base_url();?>Store_Owner/manage_store/<?php echo $id;?>" class="label label-success"><i class="fa fa-store"></i> Manage Store</a>
 					
 							<a href="javascript:;" class="label label-danger" id="delete_store_<?php echo $id;?>"
 								data-store_id="<?php echo $id;?>"><i class="fa fa-trash"></i> Delete</a>
