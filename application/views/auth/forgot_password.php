@@ -15,7 +15,6 @@
 									<h3 class="text-center">Forgot Password </h3>
 									
 
-									<?php echo urlencode("admin@admin.com");?>
                                     <?php echo isset($alert)?$alert:NULL;?>
 								</div>
 							</div>
