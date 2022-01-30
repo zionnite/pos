@@ -151,13 +151,40 @@ class Dashboard extends My_Controller {
 				echo $this->upload->display_errors();
 			}else{  
 				$data = array('upload_data' => $this->upload->data());
-				$img_file_name  = $data['upload_data']['file_name'];
-						
+				$img_file_name  = $data['upload_data']['file_name'];	
 						
 				$result	=$this->Admin_db->update_site_setting($img_file_name,$site_name,$phone,$email,$g_name,$g_pass);
 
-
 				if($result == TRUE){
+
+				
+                
+                	//File path at local server
+                	$source = 'files/site_logo/'.$img_file_name;
+
+					//File upload path of remote server
+					$destination = '/files/site_logo/'.$img_file_name;
+
+					//Load codeigniter FTP class
+					$this->load->library('ftp');
+                
+					//FTP configuration
+					$ftp_config['hostname'] = 'ftp.example.com'; 
+					$ftp_config['username'] = 'ftp_username';
+					$ftp_config['password'] = 'ftp_password';
+					$ftp_config['debug']    = TRUE;
+					
+					//Connect to the remote server
+					$this->ftp->connect($ftp_config);
+					
+					
+					
+					//Upload file to the remote server
+					$this->ftp->upload($source, ".".$destination);
+					
+					//Close FTP connection
+					$this->ftp->close();
+
 					echo 'ok';
 				}else{
 					echo 'err';
