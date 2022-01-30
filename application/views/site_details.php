@@ -36,6 +36,8 @@
 								$site_logo			=$this->Admin_db->get_site_logo();
 								$site_phone 		=$this->Admin_db->get_site_phone();
 								$site_email 		=$this->Admin_db->get_site_email();
+								$site_gName 		=$this->Admin_db->get_site_g_name();
+								$site_gPass 		=$this->Admin_db->get_site_g_pass();
 							?>
 
 							<form id="uploadForm" enctype="multipart/form-data">
@@ -81,6 +83,28 @@
 										?>
 									</div>
 									
+								</div>
+
+								<!-- <div class="form-group row">
+									<label class="col-sm-2 col-form-label">&nbsp;</label>
+									<div class="col-sm-10">
+										
+										<small><b style="color:red;">Please fill this Information</b></small>
+									</div>
+								</div> -->
+
+								<div class="form-group row">
+									<label class="col-sm-2 col-form-label">Gmail Email Address</label>
+									<div class="col-sm-10">
+										<input type="text" name="gname" id="gname" class="form-control" value="<?php echo $site_gName;?>">
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<label class="col-sm-2 col-form-label">Gmail Password</label>
+									<div class="col-sm-10">
+										<input type="text" name="gpass" id="gpass" class="form-control" value="<?php echo $site_gPass;?>">
+									</div>
 								</div>
 
 								<div class="form-group row">

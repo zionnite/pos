@@ -285,10 +285,13 @@ class Login_user extends My_Model{
 			return FALSE;
 		}
 	}
-	public function email_to_all_detail($email){
-		$query	=$this->db->get_where('user_detail',array('email'=>$email));
+	public function get_user_status($email){
+		$query	=$this->db->get_where('admin',array('email'=>$email));
 		if($query->num_rows() > 0){
-			return $query->result_array();
+			foreach($query->result_array() as $row){
+				return $row['user_status'];
+				
+			}
 		}else{
 			return FALSE;
 		}
@@ -303,10 +306,10 @@ class Login_user extends My_Model{
 			return FALSE;
 		}
 	}
-    public function request_password($email){
+    public function request_password($email,$user_id){
         /*==============set request Password on ==========*/
-        $user_name      =$this->email_to_user_name($email);
-        $data           =array('user_name'=>$user_name,'request_password'=>'Yes');
+
+		$data           =array('email'=>$email,'request_password'=>'Yes','user_id'=>$user_id);
         $this->db->set($data);
         $this->db->insert('request_passord');
         /*==============End set request Password on ==========*/
@@ -318,30 +321,35 @@ class Login_user extends My_Model{
         $this->db->delete('request_passord');
         /*==============End set request Password on ==========*/
     }
-    public function getRestPassword_Permission($user_name){
-		$query	=$this->db->get_where('request_passord',array('user_name'=>$user_name,'request_password'=>'Yes'));
+    public function getRestPassword_Permission($user_id,$email){
+		$query	=$this->db->get_where('request_passord',array('user_id'=>$user_id,'request_password'=>'Yes','email'=>$email));
 		if($query->num_rows() > 0){
 			return $query->result_array();
 		}else{
 			return FALSE;
 		}
 	}
-    public function confirm_reset_password($password,$user_name){
-        $data	=array('password'=>md5($password));
-		$this->db->set($data);
-        $this->db->where('user_name',$user_name);
-		$this->db->update('user_detail');
+    public function confirm_reset_password($password,$user_id,$email){
+		$this->db->where('user_id',$user_id);
+		$this->db->where('email',$email);
+		$this->db->delete('request_passord');
+		
 		if($this->db->affected_rows() > 0){
-            $this->db->where('user_name',$user_name);
-		    $this->db->delete('request_passord');
+           
+
+			$data	=array('password'=>md5($password));
+			$this->db->set($data);
+			$this->db->where('email',$email);
+			$this->db->update('admin');
+
 			return TRUE;
 		}else{
 			return FALSE;
 		}
     }
     public function check_if_email_exist_request_password_tbl($email){
-        $user_name      =$this->email_to_user_name($email);
-        $this->db->where('user_name',$user_name);
+
+		$this->db->where('email',$email);
         $this->db->get('request_passord');
         if($this->db->affected_rows() > 0){
             return TRUE;
@@ -382,5 +390,32 @@ class Login_user extends My_Model{
 			return true;
 		}
 		return false;
+	}
+
+
+	public function get_user_id($email){
+		$this->db->where('email',$email);
+		$query		=$this->db->get('admin');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['id'];
+			}
+		}
+
+		return false;
+		
+	}
+
+	public function get_user_name($email){
+		$this->db->where('email',$email);
+		$query		=$this->db->get('admin');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['user_name'];
+			}
+		}
+
+		return false;
+		
 	}
 }

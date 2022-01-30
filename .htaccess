@@ -6,16 +6,16 @@
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /mog/
+    RewriteBase /pos_admin/
 
-    RewriteCond %{HTTPS} !=on
-    RewriteCond %{HTTP_HOST} ^gwcgroup\.co.uk [OR]
-    RewriteCond %{HTTP_HOST} ^www\.gwcgroup\.co.uk$
-    RewriteRule .* https://gwcgroup.co.uk%{REQUEST_URI} [R=301,L]
+    # RewriteCond %{HTTPS} !=on
+    # RewriteCond %{HTTP_HOST} ^gwcgroup\.co.uk [OR]
+    # RewriteCond %{HTTP_HOST} ^www\.gwcgroup\.co.uk$
+    # RewriteRule .* https://gwcgroup.co.uk%{REQUEST_URI} [R=301,L]
     
-    RewriteCond %{HTTPS} =on
-    RewriteCond %{HTTP_HOST} ^www\.gwcgroup\.co.uk$
-    RewriteRule .* https://gwcgroup.co.uk%{REQUEST_URI} [R=301,L]
+    # RewriteCond %{HTTPS} =on
+    # RewriteCond %{HTTP_HOST} ^www\.gwcgroup\.co.uk$
+    # RewriteRule .* https://gwcgroup.co.uk%{REQUEST_URI} [R=301,L]
     
     
     #Removes access to the system folder by users.

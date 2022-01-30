@@ -96,13 +96,15 @@ class Admin_db extends My_Model{
         return false;
     }
 
-    public function update_site_setting($img_file_name,$name,$phone,$email){
+    public function update_site_setting($img_file_name,$name,$phone,$email,$g_name,$g_pass){
         $this->db->empty_table('site_setting'); 
         
-		$data		=array('site_name'=>$name,
-						   'site_email'=>$email,
-						   'site_phone'=>$phone,
-						   'site_logo'=>$img_file_name,
+		$data		=array('site_name'  =>$name,
+						   'site_email' =>$email,
+						   'site_phone' =>$phone,
+						   'site_logo'  =>$img_file_name,
+                           'g_name'     =>$g_name,
+                           'g_pass'     =>$g_pass,
 						   
 						);
 
@@ -166,6 +168,26 @@ class Admin_db extends My_Model{
         if($query->num_rows() > 0){
             foreach($query->result_array() as $row){
                 return $row['site_email'];
+            }
+        }
+        return false;
+    }
+
+    public function get_site_g_name(){
+        $query      =$this->db->get('site_setting');
+        if($query->num_rows() > 0){
+            foreach($query->result_array() as $row){
+                return $row['g_name'];
+            }
+        }
+        return false;
+    }
+
+    public function get_site_g_pass(){
+        $query      =$this->db->get('site_setting');
+        if($query->num_rows() > 0){
+            foreach($query->result_array() as $row){
+                return $row['g_pass'];
             }
         }
         return false;

@@ -47,7 +47,7 @@
 									</td>
 
 									<td>
-										<a href="<?php echo base_url();?>Office/open_branch_store/<?php echo $store_id;?>" class="label label-inverse"><i class="fa fa-boxes"></i> Manage
+										<a href="<?php echo base_url();?>Store_Owner/open_branch_store/<?php echo $store_id;?>" class="label label-inverse"><i class="fa fa-boxes"></i> Manage
 											Store Branch</a>
 									
 										<a href="#edit_store" class="label label-info" data-toggle="modal"><i class="fa fa-pen"></i> Edit

@@ -122,7 +122,7 @@
 										<td><?php echo $dis_phone;?></td>
 										<td><?php echo $count_dis_user_number_of_store;?></td>
 										<td>
-											<a href="<?php echo base_url();?>Dashboard/more_about_store_owner/<?php echo $id;?>"
+											<a href="<?php echo base_url();?>Super-Admin/store_owner/<?php echo $id;?>"
 											 class="label label-success"><i class="fa fa-door-open"></i> View More</a>
 											<a href="javascript:;" id="delete_branch_<?php echo $id;?>"
 												data-id="<?php echo $id;?>" class="label label-danger"><i class="fa fa-trash"></i> Delete</a>

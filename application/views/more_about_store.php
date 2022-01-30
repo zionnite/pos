@@ -36,7 +36,7 @@
 				<div class="col-md-12" id="slideshow">
 					<div class="card" id="slide_show">
 						<div class="card-header">
-							<h5>List Of Store By Store Owner ID (<?php echo $store_owner_id;?></h5>
+							<h5>List Of Store By Store Owner ID (<?php echo $store_owner_id;?>)</h5>
 
 						</div>
 
@@ -135,7 +135,7 @@
 										
                                         <td><?php echo $date;?></td>
 										<td>
-											<a href="<?php echo base_url();?>Dashboard/view_store_detail/<?php echo $id;?>"
+											<a href="<?php echo base_url();?>Super-Admin/store_detail/<?php echo $id;?>"
 											 class="label label-success"><i class="fa fa-door-open"></i> More</a>
 											<?php
 												if($store_status =='normal'){?>

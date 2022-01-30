@@ -118,6 +118,8 @@ class Dashboard extends My_Controller {
         $site_name        		=$this->input->post('site_name');
         $email         			=$this->input->post('email');
         $phone         			=$this->input->post('phone');
+		$g_name					=$this->input->post('gname');
+		$g_pass					=$this->input->post('gpass');
 
 
 
@@ -152,7 +154,7 @@ class Dashboard extends My_Controller {
 				$img_file_name  = $data['upload_data']['file_name'];
 						
 						
-				$result	=$this->Admin_db->update_site_setting($img_file_name,$site_name,$phone,$email);
+				$result	=$this->Admin_db->update_site_setting($img_file_name,$site_name,$phone,$email,$g_name,$g_pass);
 
 
 				if($result == TRUE){

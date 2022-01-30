@@ -40,7 +40,7 @@
 													$store_id		=$row['id'];
 												
 										?>
-											<a class="dropdown-item waves-light waves-effect" href="<?php echo base_url();?>Office/get_supervisor_by_store_id/<?php echo $store_id;?>"> <?php echo $store_name;?></a>
+											<a class="dropdown-item waves-light waves-effect" href="<?php echo base_url();?>Store_Owner/supervisor_store/<?php echo $store_id;?>"> <?php echo $store_name;?></a>
 										<?php
 												}
 											}
@@ -64,7 +64,7 @@
 													$get_store_name		=$this->Action->get_store_name_by_branch_id($branch_id);
 												
 										?>
-											<a class="dropdown-item waves-light waves-effect" href="<?php echo base_url();?>Office/get_supervisor_by_store_branch_id/<?php echo $branch_id;?>"><?php echo $get_store_name;?> (<?php echo $branch_name;?> Branch)</a>
+											<a class="dropdown-item waves-light waves-effect" href="<?php echo base_url();?>Store_Owner/supervisor_branch/<?php echo $branch_id;?>"><?php echo $get_store_name;?> (<?php echo $branch_name;?> Branch)</a>
 										<?php
 												}
 											}
