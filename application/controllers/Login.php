@@ -225,15 +225,10 @@ class Login extends My_Controller {
 			$this->session->set_flashdata('alert',$data['alert']);
             redirect('Login/forgot_password');
         }
-        if(is_array($data['reset_password'])){
-            foreach($data['reset_password'] as $row){
-                $data['user_id'] 		=$row['user_id'];
-                $data['email'] 			=$email;
-                $data['user_status'] 	=$this->Login_user->get_user_status($data['email']);
-            }
-        }
-        $data['user_id']  =$user_id;
-		// $this->load->view($data['content'],$data);
+
+        $data['user_id']  		=$user_id;
+		$data['email'] 			=$email;
+		$data['user_status'] 	=$this->Login_user->get_user_status($email);
 		$this->load->view($this->auth_master,$data);
 	}
     public function confirm_reset_password2(){
