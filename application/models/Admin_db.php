@@ -171,6 +171,26 @@ class Admin_db extends My_Model{
         return false;
     }
 
+    public function get_site_g_name(){
+        $query      =$this->db->get('site_setting');
+        if($query->num_rows() > 0){
+            foreach($query->result_array() as $row){
+                return $row['g_name'];
+            }
+        }
+        return false;
+    }
+
+    public function get_site_g_pass(){
+        $query      =$this->db->get('site_setting');
+        if($query->num_rows() > 0){
+            foreach($query->result_array() as $row){
+                return $row['g_pass'];
+            }
+        }
+        return false;
+    }
+
     public function change_password($old,$new){
         $user_name         		=$this->session->userdata('user_name');
         $user_status            =$this->session->userdata('user_status');
@@ -199,6 +219,12 @@ class Admin_db extends My_Model{
                 $this->db->where('email',$email);
                 $this->db->update('store_owner');
                 if($this->db->affected_rows() > 0){
+
+                    $data =array('password' => md5($new));
+                    $this->db->set($data);
+                    $this->db->where('email',$email);
+                    $this->db->update('login_tbl');
+
                     return 'ok';
                 }else{
                     return 'Could not perform operation, please try again later';
@@ -211,6 +237,12 @@ class Admin_db extends My_Model{
                 $this->db->where('email',$email);
                 $this->db->update('supervisor');
                 if($this->db->affected_rows() > 0){
+
+                    $data =array('password' => md5($new));
+                    $this->db->set($data);
+                    $this->db->where('email',$email);
+                    $this->db->update('login_tbl');
+
                     return 'ok';
                 }else{
                     return 'Could not perform operation, please try again later';
@@ -224,6 +256,12 @@ class Admin_db extends My_Model{
                 $this->db->where('email',$email);
                 $this->db->update('sales_rep');
                 if($this->db->affected_rows() > 0){
+
+                    $data =array('password' => md5($new));
+                    $this->db->set($data);
+                    $this->db->where('email',$email);
+                    $this->db->update('login_tbl');
+                    
                     return 'ok';
                 }else{
                     return 'Could not perform operation, please try again later';
@@ -231,6 +269,9 @@ class Admin_db extends My_Model{
                 
 
             }
+
+
+
         }else{
             return 'Your Old Password is incorrect';
         }

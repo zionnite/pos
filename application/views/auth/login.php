@@ -26,6 +26,18 @@
 									placeholder="Password" name="password">
 								<span class="form-bar"></span>
 							</div>
+
+							<div class="row m-t-25 text-left">
+                                <div class="col-12">
+                                    <div class="checkbox-fade fade-in-primary d-">
+                                        
+                                        </div>
+                                        <div class="forgot-phone text-right f-right">
+                                            <a href="<?php echo base_url();?>Login/forgot_password" class="text-right f-w-600"> Forgot
+                                                Password?</a>
+                                        </div>
+                                </div>
+                        	</div>
 							
 							<div class="row m-t-30">
 								<div class="col-md-12">
