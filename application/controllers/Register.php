@@ -43,12 +43,12 @@ class Register extends My_Controller {
 						/*retrieve Session data*/
 						$data['alert']	='<div class="alert alert-success" role="alert">Registration Successful</div>';
 						$this->session->set_flashdata('alert',$data['alert']);
-						redirect('Login/owner');
+						redirect('Login');
 					}
 				}else{
 					$data['alert']	='<div class="alert alert-success" role="alert">This User aleready exist in our database</div>';
 					$this->session->set_flashdata('alert',$data['alert']);
-					redirect('Login/owner');
+					redirect('Login');
 				}
 			}
 		}else{

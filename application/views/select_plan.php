@@ -35,7 +35,7 @@
 </style>
 <div class="main-body">
 	<div class="page-wrapper">
-
+		<?php echo isset($main_alert)?$main_alert:NULL;?>
 		<div class="page-body">
 			<div class="row">
 
@@ -108,7 +108,7 @@
 												var customerName = '<?php echo $full_name;?>';
 												var site_name = '<?php echo $site_name;?>';
 												var pay_phone = <?php echo $phone_no;?>;
-												var Pay_Amount = '<?php echo $amount;?>';
+												var Pay_Amount = $('#amount').val();
 												var payemail = '<?php echo $email;?>'; 
 												var plan_id 	='<?php echo $id;?>';
 												var user_id 	='<?php echo $user_id;?>';

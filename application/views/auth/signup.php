@@ -45,9 +45,11 @@
 							
 							<div class="row m-t-30">
 								<div class="col-md-12">
-									<input type="submit" name="login" class="btn btn-primary text-center" value="Sign Up" />
+									<input type="submit" name="login" class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20" value="Sign Up" />
 								</div>
 							</div>
+
+							<p class="text-inverse text-left">Already have an account?<a href="<?php echo base_url();?>Login"> <b class="f-w-600">Login here </b></a></p>
 							<hr>
 							
 						</div>

@@ -121,7 +121,7 @@ class Plans extends My_Controller {
         
         if ($err) {
             $data['alert']	='<div class="alert alert-warning" role="alert"><strong>Success:</strong>Oops!! An Error occur while trying to verify your payment</div>';
-            $this->session->set_flashdata('alert',$data['alert']);
+            $this->session->set_flashdata('main_alert',$data['alert']);
             redirect('Plans');
         } else {
         //   echo print_r($result);
@@ -152,12 +152,12 @@ class Plans extends My_Controller {
                     redirect('Store_Owner');
                 }else{
                     $data['alert']	='<div class="alert alert-warning" role="alert"><strong>Success:</strong>Oops!! Your Transaction was successful but we can\'t verify your payment </div>';
-                    $this->session->set_flashdata('alert',$data['alert']);
+                    $this->session->set_flashdata('main_alert',$data['alert']);
                     redirect('Plans');
                 }
             }else{
                 $data['alert']	='<div class="alert alert-warning" role="alert"><strong>Success:</strong>Oops!! Could not verify your transaction </div>';
-                $this->session->set_flashdata('alert',$data['alert']);
+                $this->session->set_flashdata('main_alert',$data['alert']);
                 redirect('Plans');
             }
         }

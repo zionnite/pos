@@ -41,9 +41,10 @@
 							
 							<div class="row m-t-30">
 								<div class="col-md-12">
-									<input type="submit" name="login" class="btn btn-primary text-center" value="Sign in" />
+									<input type="submit" name="login" class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20" value="Sign in" />
 								</div>
 							</div>
+							<p class="text-inverse text-left">Don't have an account?<a href="<?php echo base_url();?>Register"> <b class="f-w-600">Register here </b></a></p>
 							<hr>
 							
 						</div>
