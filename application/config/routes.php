@@ -120,6 +120,6 @@ $route['Store_Owner/filter_transaction/(:any)/(:any)']                ='Transact
 
 
 
-$route['default_controller'] = 'welcome';
+$route['default_controller'] = 'login';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

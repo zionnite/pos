@@ -95,6 +95,7 @@ $site_logo      =$this->Admin_db->get_site_logo();
           elseif($this->uri->segment(1) =='Sales_Dashboard'){
               echo $site_name.' | Dashboard (Staff)';
           }
+
           elseif($this->uri->segment(1) =='Pos'){
               if($this->uri->segment(2) ==''){
                   echo 'Pos | Staff Dashboard';
@@ -121,6 +122,92 @@ $site_logo      =$this->Admin_db->get_site_logo();
               }
               elseif($this->uri->segment(2) =='view_invoice'){
                   echo 'Manager | View Invoice';
+              }
+          }
+          elseif($this->uri->segment(1) =='Store_Owner'){
+              if($this->uri->segment(2) ==''){
+                  echo 'Store-Owner | Dashboard';
+              }
+              elseif($this->uri->segment(2) =='open_store'){
+                  echo 'Store-Owner | Open Store';
+              }
+              elseif($this->uri->segment(2) =='manage_store'){
+                  echo 'Store-Owner | Manage Store';
+              }
+              elseif($this->uri->segment(2) =='open_branch_store'){
+                  echo 'Store-Owner | Open Branch Store';
+              }
+              elseif($this->uri->segment(2) =='supervisor'){
+                  echo 'Store-Owner | Supervisor';
+              }
+              elseif($this->uri->segment(2) =='supervisor_store'){
+                  echo 'Store-Owner | Supervisor Store';
+              }
+              elseif($this->uri->segment(2) =='supervisor_branch'){
+                  echo 'Store-Owner | Supervisor Branch';
+              }
+              elseif($this->uri->segment(2) =='staff'){
+                  echo 'Store-Owner | staff';
+              }
+              elseif($this->uri->segment(2) =='filter_staff_store'){
+                  echo 'Store-Owner | Filter Staff Store';
+              }
+              elseif($this->uri->segment(2) =='filter_staff_branch'){
+                  echo 'Store-Owner | Filter Staff Branch';
+              }
+              elseif($this->uri->segment(2) =='customer'){
+                  echo 'Store-Owner | Customer';
+              }
+              elseif($this->uri->segment(2) =='filter_customer'){
+                  echo 'Store-Owner | Filter Customer';
+              }
+              elseif($this->uri->segment(2) =='supplier'){
+                  echo 'Store-Owner | Supplier';
+              }
+              elseif($this->uri->segment(2) =='filter_supplier'){
+                  echo 'Store-Owner | Filter Supplier';
+              }
+              elseif($this->uri->segment(2) =='category'){
+                  echo 'Store-Owner | Category';
+              }
+              elseif($this->uri->segment(2) =='add_stock'){
+                  echo 'Store-Owner | Add Stock';
+              }
+              elseif($this->uri->segment(2) =='view_product'){
+                  echo 'Store-Owner | View Product';
+              }
+              elseif($this->uri->segment(2) =='filter_product'){
+                  echo 'Store-Owner | Filter Product';
+              }
+              elseif($this->uri->segment(2) =='product_in'){
+                  echo 'Store-Owner | Product In';
+              }
+              elseif($this->uri->segment(2) =='filter_product_in'){
+                  echo 'Store-Owner | Filter Product In';
+              }
+              elseif($this->uri->segment(2) =='filter_product_in'){
+                  echo 'Store-Owner | Filter Product In';
+              }
+              elseif($this->uri->segment(2) =='product_out'){
+                  echo 'Store-Owner | Product Out';
+              }
+              elseif($this->uri->segment(2) =='filter_product_out'){
+                  echo 'Store-Owner | Filter Product Out';
+              }
+              elseif($this->uri->segment(2) =='invoice'){
+                  echo 'Store-Owner | Invoice';
+              }
+              elseif($this->uri->segment(2) =='filter_invoice'){
+                  echo 'Store-Owner | Filter Invoice';
+              }
+              elseif($this->uri->segment(2) =='view_invoice'){
+                  echo 'Store-Owner | View Invoice';
+              }
+              elseif($this->uri->segment(2) =='history'){
+                  echo 'Store-Owner | History';
+              }
+              elseif($this->uri->segment(2) =='filter_transaction'){
+                  echo 'Store-Owner | Filter Transaction';
               }
           }
           ?> 
