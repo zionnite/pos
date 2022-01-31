@@ -2471,11 +2471,12 @@ class Action extends My_Model{
 		return false;
 	}
 
-	public function create_payment_plan($name,$num_store,$amount){
+	public function create_payment_plan($name,$num_store,$amount,$file_name){
 		
 		$data	=array('title'=>$name,
 					   'store_num'=>$num_store,
 					   'amount'=>$amount,
+					   'image'=>$file_name,
 					);
 		$this->db->set($data);
 		$this->db->insert('plan');

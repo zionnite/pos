@@ -14,6 +14,6 @@ $route['Super-Admin/edit_plan/(:any)']                                          
 $route['Super-Admin/store_detail/(:any)']                                           ='Dashboard/view_store_detail/$1';
 
 
-$route['default_controller'] = 'welcome';
+$route['default_controller'] = 'login';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

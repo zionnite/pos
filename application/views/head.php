@@ -10,118 +10,38 @@ $site_logo      =$this->Admin_db->get_site_logo();
     
   <title>
     <?php
-          if($this->uri->segment(1) =='Dashboard' || $this->uri->segment(1) =='' || $this->uri->segment(1) ==' '){
-            if($this->uri->segment(2) =='view_plan'){
-              echo $site_name.' | View Plan';
-            }elseif($this->uri->segment(2) =='manage_store'){
-                echo $site_name.' | Manage Store';
-            }elseif($this->uri->segment(2) =='settings'){
-                echo $site_name.' | Settings';
-            }elseif($this->uri->segment(2) =='site_details'){
-                echo $site_name.' | Update Site Details';
-            }elseif($this->uri->segment(2) =='set_payment_api'){
-                echo $site_name.' | Update Payment Api';
-            }else{
-              echo $site_name.' | Admin Portal';
-            }
-              
-          }elseif($this->uri->segment(2) =='open_store'){
-              echo $site_name.' | Open Store';
-          }elseif($this->uri->segment(2) =='view_supervisor'){
-              echo $site_name.' | View Supervisor';
-          }elseif($this->uri->segment(2) =='get_supervisor_by_store_id'){
-              echo $site_name.' | Filter Supervisor By Store Id';
-          }elseif($this->uri->segment(2) =='get_supervisor_by_store_branch_id'){
-              echo $site_name.' | Filter Supervisor By Branch Id';
-          }elseif($this->uri->segment(2) =='manage_store'){
-              echo $site_name.' | Manage Store';
-          }elseif($this->uri->segment(2) =='open_branch_store'){
-              echo $site_name.' | Open Branch Store';
-          }
-          elseif($this->uri->segment(2) =='view_sale_rep'){
-              echo $site_name.' | View Sale Rep';
-          }
-          elseif($this->uri->segment(2) =='get_sales_rep_by_store_id'){
-              echo $site_name.' | View Sale Rep By Store Id';
-          }
-          elseif($this->uri->segment(2) =='get_sales_rep_by_store_branch_id'){
-              echo $site_name.' | View Sale Rep By Branch Id';
-          }
-          elseif($this->uri->segment(2) =='view_my_customer'){
-              echo $site_name.' | View Customers';
-          }
-          elseif($this->uri->segment(2) =='filter_customer'){
-              echo $site_name.' | Filter Customer';
-          }
-          elseif($this->uri->segment(2) =='view_my_supplier'){
-              echo $site_name.' | View Supplier';
-          }
-          elseif($this->uri->segment(2) =='filter_supplier'){
-              echo $site_name.' | Filter Supplier';
-          }
-          elseif($this->uri->segment(2) =='view_my_category'){
-              echo $site_name.' | View Category';
-          }
-          elseif($this->uri->segment(2) =='add_stock'){
-              echo $site_name.' | Add Stock';
-          }
-          elseif($this->uri->segment(2) =='view_product'){
-              echo $site_name.' | View Product';
-          }
-          elseif($this->uri->segment(2) =='view_product_in'){
-              echo $site_name.' | View Product In-Stock';
-          }
-          elseif($this->uri->segment(2) =='view_product_out'){
-              echo $site_name.' | View Product Out-of-stock';
-          }
-          elseif($this->uri->segment(2) =='view_my_supplier'){
-              echo $site_name.' | View Supplier';
-          }
-          elseif($this->uri->segment(1) =='Invoice'){
-              echo $site_name.' | Invoice';
-          }
-          elseif($this->uri->segment(1) =='Transaction_history'){
-              echo $site_name.' | Transaction History';
-          }
-          elseif($this->uri->segment(1) =='Sales_rep'){
-              echo $site_name.' | New Transaction';
-          }
-          elseif($this->uri->segment(1) =='Manager_Dashboard'){
-              echo $site_name.' | Dashboard (Manager)';
-          }
-          elseif($this->uri->segment(1) =='Office'){
-              echo $site_name.' | Dashboard (Store Owner)';
-          }
-          elseif($this->uri->segment(1) =='Sales_Dashboard'){
-              echo $site_name.' | Dashboard (Staff)';
-          }
-          elseif($this->uri->segment(1) =='Pos'){
+          if($this->uri->segment(1) =='Super-Admin'){
               if($this->uri->segment(2) ==''){
-                  echo 'Pos | Staff Dashboard';
+                  echo 'Super-Admin | Dashboard';
               }
-              elseif($this->uri->segment(2) =='add_sales'){
-                  echo 'Pos | Add Sales';
+              elseif($this->uri->segment(2) =='view_plan'){
+                  echo 'Super-Admin | View Plan';
               }
-              elseif($this->uri->segment(2) =='history'){
-                  echo 'Pos | History';
+              elseif($this->uri->segment(2) =='edit_plan'){
+                  echo 'Super-Admin | Edit Plan';
               }
-              elseif($this->uri->segment(2) =='view_invoice'){
-                  echo 'Pos | View Invoice';
+              elseif($this->uri->segment(2) =='manage_store'){
+                  echo 'Super-Admin | Manage Store';
               }
-          }
-          elseif($this->uri->segment(1) =='Manager'){
-              if($this->uri->segment(2) ==''){
-                  echo 'Manager | Manager Dashboard';
+              elseif($this->uri->segment(2) =='store_owner'){
+                  echo 'Super-Admin | Store Owner';
               }
-              elseif($this->uri->segment(2) =='add_sales'){
-                  echo 'Manager | Add Sales';
+              elseif($this->uri->segment(2) =='store_detail'){
+                  echo 'Super-Admin | Store Detail';
               }
-              elseif($this->uri->segment(2) =='history'){
-                  echo 'Manager | History';
+              elseif($this->uri->segment(2) =='settings'){
+                  echo 'Super-Admin | Settings';
               }
-              elseif($this->uri->segment(2) =='view_invoice'){
-                  echo 'Manager | View Invoice';
+              elseif($this->uri->segment(2) =='settings'){
+                  echo 'Super-Admin | Settings';
               }
+              elseif($this->uri->segment(2) =='site_details'){
+                  echo 'Super-Admin | Site Details';
+              }
+              elseif($this->uri->segment(2) =='set_payment_api'){
+                  echo 'Super-Admin | Set Payment Api';
+              }
+
           }
           ?> 
   

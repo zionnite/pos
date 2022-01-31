@@ -434,6 +434,9 @@
 					$prod_name = preg_replace("/\s+/", "_", $prod_name);
 					$prod_name = preg_replace("/\s+/", "'", $prod_name);
 					$prod_name = preg_replace('/[^A-Za-z0-9\_]/', '', $prod_name);
+					if($total_bunk <= '0'){
+						$total_bunk = '0';
+					}
 
 					echo "['$prod_name', $total_bunk],";
 				}

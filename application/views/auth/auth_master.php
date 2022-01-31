@@ -10,7 +10,21 @@ $site_logo      =$this->Admin_db->get_site_logo();
 
 ?>
 <head>
-    <title><?php echo $site_name;?> | Login Page</title>
+<title>
+    <?php
+          if($this->uri->segment(1) =='Login' || $this->uri->segment(1) =='' || $this->uri->segment(1) ==' '){
+            if($this->uri->segment(2) =='forgot_password'){
+              echo $site_name.' | Forgot Password Page';
+            }elseif($this->uri->segment(2) =='confirm_reset_password'){
+                echo $site_name.' | Confirm Reset Password ';
+            }else{
+              echo $site_name.' | Login Page';
+            }
+              
+          }
+          ?> 
+  
+  </title>
     <!-- HTML5 Shim and Respond.js IE10 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 10]>
