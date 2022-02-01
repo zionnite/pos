@@ -375,9 +375,10 @@
 		ajaxlist(page_url=false);
 		
 		/*-- Search keyword--*/
-		$(document).keyup("#keywords", function(event) {
+		$(document).on('keyup', "#keywords", function(e) {
+					e.preventDefault();
+					e.stopPropagation();
 			ajaxlist(page_url=false);
-			event.preventDefault();
 		});
 		
 

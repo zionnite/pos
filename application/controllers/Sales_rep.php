@@ -254,6 +254,8 @@ class Sales_rep extends My_Controller {
 		$result	='';
 		$invoice_no					= random_string('alnum', 8);
 		$invoice_no					= $invoice_no.date('d');
+
+        $this->session->set_userdata('invoice_no', $invoice_no);
 	
 		$store_id 					=$data['store_id'];
 		$branch_id					=$data['branch_id'];

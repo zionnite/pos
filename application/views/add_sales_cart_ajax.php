@@ -1,3 +1,4 @@
+
 <?php
  if(is_array($get_product)){
 ?>
@@ -423,9 +424,11 @@
 									</form>
 
 									<a href="javascript:;"
-											class="btn btn-primary btn-sm" id="clear_cart">Clear Cart</a>
+											class="btn btn-primary btn-sm" id="clear_cart"><i class="fa fa-trash"></i> Clear Cart</a>
 										<a href="javascript:;"
-											class="btn btn-danger btn-sm" id="checkout_cart">Checkout</a>
+											class="btn btn-danger btn-sm" id="checkout_cart"><i class="fa fa-shopping-basket"></i> Checkout</a>
+										<!-- <a href="javascript:;"
+											class="btn btn-inverse btn-sm" id="print" onclick="PrintDiv();"><i class="fa fa-print"></i> Print</a> -->
 								</div>
 							</div>
 
@@ -512,7 +515,7 @@
                     // alert(resp);
                     if (resp == 'ok') {
                         $('#dataItem').load('<?php echo base_url();?>Sales_rep/add_sales_cart_ajax');
-
+						printInovice();
                         swal({
                             title: "Success",
                             text: "Transaction added to Transaction History",
@@ -570,3 +573,67 @@
         });
     });
 </script>
+
+<script>
+    function printInovice() {
+        window.open("<?php echo base_url();?>Invoice/print_invoice", "_blank");
+    }
+</script>
+
+<!-- <script>
+    $(document).ready(function(){
+        $('#print').click(function(){
+           
+
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo base_url();?>Sales_rep/print_out/',
+                data: {
+                    trans_type      :   trans_type,
+                    trans_method    :   trans_method,
+                    trans_customer  :   trans_customer,
+                    trans_note      :   trans_note
+
+                },
+
+                success: function (resp) {
+                    // alert(resp);
+                    if (resp == 'ok') {
+                        $('#dataItem').load('<?php echo base_url();?>Sales_rep/add_sales_cart_ajax');
+
+                        swal({
+                            title: "Success",
+                            text: "Transaction added to Transaction History",
+                            icon: "success",
+                            closeOnClickOutside: false,
+
+                        });
+
+                    } else if (resp == 'err') {
+
+                        swal({
+                            title: "Oops!",
+                            text: "Database Could not connect to server!",
+                            icon: "info",
+                            closeOnClickOutside: false,
+                        });
+
+                    }
+                }
+            });
+        });
+    });
+</script> -->
+<!-- 
+<div class="ticket" id="divToPrint">
+
+</div> -->
+<!-- <script type="text/javascript">     
+    function PrintDiv() {    
+       var divToPrint = document.getElementById('divToPrint');
+       var popupWin = window.open('', '_blank');
+       popupWin.document.open();
+       popupWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</html>');
+        popupWin.document.close();
+            }
+ </script> -->

@@ -53,13 +53,14 @@
                                     $store_num      =$row['store_num'];
                                     $store_desc     =$row['store_desc'];
                                     $amount         =$row['amount'];
+                                    $image          =$row['image'];
                                     $currency       ='&#8358;';
                             
                         ?>
 							<div class="col-lg-12 col-xl-3"  style="margin-top:1.5%;">
 								<div class="card-sub">
 									<!-- <img class="card-img-top img-fluid"
-										src="<?php echo base_url();?>files/assets/images/card-block/card1.jpg" alt="Card image cap"> -->
+										src="<?php echo base_url();?>files/plan/<?php echo $image;?>" alt="<?php echo $title;?>"> -->
 									<div class="card-block">
 										<h4 class="card-title"><?php echo $title;?></h4>
                                         <div style="margin-top:1.5%;">
@@ -91,7 +92,7 @@
 
 										<form id="paymentForm_<?php echo $id;?>">
 											<input type="hidden" id="email-address" required value="<?php echo $email;?>" />
-											<input type="hidden" id="amount" required value="<?php echo $amount;?>" />
+											<input type="hidden" id="amount_<?php echo $id;?>" required value="<?php echo $amount;?>" />
 											<input type="hidden" id="first-name" value="<?php echo $full_name;?>" />
 											<input type="hidden" id="last-name" value="<?php echo $user_name;?>" />
 
@@ -108,7 +109,7 @@
 												var customerName = '<?php echo $full_name;?>';
 												var site_name = '<?php echo $site_name;?>';
 												var pay_phone = <?php echo $phone_no;?>;
-												var Pay_Amount = $('#amount').val();
+												var Pay_Amount = $('#amount_<?php echo $id;?>').val();
 												var payemail = '<?php echo $email;?>'; 
 												var plan_id 	='<?php echo $id;?>';
 												var user_id 	='<?php echo $user_id;?>';
