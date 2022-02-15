@@ -26,9 +26,6 @@
 
 		<div class="page-body">
 			<div class="row">
-				<!-- task, page, download counter  start -->
-				<?php //$this->load->view('short_statics');?>
-				<!-- task, page, download counter  end -->
 
 
 
@@ -439,5 +436,5 @@
       
 	});
 
-	</script>
+</script>
 

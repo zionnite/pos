@@ -23,6 +23,7 @@
 
 			<th data-breakpoints="xs" class="footable-sortable" style="display: table-cell;">Date Created</th>
 			<th data-breakpoints="xs" class="footable-sortable" style="display: table-cell;"></th>
+			<th data-breakpoints="xs" class="footable-sortable" style="display: table-cell;"></th>
 		</tr>
 	</thead>
 
@@ -66,10 +67,17 @@
 			<td><?php echo $sub_phone;?></td>
 			<td><?php echo $date;?></td>
 			<td>
+				<a href="<?php echo base_url();?>Messages/compose_mail/<?php echo $id;?>/<?php echo urlencode($sub_email);?>" data-id="<?php echo $id;?>"
+					class="label label-inverse"><i class="fa fa-envelope"></i> Message</a>
+			</td>
+			<td>
 				<a href="javascript:;" id="delete_branch_<?php echo $id;?>" data-id="<?php echo $id;?>"
 					class="label label-danger"><i class="fa fa-trash"></i> Delete</a>
 			</td>
 		</tr>
+
+
+
 
 		<script type="text/javascript" src="<?php echo base_url();?>files/bower_components/jquery/dist/jquery.min.js">
 		</script>
@@ -127,6 +135,8 @@
 			});
 
 		</script>
+
+		
 
 		<?php
                                             }

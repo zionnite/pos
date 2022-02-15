@@ -25,8 +25,11 @@
 
 	/*TODO*/
 	$most_purchase 						=$this->Action->get_the_most_purchase_product();
+	$most_customer 						=$this->Action->get_the_most_purchase_customer();
 
 	$total_category						=$this->Action->get_total_category();
+	$get_total_supplier					=$this->Action->get_total_supplier();
+	$get_current_plan					=$this->Action->get_current_plan();
 	
 
 
@@ -202,7 +205,7 @@
 						<div class="card-block">
 							<div class="row align-items-center">
 								<div class="col">
-									<p class="m-b-5">Total Sales</p>
+									<p class="m-b-5">General Total Sales</p>
 									<h4 class="m-b-0">
 										<?php echo $currency.$this->cart->format_number($count_total_sales);?></h4>
 								</div>
@@ -222,7 +225,7 @@
 						<div class="card-block">
 							<div class="row align-items-center">
 								<div class="col">
-									<p class="m-b-5">Total Item Sold</p>
+									<p class="m-b-5">General Total Item Sold</p>
 									<h4 class="m-b-0"><?php echo $this->cart->format_number($count_total_item_sold);?>
 									</h4>
 								</div>
@@ -240,7 +243,7 @@
 						<div class="card-block">
 							<div class="row align-items-center">
 								<div class="col">
-									<p class="m-b-5">Customer</p>
+									<p class="m-b-5">Total Customers</p>
 									<h4 class="m-b-0"><?php echo $count_total_customer;?></h4>
 								</div>
 								<div class="col col-auto text-right">
@@ -255,7 +258,10 @@
 
 			</div>
 
-			
+			<div class="alert alert-success background-success">
+               
+                <strong>Current Plan: <?php echo $get_current_plan;?></strong> 
+            </div>
 
 			<div class="row">
 				<div class="col-xl-8 col-md-12">
@@ -354,6 +360,124 @@
 			</div>
 
 			<div class="row">
+
+				<div class="col-xl-6 col-md-12">
+					<div class="card feed-card">
+						<div class="card-header">
+							<h5>Top Selling Products</h5>
+						</div>
+						
+						<div class="card-block">
+							<?php
+								if(is_array($most_purchase)){
+							?>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-borderless">
+                                	<thead>
+                                        <tr>
+                                            <!-- <th></th> -->
+                                            <th>Product Name</th>
+                                            <th>Quantity Sold</th>
+                                            <th>Total Price</th>
+                                        </tr>
+                                    </thead>
+                                	<tbody>
+										<?php 
+											foreach($most_purchase as $row){
+												$prod_id				=$row['prod_id'];
+												$prod_name				=$row['prod_name'];
+												$p_sub_total			=$row['sub_total'];
+												$p_quantity				=$row['quantity'];
+											
+										?>
+                                            <tr>
+                                                <!-- <td>Website down for one week</td> -->
+                                                <td><?php echo $prod_name;?></td>
+                                            	<td><?php echo $p_quantity;?></td>
+                                                <td><?php echo $currency.$this->cart->format_number($p_sub_total);?></td>
+                                            </tr>
+										<?php 
+											}
+										?>
+
+
+                                                                   
+                                    </tbody>
+                                </table>
+                                <!-- <div class="text-right m-r-20">
+                                    <a href="#!" class=" b-b-primary text-primary">View all Projects</a>
+                                </div> -->
+                            </div>
+
+							<?php
+								}else{
+									echo 'No data available at the moment';
+								}
+							?>
+                        </div>
+						
+					</div>
+				</div>
+
+				<div class="col-xl-6 col-md-12">
+					<div class="card feed-card">
+						<div class="card-header">
+							<h5>Top 5 Customer</h5>
+						</div>
+						
+						<div class="card-block">
+							<?php
+								if(is_array($most_customer)){
+
+								
+							?>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-borderless">
+                                	<thead>
+                                        <tr>
+                                            <th>Customer Name</th>
+                                            <th>Phone</th>
+                                            <th>Email</th>
+                                            <th>Totoal Fund Spent</th>
+                                        </tr>
+                                    </thead>
+                                	<tbody>
+										<?php
+											foreach($most_customer as $row){
+												$customer_name				=$row['customer_name'];
+												$customer_id				=$row['customer_id'];
+												$c_sub_total				=$row['sub_total'];
+												$customer_phone 			=$this->Action->get_customer_phone_with_customer_id($customer_id);
+												$customer_email 			=$this->Action->get_customer_email_with_customer_id($customer_id);
+											
+										?>
+                                            <tr>
+                                                <td><?php echo $customer_name;?></td>
+                                            	<td><?php echo $customer_phone;?></td>
+                                                <td><?php echo $customer_email;?></td>
+                                                <td><?php echo $currency.$this->cart->format_number($c_sub_total);?></td>
+                                            </tr>
+                                        <?php 
+											}
+										?>                 
+                                    </tbody>
+                                </table>
+                                <!-- <div class="text-right m-r-20">
+                                    <a href="#!" class=" b-b-primary text-primary">View all Projects</a>
+                                </div> -->
+                            </div>
+
+							<?php
+								}else{
+									echo 'No data available at the moment';
+								}
+							?>
+                        </div>
+						
+					</div>
+				</div>
+				
+
 				<div class="col-xl-8 col-md-12">
 					<div class="card feed-card">
 						<div class="card-header">
@@ -415,7 +539,11 @@
 								echo '<div class="alert alert-warning">Your Activity is not yet record</div>';
 							}
 						?>
+
+						<div style="margin-bottom:0%;">&nbsp;</div>
 					</div>
+
+					
 				</div>
 
 				<div class="col-xl-4 col-md-12">
@@ -463,6 +591,20 @@
 								</div>
 								<div class="col col-auto text-right">
 									<i class="fa fa-sitemap f-50 text-c-pink"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card bg-c-green text-white" style="padding:5%; padding-bottom:13%; margin-top:8%;">
+						<div class="card-block">
+							<div class="row align-items-center">
+								<div class="col">
+									<p class="m-b-5">Total Supplier</p>
+									<h4 class="m-b-0">
+										<?php echo $get_total_supplier;?></h4>
+								</div>
+								<div class="col col-auto text-right">
+									<i class="fa fa-truck f-50 text-c-green"></i>
 								</div>
 							</div>
 						</div>

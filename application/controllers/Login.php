@@ -161,6 +161,11 @@ class Login extends My_Controller {
 						/*==========================SEND EMAIL TO RESET PASSWORD==================*/
 						$message    ='Hello, '.$user_name.' You Requested to reset your Password, Click the Link or Copy it '.$link.'  if this is not you, please Kindly Ignore';
 
+						$data['title']			='Password Reset';
+						$data['message']		=$message;
+						$data['link']			=$link;
+						$data['link_title']		='Confirm Password Reset';
+
 						$get_site_name      	=$this->Admin_db->get_site_name();
 						$get_site_g_name        =$this->Admin_db->get_site_g_name();
 						$get_site_g_pass        =$this->Admin_db->get_site_g_pass();
@@ -191,7 +196,8 @@ class Login extends My_Controller {
 
 						$this->email->subject($subject);
 
-						$this->email->message($message);  
+						$body   =$this->load->view($this->layout_3,$data,TRUE);
+						$this->email->message($body);  
 
 						if($this->email->send()){
 							$data['alert']	='<div class="alert alert-success" role="alert">An Email has been Sent to '.$email.'</div>';
@@ -267,9 +273,16 @@ class Login extends My_Controller {
 						
 						$user_name 		=$this->Login_user->get_user_name($email,$user_status);
                         
-                            /*==========================SEND EMAIL TO RESET PASSWORD==================*/
+                        /*==========================SEND EMAIL TO RESET PASSWORD==================*/
 
+						$current_domain 		= $_SERVER['SERVER_NAME'];
+						$link           		= $current_domain.'/Login';
                         $message    ='Hello, '.$user_name.' You Password has been Reset successfully';
+
+						$data['title']			='Password Changed';
+						$data['message']		=$message;
+						$data['link']			=$link;
+						$data['link_title']		='Login to your Account';
 
 						$get_site_name      	=$this->Admin_db->get_site_name();
 						$get_site_g_name        =$this->Admin_db->get_site_g_name();
@@ -300,7 +313,8 @@ class Login extends My_Controller {
 
 
                         $this->email->subject($subject);
-                        $this->email->message($message);  
+                        $body   =$this->load->view($this->layout_3,$data,TRUE);
+						$this->email->message($body);   
 
                         if($this->email->send()){
                             $data['alert']	='<div class="alert alert-success" role="alert">You Password has been Reset successfully</div>';

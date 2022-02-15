@@ -22,9 +22,9 @@ class Office extends My_Controller {
 
         $checker                        =$this->Action->check_if_user_select_plan($data['user_id']);
 
-        if(!$checker){
-            redirect('Plans');
-        }
+        // if(!$checker){
+        //     redirect('Plans');
+        // }
 
 		$data['content']	='index';
 		$this->load->view($this->layout,$data);
@@ -44,9 +44,9 @@ class Office extends My_Controller {
 
         $checker                        =$this->Action->check_if_user_select_plan($data['user_id']);
 
-        if(!$checker){
-            redirect('Plans');
-        }
+        // if(!$checker){
+        //     redirect('Plans');
+        // }
         $data['content']	='open_store';
 		$this->load->view($this->layout,$data);
     }
@@ -841,7 +841,7 @@ class Office extends My_Controller {
     }
 
 
-
+ 
 
     /*Stock Product*/
     public function add_stock(){
@@ -1507,4 +1507,59 @@ class Office extends My_Controller {
         
 
     }
+
+
+    public function send_message(){		
+
+        $email                  =$this->input->post('email');
+        $message                =$this->input->post('msg');
+        $title                  =$this->input->post('title');
+        
+
+		$get_site_name      	=$this->Admin_db->get_site_name();
+		$get_site_g_name        =$this->Admin_db->get_site_g_name();
+		$get_site_g_pass        =$this->Admin_db->get_site_g_pass();
+
+		$current_domain 		= $_SERVER['SERVER_NAME'];
+
+		$subject    =$get_site_name.' | '.$title;
+		$to         =$email;
+
+
+		
+
+		$data['title']			=$title;
+		$data['message']		=$message;
+		// $data['link']			=$link;
+		// $data['link_title']		=$link_title;
+
+		$this->load->library('email');
+		$config =array(
+			'protocol'=> 'ssmtp',
+			'smtp_host'    => 'ssl://ssmtp.googlemail.com',
+			'smtp_port'    => '465',
+			'smtp_timeout' => '7',
+			'smtp_user'    => $get_site_g_name,
+			'smtp_pass'    => $get_site_g_pass,
+			'charset'    => 'utf-8',
+			'newline'    => "\r\n",
+			'mailtype' => 'html', // or html
+			'validation' => FALSE); // bool whether to validate email or not      
+
+		$this->load->initialize($config);
+
+		$this->email->from("no-reply@$current_domain", $get_site_name);
+		$this->email->to($to); 
+
+
+		$this->email->subject($subject);
+
+		$body   =$this->load->view($this->layout_4,$data,TRUE);
+		$this->email->message($body);  
+        if($this->email->send()){
+            echo 'ok';
+        }else{
+            echo   'err';
+        }
+	}
 }

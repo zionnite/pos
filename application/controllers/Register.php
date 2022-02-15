@@ -40,6 +40,15 @@ class Register extends My_Controller {
 						$this->session->set_flashdata('alert',$data['alert']);
 						redirect('Register');
 					}else{
+
+						$title	='Welcome';
+						$message    ='Hello, '.$full_name.' Welcome to '$get_site_name.', we hope you find everything you are look for!';
+
+
+						$current_domain 		= $_SERVER['SERVER_NAME'];
+						$link           		= $current_domain.'/Login';
+
+						$this->send_email($email,$title,$message,$link,'Go to Website');
 						/*retrieve Session data*/
 						$data['alert']	='<div class="alert alert-success" role="alert">Registration Successful</div>';
 						$this->session->set_flashdata('alert',$data['alert']);
@@ -59,6 +68,51 @@ class Register extends My_Controller {
 		
 	}
 
+
+	public function send_email($email,$title,$message,$link,$link_title){		
+
+		$get_site_name      	=$this->Admin_db->get_site_name();
+		$get_site_g_name        =$this->Admin_db->get_site_g_name();
+		$get_site_g_pass        =$this->Admin_db->get_site_g_pass();
+
+		$current_domain 		= $_SERVER['SERVER_NAME'];
+
+		$subject    =$get_site_name.' | '.$title;
+		$to         =$email;
+
+
+		
+
+		$data['title']			=$title;
+		$data['message']		=$message;
+		$data['link']			=$link;
+		$data['link_title']		=$link_title;
+
+		$this->load->library('email');
+		$config =array(
+			'protocol'=> 'ssmtp',
+			'smtp_host'    => 'ssl://ssmtp.googlemail.com',
+			'smtp_port'    => '465',
+			'smtp_timeout' => '7',
+			'smtp_user'    => $get_site_g_name,
+			'smtp_pass'    => $get_site_g_pass,
+			'charset'    => 'utf-8',
+			'newline'    => "\r\n",
+			'mailtype' => 'html', // or html
+			'validation' => FALSE); // bool whether to validate email or not      
+
+		$this->load->initialize($config);
+
+		$this->email->from("no-reply@$current_domain", $get_site_name);
+		$this->email->to($to); 
+
+
+		$this->email->subject($subject);
+
+		$body   =$this->load->view($this->layout_3,$data,TRUE);
+		$this->email->message($body);  
+		$this->email->send();
+	}
 	
 	
 
