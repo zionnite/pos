@@ -52,34 +52,49 @@ class Login extends My_Controller {
 						$last_activity_path			=$this->Admin_db->get_last_activity_path($data['email']);
 						$last_activity_type			=$this->Admin_db->get_last_activity_type($data['email']);
 
+						$check_login_access		=$this->Action->check_login_access($data['email']);
+
 						$site_email					=$this->Admin_db->get_site_email();
-						if($this->Login_user->check_if_store_is_suspended($data['store_id'])){
-							
 
-							if($data['user_status']	=='store_owner'){
-								$data['alert']	='<div class="alert alert-success" role="alert">';
-								$data['alert']	.='One of Your Store is place under suspension,please check with the Store Admin by contacting the official email to resolve this';
-								$data['alert']	.='<div><br />Offcial Email : <b style="color:red;">'.$site_email.'</b></div>';
-								$data['alert']	.='</div>';
-								$this->session->set_flashdata('main_alert',$data['alert']);
-								redirect('Store_Owner');
+						if($check_login_access){
+							if($this->Login_user->check_if_store_is_suspended($data['store_id'])){
+								
 
-							}else if($data['user_status']	=='manager'){
-								$data['alert']	='<div class="alert alert-warning" role="alert">The Store you are set to manage have some complication, please contact Store-Owner to help fix it.</div>';
-								$this->session->set_flashdata('alert',$data['alert']);
-								redirect('Login');
+								if($data['user_status']	=='store_owner'){
+									$data['alert']	='<div class="alert alert-success" role="alert">';
+									$data['alert']	.='One of Your Store is place under suspension,please check with the Store Admin by contacting the official email to resolve this';
+									$data['alert']	.='<div><br />Offcial Email : <b style="color:red;">'.$site_email.'</b></div>';
+									$data['alert']	.='</div>';
+									$this->session->set_flashdata('main_alert',$data['alert']);
+									redirect('Store_Owner');
 
-							}else if($data['user_status']	=='sales_rep'){
-								$data['alert']	='<div class="alert alert-warning" role="alert">Your account have some complication, please contact your manager to help fix it</div>';
-								$this->session->set_flashdata('alert',$data['alert']);
-								redirect('Login');
-							}
-							
-						}else{
+								}else if($data['user_status']	=='manager'){
+									$data['alert']	='<div class="alert alert-warning" role="alert">The Store you are set to manage have some complication, please contact Store-Owner to help fix it.</div>';
+									$this->session->set_flashdata('alert',$data['alert']);
+									redirect('Login');
 
-							if($last_activity_existed){
-								if($last_activity_type =='inactivity'){
-									redirect($last_activity_path);
+								}else if($data['user_status']	=='sales_rep'){
+									$data['alert']	='<div class="alert alert-warning" role="alert">Your account have some complication, please contact your manager to help fix it</div>';
+									$this->session->set_flashdata('alert',$data['alert']);
+									redirect('Login');
+								}
+								
+							}else{
+
+								if($last_activity_existed){
+									if($last_activity_type =='inactivity'){
+										redirect($last_activity_path);
+									}else{
+										if($data['user_status']	=='store_owner'){
+											redirect('Store_Owner');
+										}else if($data['user_status']	=='manager'){
+											redirect('Manager');
+										}else if($data['user_status']	=='sales_rep'){
+											redirect('Pos');
+										}else if($data['user_status']	=='admin'){
+											redirect('Dashboard');
+										}
+									}
 								}else{
 									if($data['user_status']	=='store_owner'){
 										redirect('Store_Owner');
@@ -91,17 +106,11 @@ class Login extends My_Controller {
 										redirect('Dashboard');
 									}
 								}
-							}else{
-								if($data['user_status']	=='store_owner'){
-									redirect('Store_Owner');
-								}else if($data['user_status']	=='manager'){
-									redirect('Manager');
-								}else if($data['user_status']	=='sales_rep'){
-									redirect('Pos');
-								}else if($data['user_status']	=='admin'){
-									redirect('Dashboard');
-								}
 							}
+						}else{
+							$data['alert']	='<div class="alert alert-warning" role="alert">Your Login Access has be withhold</div>';
+							$this->session->set_flashdata('alert',$data['alert']);
+							redirect('Login');
 						}
 
 						

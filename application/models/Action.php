@@ -3536,4 +3536,140 @@ class Action extends My_Model{
 		}
 		return false;
 	}
+
+	public function update_login_tbl($email,$user_status){
+
+		$data 	=array('user_status'=>$user_status);
+		$this->db->set($data);
+		$this->db->where('email',$email);
+		$this->db->update('login_tbl');
+		if($this->db->affected_rows() > 0){
+			return true;
+		}
+		return false;
+
+	}
+	public function donwngrade_supervisor($id){
+		$this->db->where('id',$id);
+		$query 			=$this->db->get('supervisor');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				// $id				        =$row['id'];
+				$store_id		        =$row['store_id'];
+				$store_owner_id	        =$row['store_owner_id'];
+                                
+				$store_name 	        =$row['store_name'];
+                $branch_name            =$row['branch_store_name'];
+                $branch_store_id        =$row['branch_store_id'];
+
+                $sub_email      =$row['email'];
+                $sub_name       =$row['name'];
+                $sub_phone      =$row['phone_no'];
+
+				$date			=$row['date_created'];
+				$time			=$row['time'];
+				$password		=$row['password'];
+
+				$data	= array('store_id'=>$store_id,
+								'store_owner_id'=>$store_owner_id,
+								'store_name'=>$store_name,
+								'branch_store_id'=>$branch_store_id,
+								'branch_store_name'=>$branch_name,
+								'name'=>$sub_name,
+								'email'=>$sub_email,
+								'password'=>md5($password),
+								'phone_no'=>$sub_phone,
+								'date_created'=>$date,
+								'time'=>$time,
+							);
+				
+				$this->db->set($data);
+				$this->db->insert('sales_rep');
+				if($this->db->affected_rows() > 0){
+					$this->delete_supervisor($id);
+					$this->update_login_tbl($sub_email,'sales_rep');
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public function upgrade_sales_rep($id){
+		$this->db->where('id',$id);
+		$query 			=$this->db->get('sales_rep');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				// $id				        =$row['id'];
+				$store_id		        =$row['store_id'];
+				$store_owner_id	        =$row['store_owner_id'];
+                                
+				$store_name 	        =$row['store_name'];
+                $branch_name            =$row['branch_store_name'];
+                $branch_store_id        =$row['branch_store_id'];
+
+                $sub_email      =$row['email'];
+                $sub_name       =$row['name'];
+                $sub_phone      =$row['phone_no'];
+
+				$date			=$row['date_created'];
+				$time			=$row['time'];
+				$password		=$row['password'];
+
+				$data	= array('store_id'=>$store_id,
+								'store_owner_id'=>$store_owner_id,
+								'store_name'=>$store_name,
+								'branch_store_id'=>$branch_store_id,
+								'branch_store_name'=>$branch_name,
+								'name'=>$sub_name,
+								'email'=>$sub_email,
+								'password'=>md5($password),
+								'phone_no'=>$sub_phone,
+								'date_created'=>$date,
+								'time'=>$time,
+							);
+				
+				$this->db->set($data);
+				$this->db->insert('supervisor');
+				if($this->db->affected_rows() > 0){
+					$this->delete_sales_rep($id);
+					$this->update_login_tbl($sub_email,'manager');
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public function check_login_access($email){
+		$this->db->where('email',$email);
+		$this->db->where('login_access','unban');
+		$query		=$this->db->get('login_tbl');
+		if($query->num_rows() > 0){
+			return true;
+		}
+		return false;
+	}
+
+	public function deny_user_access($email){
+		$data	=array('login_access'=>'ban');
+		$this->db->set($data);
+		$this->db->where('email',$email);
+		$this->db->update('login_tbl');
+		if($this->db->affected_rows() > 0){
+			return true;
+		}
+		return false;
+	}
+
+	public function undeny_user_access($email){
+		$data	=array('login_access'=>'unban');
+		$this->db->set($data);
+		$this->db->where('email',$email);
+		$this->db->update('login_tbl');
+		if($this->db->affected_rows() > 0){
+			return true;
+		}
+		return false;
+	}
 }

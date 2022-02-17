@@ -113,6 +113,9 @@
 											style="display: table-cell;">Date Created</th>
 										<th data-breakpoints="xs" class="footable-sortable"
 											style="display: table-cell;"></th>
+
+										<th data-breakpoints="xs" class="footable-sortable"
+											style="display: table-cell;"></th>
 									</tr>
 								</thead>
 
@@ -153,6 +156,8 @@
 
                                 $store_logo             =$this->Action->get_store_logo_by_store_id($store_id);
                                 $store_name_2           =$this->Action->get_store_name_2_by_store_id($store_id);
+								$check_login_access		=$this->Action->check_login_access($sub_email);
+								$encoded_email			=urlencode($sub_email);
 					?>
 
 									<tr>
@@ -171,6 +176,27 @@
 										<td>
 											<a href="javascript:;" id="delete_branch_<?php echo $id;?>"
 												data-id="<?php echo $id;?>" class="label label-danger"><i class="fa fa-trash"></i> Delete</a>
+										</td>
+
+										<td>
+											<a href="javascript:;" id="downgrade_<?php echo $id;?>"
+												data-id="<?php echo $id;?>" class="label label-warning"><i class="fa fa-arrow-down"></i> Downgrade</a>
+										</td>
+
+										<td>
+											<?php
+												if($check_login_access){
+											?>
+											<a href="javascript:;" id="deny_<?php echo $id;?>"
+												data-email="<?php echo $encoded_email;?>" class="label label-danger"><i class="fa fa-lock"></i> Deny Access</a>
+											<?php 
+												}else{?>
+											
+											<a href="javascript:;" id="grant_<?php echo $id;?>"
+												data-email="<?php echo $encoded_email;?>" class="label label-success"><i class="fa fa-lock-open"></i> Grant Access</a>
+
+											<?php }
+											?>
 										</td>
 									</tr>
 
@@ -207,6 +233,176 @@
 																			closeOnClickOutside: false,
 
 																		});
+
+																	} else if (resp == 'err') {
+
+																		swal({
+																			title: "Oops!",
+																			text: "Database Could not connect to server!",
+																			icon: "info",
+																			closeOnClickOutside: false,
+
+																		});
+
+																	}
+																}
+															});
+
+														} else {
+															swal("Delete Cancelled");
+														}
+													});
+											});
+
+										});
+
+									</script>
+
+									<script>
+										$(document).ready(function () {
+											$('#downgrade_<?php echo $id;?>').click(function (e) {
+												e.preventDefault();
+												var id = $(this).data('id');
+												swal({
+														title: "Are you sure you want to Downgrade this Supervisor?",
+														icon: "warning",
+														buttons: true,
+														dangerMode: true,
+													})
+													.then((willDelete) => {
+														if (willDelete) {
+
+															$.ajax({
+																type: 'POST',
+																url: '<?php echo base_url();?>Office/donwngrade_supervisor/' +
+																	id,
+
+																success: function (resp) {
+																	if (resp == 'ok') {
+
+																		swal({
+																			title: "Success",
+																			text: "Branch Supervisor role has been downgraded!",
+																			icon: "success",
+																			closeOnClickOutside: false,
+
+																		});
+
+																	} else if (resp == 'err') {
+
+																		swal({
+																			title: "Oops!",
+																			text: "Database Could not connect to server!",
+																			icon: "info",
+																			closeOnClickOutside: false,
+
+																		});
+
+																	}
+																}
+															});
+
+														} else {
+															swal("Delete Cancelled");
+														}
+													});
+											});
+
+										});
+
+									</script>
+
+									<script>
+										$(document).ready(function () {
+											$('#deny_<?php echo $id;?>').click(function (e) {
+												e.preventDefault();
+												var email = $(this).data('email');
+												swal({
+														title: "Are you sure you want to Deny This User Login Access?",
+														icon: "warning",
+														buttons: true,
+														dangerMode: true,
+													})
+													.then((willDelete) => {
+														if (willDelete) {
+
+															$.ajax({
+																type: 'POST',
+																url: '<?php echo base_url();?>Office/deny_user_access/' +
+																	email,
+
+																success: function (resp) {
+																	if (resp == 'ok') {
+
+																		swal({
+																			title: "Success",
+																			text: "Operation was sucessful",
+																			icon: "success",
+																			closeOnClickOutside: false,
+
+																		});
+
+																		setInterval(function () {
+																			location.reload();
+																		}, 4000);
+
+																	} else if (resp == 'err') {
+
+																		swal({
+																			title: "Oops!",
+																			text: "Database Could not connect to server!",
+																			icon: "info",
+																			closeOnClickOutside: false,
+
+																		});
+
+																	}
+																}
+															});
+
+														} else {
+															swal("Delete Cancelled");
+														}
+													});
+											});
+
+										});
+
+									</script>
+
+									<script>
+										$(document).ready(function () {
+											$('#grant_<?php echo $id;?>').click(function (e) {
+												e.preventDefault();
+												var email = $(this).data('email');
+												swal({
+														title: "Are you sure you want to Grant This User Login Access?",
+														icon: "warning",
+														buttons: true,
+														dangerMode: true,
+													})
+													.then((willDelete) => {
+														if (willDelete) {
+
+															$.ajax({
+																type: 'POST',
+																url: '<?php echo base_url();?>Office/undeny_user_access/' +
+																	email,
+
+																success: function (resp) {
+																	if (resp == 'ok') {
+
+																		swal({
+																			title: "Success",
+																			text: "Operation was sucessful",
+																			icon: "success",
+																			closeOnClickOutside: false,
+
+																		});
+
+																		setInterval(function () {
+																			location.reload();
+																		}, 4000);
 
 																	} else if (resp == 'err') {
 

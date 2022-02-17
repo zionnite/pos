@@ -1432,4 +1432,43 @@ class Office extends My_Controller {
 		$data['content']	='product_detail';
 		$this->load->view($this->layout,$data);
 	}
+
+
+
+    public function donwngrade_supervisor($id){
+        $action    =$this->Action->donwngrade_supervisor($id);
+        if($action){
+            echo 'ok';
+        }else{
+            echo 'err';
+        }
+    }
+    public function upgrade_sales_rep($id){
+        $action    =$this->Action->upgrade_sales_rep($id);
+        if($action){
+            echo 'ok';
+        }else{
+            echo 'err';
+        }
+    }
+
+    public function deny_user_access($email){
+        $email      =urldecode($email);
+        $action    =$this->Action->deny_user_access($email);
+        if($action){
+            echo 'ok';
+        }else{
+            echo 'err';
+        }
+    }
+
+    public function undeny_user_access($email){
+        $email      =urldecode($email);
+        $action    =$this->Action->undeny_user_access($email);
+        if($action){
+            echo 'ok';
+        }else{
+            echo 'err';
+        }
+    }
 }
