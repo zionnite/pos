@@ -12,7 +12,7 @@ $site_logo      =$this->Admin_db->get_site_logo();
 				<i class="feather icon-menu"></i>
 			</a>
 			<a href="index.html">
-				<img class="img-fluid" src="<?php echo base_url();?>files/site_logo/<?php echo $site_logo;?>" alt="<?php echo $site_name;?>" style ="width: 220px; height:75px;" />
+				<img class="img-fluid" src="<?php echo $site_logo;?>" alt="<?php echo $site_name;?>" style ="width: 220px; height:75px;" />
 			</a>
 			<a class="mobile-options">
 				<i class="feather icon-more-horizontal"></i>

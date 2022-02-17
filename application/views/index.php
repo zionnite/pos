@@ -185,7 +185,7 @@
 							<div class="row align-items-center">
 								<div class="col">
 									<p class="m-b-5">Total Tranasaction</p>
-									<h4 class="m-b-0"><?php echo $this->cart->format_number($count_total_transaction);?>
+									<h4 class="m-b-0"><?php echo $count_total_transaction;?>
 									</h4>
 								</div>
 								<div class="col col-auto text-right">

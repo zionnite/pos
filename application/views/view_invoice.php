@@ -58,8 +58,11 @@
             $prod_price             =$this->Action->get_prod_price_by_prod_id($prod_id);
 
 ?>
-
-<div class="card" id="divToPrint" style="text-align:center;">
+<div class="main-body">
+    <div class="page-wrapper">
+        <div class="page-body">
+            <div class="container">
+<div class="card">
     <div class="row invoice-contact">
         <div class="col-md-8">
             <div class="invoice-box row">
@@ -234,6 +237,11 @@
             </div>
         </div>
         
+    </div>
+</div>
+
+            </div>
+        </div>
     </div>
 </div>
 

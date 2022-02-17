@@ -11,7 +11,7 @@
 					$max_store 			=$this->Action->get_my_plan_store($user_id);
 					$count_store 		=$this->Action->count_my_store($user_id);
 
-					if($count_store <= $max_store){
+					if($max_store > $count_store){
 				?>
 				<a data-toggle="modal" href="#large-Modal" class="btn btn-danger"
 					style="margin:1%;"><i class="fa fa-plus"></i>Create Store</a>
@@ -26,7 +26,7 @@
 		</div>
 	</div>
 
-	<div id="styleSelector">
+	<div>
 
 	</div>
 </div>

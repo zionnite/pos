@@ -1,4 +1,6 @@
-
+<?php
+$user_status	=$this->session->userdata('user_status');
+?>
 <div class="table-responsive">
 <table class="table table-striped footable footable-1 footable-paging footable-paging-center breakpoint-lg" style="">
 	<thead>
@@ -82,7 +84,19 @@
 					alt="">
 				<br /><?php //echo $prod_name;?>
 			</td>
-			<td><?php echo $prod_name;?></td>
+			<td>
+				<?php echo $prod_name;?>
+				<br>
+				<?php 
+					if($user_status =='store_owner'){
+				?>
+					<a href="<?php echo base_url();?>Store_Owner/view_product_detail/<?php echo $prod_id;?>" class="label label-inverse">View product</a>
+				<?php 
+					}else{?>
+					<a href="<?php echo base_url();?>Manager/view_product_detail/<?php echo $prod_id;?>" class="label label-inverse">View product</a>
+				<?php
+				}
+				?></td>
 			<td><?php echo $currency.$this->cart->format_number($prod_cost);?></td>
 			<td><?php echo $currency.$this->cart->format_number($prod_price);?></td>
 			<td><?php echo $cat_name;?><br /> <small style="color:red;"><?php echo $sub_cat_name;?></small></td>

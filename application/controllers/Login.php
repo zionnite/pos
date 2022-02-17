@@ -146,7 +146,7 @@ class Login extends My_Controller {
 						$user_name 		=$this->Login_user->get_user_name($email,$user_status);
 
 						$current_domain 		= $_SERVER['SERVER_NAME'];
-						$encode_email			= urldecode($email);
+						$encode_email			= urlencode($email);
 						$link           		= $current_domain.'/Login/confirm_reset_password/'.$user_id.'/'.$encode_email;
 								
 						/*==========================SEND EMAIL TO RESET PASSWORD==================*/

@@ -1110,6 +1110,7 @@ class Action extends My_Model{
 		return false;
 	}
 
+
 	public function get_sub_category_name_by_sub_cat_id($prod_sub_cat){
 		$this->db->where('id',$prod_sub_cat);
 		$query		=$this->db->get('product_sub_category');
@@ -1139,6 +1140,16 @@ class Action extends My_Model{
 		return false;
 	}
 
+	public function get_supplier_name_by_id($id){
+		$this->db->where('id',$id);
+		$query		=$this->db->get('suppliers_tbl');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['name'];
+			}
+		}
+		return false;
+	}
 	public function delete_product($id){
 		# code...
 		$this->db->where('prod_id',$id);
@@ -3513,5 +3524,16 @@ class Action extends My_Model{
 	public function overall_dailly_activity(){
 
 		return round($this->Admin_db->calculate_percentage($this->activity_generated_today(),$this->total_activity_generated()));
+	}
+
+
+
+	public function get_product_by_prod_id($prod_id){
+		$this->db->where('prod_id',$prod_id);
+		$query		=$this->db->get('product_tbl');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
 	}
 }

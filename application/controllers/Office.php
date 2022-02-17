@@ -1063,6 +1063,7 @@ class Office extends My_Controller {
 	
 		$data['pagelinks'] = $this->pagination->create_links();
 		
+        $data['user_status']            =$this->session->userdata('user_status');
 		$this->load->view('view_product_ajax', $data);
 	}
 
@@ -1140,6 +1141,7 @@ class Office extends My_Controller {
 	
 		$data['pagelinks'] = $this->pagination->create_links();
 		
+        $data['user_status']            =$this->session->userdata('user_status');
 		$this->load->view('filter_product_ajax', $data);
 	}
 
@@ -1205,6 +1207,7 @@ class Office extends My_Controller {
 	
 		$data['pagelinks'] = $this->pagination->create_links();
 		
+        $data['user_status']            =$this->session->userdata('user_status');
 		$this->load->view('view_product_ajax', $data);
 	}
 
@@ -1273,6 +1276,7 @@ class Office extends My_Controller {
 	
 		$data['pagelinks'] = $this->pagination->create_links();
 		
+        $data['user_status']            =$this->session->userdata('user_status');
 		$this->load->view('filter_product_ajax', $data);
 	}
 
@@ -1337,6 +1341,7 @@ class Office extends My_Controller {
 	
 		$data['pagelinks'] = $this->pagination->create_links();
 		
+        $data['user_status']            =$this->session->userdata('user_status');
 		$this->load->view('view_product_ajax', $data);
 	}
 
@@ -1405,6 +1410,26 @@ class Office extends My_Controller {
 	
 		$data['pagelinks'] = $this->pagination->create_links();
 		
+        $data['user_status']            =$this->session->userdata('user_status');
 		$this->load->view('filter_product_ajax', $data);
+	}
+
+
+    
+	public function view_product_detail($prod_id=NULL){
+        $this->session_checker->auto_logout();
+        
+        $data['main_alert']			        =$this->session->flashdata('main_alert');
+
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['user_status']            =$this->session->userdata('user_status');
+
+        $data['get_info']               =$this->Action->get_product_by_prod_id($prod_id);
+
+		$data['content']	='product_detail';
+		$this->load->view($this->layout,$data);
 	}
 }

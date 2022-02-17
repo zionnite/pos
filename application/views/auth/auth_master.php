@@ -40,7 +40,7 @@ $site_logo      =$this->Admin_db->get_site_logo();
         content="Pos">
     <meta name="author" content="#">
     <!-- Favicon icon -->
-    <link rel="icon" href="<?php echo base_url();?>files/site_logo/<?php echo $site_logo;?>" type="image/x-icon">
+    <link rel="icon" href="<?php echo $site_logo;?>" type="image/x-icon">
     <!-- Google font-->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800" rel="stylesheet">
     <!-- Required Fremwork -->
