@@ -557,9 +557,27 @@ class Action extends My_Model{
 		}
 		return false;
 	}
+	public function get_all_store_owner_customer($store_owner_id){
+		$this->db->where('store_owner_id',$store_owner_id);
+		$query		=$this->db->get('customers_tbl');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
 
 	public function get_store_branch_customer($store_id,$branch_id){
 		$this->db->where('store_id',$store_id);
+		$this->db->where('branch_store_id',$branch_id);
+		$query		= $this->db->get('customers_tbl');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
+
+	public function get_my_store_customer_by_branch_id($store_owner_id,$branch_id){
+		$this->db->where('store_owner_id',$store_owner_id);
 		$this->db->where('branch_store_id',$branch_id);
 		$query		= $this->db->get('customers_tbl');
 		if($query->num_rows() > 0){
@@ -758,6 +776,26 @@ class Action extends My_Model{
 		}
 		return false;
 	}
+
+	public function get_all_store_owner_supplier($store_owner_id){
+		$this->db->where('store_owner_id',$store_owner_id);
+		$query		=$this->db->get('suppliers_tbl');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
+
+	public function get_my_store_supplier_by_branch_id($store_owner_id,$branch_id){
+		$this->db->where('store_owner_id',$store_owner_id);
+		$this->db->where('branch_store_id',$branch_id);
+		$query		= $this->db->get('suppliers_tbl');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
+
 
 	/*Creaate Product*/
 	public function create_product($img_file_name,$store_id,$store_name,$branch_id,$branch_name,$store_owner_id,$prod_name,$prod_size,$prod_bunk,$prod_cat,$prod_sub_cat,$prod_color,$prod_sup,/*$prod_brand,*/$prod_desc,$prod_cost,$prod_price/*,
@@ -3116,12 +3154,12 @@ class Action extends My_Model{
 		}elseif($user_status =='manager'){
 
 			$this->db->where('store_id',$store_id);
-			$this->db->where('branch_id',$branch_id);
+			$this->db->where('branch_store_id',$branch_id);
 			return $this->db->from('product_category')->count_all_results();
 		}elseif($user_status =='sales_rep'){
 
 			$this->db->where('store_id',$store_id);
-			$this->db->where('branch_id',$branch_id);
+			$this->db->where('branch_store_id',$branch_id);
 			return $this->db->from('product_category')->count_all_results();
 		}else{
 
@@ -3910,11 +3948,10 @@ class Action extends My_Model{
 				$this->db->where('month',date('M'));
 				$this->db->where('day',date('d'));
 			}else{
-				$this->db->where('store_id',$store_id);
+				$this->db->where('store_owner_id',$store_owner_id);
 				$this->db->where('year',date('Y'));
 				$this->db->where('month',date('M'));
 				$this->db->where('day',date('d'));
-				// $this->db->where('branch_id',$branch_id);
 			}
 			return $this->db->from('transaction_history')->count_all_results();
 
@@ -3953,6 +3990,8 @@ class Action extends My_Model{
 				$this->db->where('month',date('M'));
 				$this->db->where('day',date('d'));
 			}
+
+
 			return $this->db->from('transaction_history')->count_all_results();
 		}
 		
@@ -3995,11 +4034,10 @@ class Action extends My_Model{
 				$this->db->where('day',date('d'));
 
 			}else{
-				$this->db->where('store_id',$store_id);
+				$this->db->where('store_owner_id',$store_owner_id);
 				$this->db->where('year',date('Y'));
 				$this->db->where('month',date('M'));
 				$this->db->where('day',date('d'));
-				// $this->db->where('branch_id',$branch_id);
 			}
 		}else{
 			if(!empty($keyword)){
@@ -4049,6 +4087,159 @@ class Action extends My_Model{
 		return false;
 	}
 
+	public function count_transaction_history_by_date($store_id,$branch_id,$search,$start_date,$end_date){
+		$user_status 		=$this->session->userdata('user_status');
+		$user_id 			=$this->session->userdata('user_id');
+		
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		$keyword = $search['keyword'];
+		$sort_by = $search['sort_by'];
+
+		if($user_status == 'store_owner'){
+
+			if(!empty($keyword)){
+				$this->db->like('invoice', $this->db->escape_like_str($keyword,'both'));
+				$this->db->where('store_id',$store_id);
+				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
+				$this->db->where('date_created <=', date('Y-m-d',strtotime($end_date)));
+
+				$this->db->or_like('prod_name', $this->db->escape_like_str($keyword,'both'));
+				$this->db->where('store_id',$store_id);
+				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
+				$this->db->where('date_created <=', date('Y-m-d',strtotime($end_date)));
+
+				$this->db->or_like('customer_name', $this->db->escape_like_str($keyword,'both'));
+				$this->db->where('store_id',$store_id);
+				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
+				$this->db->where('date_created <=', date('Y-m-d',strtotime($end_date)));
+			}else{
+				$this->db->where('store_id',$store_id);
+				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
+				$this->db->where('date_created <=', date('Y-m-d',strtotime($end_date)));
+			}
+			return $this->db->from('transaction_history')->count_all_results();
+
+		}else{
+
+			if(!empty($keyword)){
+				$this->db->like('invoice', $this->db->escape_like_str($keyword,'both'));
+				$this->db->where('user_id',$user_id);
+				$this->db->where('branch_id',$branch_id);
+				$this->db->where('user_status',$user_status);
+				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
+				$this->db->where('date_created <=', date('Y-m-d',strtotime($end_date)));
+
+				$this->db->or_like('prod_name', $this->db->escape_like_str($keyword,'both'));
+				$this->db->where('user_id',$user_id);
+				$this->db->where('branch_id',$branch_id);
+				$this->db->where('user_status',$user_status);
+				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
+				$this->db->where('date_created <=', date('Y-m-d',strtotime($end_date)));
+
+				$this->db->or_like('customer_name', $this->db->escape_like_str($keyword,'both'));
+				$this->db->where('user_id',$user_id);
+				$this->db->where('branch_id',$branch_id);
+				$this->db->where('user_status',$user_status);
+				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
+				$this->db->where('date_created <=', date('Y-m-d',strtotime($end_date)));
+				
+			}else{
+				$this->db->where('user_id',$user_id);
+				$this->db->where('branch_id',$branch_id);
+				$this->db->where('user_status',$user_status);
+				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
+				$this->db->where('date_created <=', date('Y-m-d',strtotime($end_date)));
+			}
+			return $this->db->from('transaction_history')->count_all_results();
+		}
+		
+
+		
+	}
+
+	public function get_transaction_history_by_date($store_id,$branch_id,$start_date, $end_date, $search,$limit, $offset){
+		$user_status 		=$this->session->userdata('user_status');
+		$user_id 			=$this->session->userdata('user_id');
+		
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		$keyword = $search['keyword'];
+		$sort_by = $search['sort_by'];
+
+
+		if($user_status == 'store_owner'){
+			if(!empty($keyword)){
+				$this->db->like('invoice', $this->db->escape_like_str($keyword,'both'));
+				$this->db->where('store_id',$store_id);
+				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
+				$this->db->where('date_created <=', date('Y-m-d',strtotime($end_date)));
+
+				$this->db->or_like('prod_name', $this->db->escape_like_str($keyword,'both'));
+				$this->db->where('store_id',$store_id);
+				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
+				$this->db->where('date_created <=', date('Y-m-d',strtotime($end_date)));
+
+				$this->db->or_like('customer_name', $this->db->escape_like_str($keyword,'both'));
+				$this->db->where('store_id',$store_id);
+				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
+				$this->db->where('date_created <=', date('Y-m-d',strtotime($end_date)));
+
+			}else{
+				$this->db->where('store_id',$store_id);
+				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
+				$this->db->where('date_created <=', date('Y-m-d',strtotime($end_date)));
+			}
+		}else{
+			if(!empty($keyword)){
+				$this->db->like('invoice', $this->db->escape_like_str($keyword,'both'));
+				$this->db->where('user_id',$user_id);
+				$this->db->where('branch_id',$branch_id);
+				$this->db->where('user_status',$user_status);
+				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
+				$this->db->where('date_created <=', date('Y-m-d',strtotime($end_date)));		
+
+				$this->db->or_like('prod_name', $this->db->escape_like_str($keyword,'both'));
+				$this->db->where('user_id',$user_id);
+				$this->db->where('branch_id',$branch_id);
+				$this->db->where('user_status',$user_status);
+				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
+				$this->db->where('date_created <=', date('Y-m-d',strtotime($end_date)));
+
+				$this->db->or_like('customer_name', $this->db->escape_like_str($keyword,'both'));
+				$this->db->where('user_id',$user_id);
+				$this->db->where('branch_id',$branch_id);
+				$this->db->where('user_status',$user_status);
+				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
+				$this->db->where('date_created <=', date('Y-m-d',strtotime($end_date)));
+				
+			}else{
+				$this->db->where('user_id',$user_id);
+				$this->db->where('branch_id',$branch_id);
+				$this->db->where('user_status',$user_status);
+				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
+				$this->db->where('date_created <=', date('Y-m-d',strtotime($end_date)));
+			}
+		}
+
+		
+
+		$this->db->limit($limit, $offset);
+		$this->db->order_by('id',$sort_by);
+		$query		=$this->db->get('transaction_history');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+
+		return false;
+	}
+
 	public function get_current_plan(){
 		$user_status		=$this->session->userdata('user_status');
 
@@ -4072,5 +4263,152 @@ class Action extends My_Model{
 			}
 		}
 		return false;
+	}
+
+	public function get_all_store_owner_product_in_stock($store_owner_id){
+		$this->db->where('store_owner_id',$store_owner_id);
+		$this->db->where('prod_bunk >', 0);
+		$query		=$this->db->get('product_tbl');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
+
+	public function get_my_store_product_in_by_branch_id($store_owner_id,$branch_id){
+		$this->db->where('store_owner_id',$store_owner_id);
+		$this->db->where('prod_bunk >', 0);
+		$query		=$this->db->get('product_tbl');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
+
+	public function get_all_store_owner_product_out_stock($store_owner_id){
+		$this->db->where('store_owner_id',$store_owner_id);
+		$this->db->where('prod_bunk <=', 0);
+		$query		=$this->db->get('product_tbl');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
+
+	public function get_my_store_product_out_by_branch_id($store_owner_id,$branch_id){
+		$this->db->where('store_owner_id',$store_owner_id);
+		$this->db->where('prod_bunk <=', 0);
+		$query		=$this->db->get('product_tbl');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
+	
+	public function get_all_store_owner_transaction_history($store_owner_id){
+		$this->db->where('store_owner_id',$store_owner_id);
+		$query		=$this->db->get('transaction_history');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
+
+	public function get_my_store_transaction_history_by_branch_id($store_owner_id,$branch_id){
+		$this->db->where('store_owner_id',$store_owner_id);
+		$this->db->where('branch_id', $branch_id);
+		$query		=$this->db->get('transaction_history');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
+
+	public function generate_product_in_stock_by_params($type,$id){
+		if($type =='store'){
+			$this->db->where('store_id',$id);
+			$this->db->where('prod_bunk >', 0);
+
+			$this->db->order_by('prod_name','desc');
+			$query		=$this->db->get('product_tbl');
+			if($query->num_rows() > 0){
+				return $query->result_array();
+			}
+
+			return false;
+		}elseif($type =='branch'){
+			$this->db->where('branch_id',$id);
+			$this->db->where('prod_bunk >', 0);
+
+			$this->db->order_by('prod_name','desc');
+			$query		=$this->db->get('product_tbl');
+			if($query->num_rows() > 0){
+				return $query->result_array();
+			}
+
+			return false;
+		}
+	}
+	public function generate_product_out_stock_by_params($type,$id){
+		if($type =='store'){
+			$this->db->where('store_id',$id);
+			$this->db->where('prod_bunk <=', 0);
+
+			$this->db->order_by('prod_name','desc');
+			$query		=$this->db->get('product_tbl');
+			if($query->num_rows() > 0){
+				return $query->result_array();
+			}
+
+			return false;
+		}elseif($type =='branch'){
+			$this->db->where('branch_id',$id);
+			$this->db->where('prod_bunk <=', 0);
+
+			$this->db->order_by('prod_name','desc');
+			$query		=$this->db->get('product_tbl');
+			if($query->num_rows() > 0){
+				return $query->result_array();
+			}
+
+			return false;
+		}
+	}
+
+	public function generate_supplier_by_params($type,$id){
+		if($type=='store'){
+			$this->db->where('store_id',$id);
+			$query		=$this->db->get('suppliers_tbl');
+			if($query->num_rows() > 0){
+				return $query->result_array();
+			}
+			return false;
+		}elseif($type =='branch'){
+			$this->db->where('branch_store_id',$id);
+			$query		=$this->db->get('suppliers_tbl');
+			if($query->num_rows() > 0){
+				return $query->result_array();
+			}
+			return false;
+		}
+	}
+
+	public function generate_customer_by_params($type,$id){		
+
+		if($type=='store'){
+			$this->db->where('store_id',$id);
+			$query		=$this->db->get('customers_tbl');
+			if($query->num_rows() > 0){
+				return $query->result_array();
+			}
+			return false;
+		}elseif($type =='branch'){
+			$this->db->where('branch_store_id',$id);
+			$query		=$this->db->get('customers_tbl');
+			if($query->num_rows() > 0){
+				return $query->result_array();
+			}
+			return false;
+		}
 	}
 }

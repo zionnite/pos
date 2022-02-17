@@ -279,7 +279,7 @@
 					</div>
 				</div>
 
-				<div class="col-md-12" style="margin-bottom:1%;">
+                <div class="col-md-12" style="margin-bottom:1%;">
                     <div class="btn-group " role="group" data-toggle="tooltip" data-placement="top" title="" data-original-title="" aria-describedby="">
                         <a href="<?php echo base_url();?>Sales_report/generate_report_transaction_csv" class="btn btn-primary btn-mini waves-effect waves-light" style="color:white;">Download in CSV</a>
                         <a href="<?php echo base_url();?>Sales_report/generate_report_transaction_excel" class="btn btn-primary btn-mini waves-effect waves-light" style="color:white;">Download in Excel</a>
@@ -343,6 +343,7 @@
 											</form>
 										</div>
 									</div>
+
 									<div class="col-md-6" style="margin-top:1.78%;">
 										<div class="col-md-12">
 											<div class="row">
@@ -517,7 +518,7 @@
 			
 			var dataString = 'search_key=' + search_key + '&sortBy=' + sortBy;
           
-			var base_url = '<?php echo site_url('Sales_report/index_ajax/') ?>';
+			var base_url = '<?php echo site_url('Sales_report/filter_by_date_ajax/') ?>';
 			
 			if(page_url == false) {
 				var page_url = base_url;

@@ -59,7 +59,7 @@
                                                     $time               =$row['time'];
                                                     $store_id           =$row['store_id'];
                                                     $branch_id          =$row['branch_id'];
-                                                    $invoice_no            =$row['invoice'];
+                                                    $invoice_no         =$row['invoice'];
                                                    
 
                                                     $date			        =$row['date_created'];

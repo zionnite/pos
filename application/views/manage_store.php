@@ -55,6 +55,21 @@
 								
 										<a href="javascript:;" class="label label-danger" id="delete_store"
 											data-store_id="<?php echo $store_id;?>"><i class="fa fa-trash"></i> Delete</a>
+
+										<div class="dropdown-inverse dropdown open">
+											<a class="label label-inverse dropdown-toggle waves-effect waves-light "
+												type="button" id="dropdown-7" data-toggle="dropdown"
+												aria-haspopup="true" aria-expanded="false">Export</a>
+											<div class="dropdown-menu" aria-labelledby="dropdown-7"
+												data-dropdown-in="fadeIn" data-dropdown-out="fadeOut"
+												style="will-change: transform;">
+												
+
+												<a id="filter_by_store" class="dropdown-item waves-light waves-effect" href="<?php echo base_url();?>Sales_report/generate_report/excel/store/<?php echo $store_id;?>/0">Excel</a>
+												<a id="filter_by_store" class="dropdown-item waves-light waves-effect" href="<?php echo base_url();?>Sales_report/generate_report/csv/store/<?php echo $store_id;?>/0">CSV</a>
+											</div>
+										</div>
+
 									</td>
 								</tbody>
 						</div>

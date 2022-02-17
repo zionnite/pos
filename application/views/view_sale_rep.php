@@ -7,9 +7,15 @@
 				<?php $this->load->view('short_statics');?>
 				<!-- task, page, download counter  end -->
 
-				<div class="col-md-12">
-					<a data-toggle="modal" href="#large-Modal" class="btn btn-danger" style="margin-bottom:1%;"><i class="fa fa-plus"></i>Create Sales Rep.</a>
-				</div>
+				<a data-toggle="modal" href="#large-Modal" class="btn btn-danger col-md-3" style="margin-left:1%;margin-bottom:1%;"><i class="fa fa-plus"></i>Create Sales Rep.</a>
+
+
+				<div class="col-md-5" style="margin-bottom:1%;">
+                    <div class="btn-group " role="group" data-toggle="tooltip" data-placement="top" title="" data-original-title="" aria-describedby="">
+                        <a href="<?php echo base_url();?>Sales_report/generate_report_sales_rep_csv" class="btn btn-primary  waves-effect waves-light" style="color:white;">Download in CSV</a>
+                        <a href="<?php echo base_url();?>Sales_report/generate_report_sales_rep_excel" class="btn btn-primary waves-effect waves-light" style="color:white;">Download in Excel</a>
+                    </div>
+                </div>
 
 			
 

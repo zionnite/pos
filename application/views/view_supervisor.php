@@ -7,8 +7,16 @@
 				<?php $this->load->view('short_statics');?>
 				<!-- task, page, download counter  end -->
 
-				<a data-toggle="modal" href="#large-Modal" class="btn btn-danger"
-					style="margin:1%;"><i class="fa fa-plus"></i>Create Branch Supervisor</a>
+				
+
+				<a data-toggle="modal" href="#large-Modal" class="btn btn-danger col-md-3" style="margin-left:1%;margin-bottom:1%;"><i class="fa fa-plus"></i>Create Branch Supervisor</a>
+				
+				<div class="col-md-5" style="margin-bottom:1%;">
+                    <div class="btn-group " role="group" data-toggle="tooltip" data-placement="top" title="" data-original-title="" aria-describedby="">
+                        <a href="<?php echo base_url();?>Sales_report/generate_report_supervisor_csv" class="btn btn-primary  waves-effect waves-light" style="color:white;">Download in CSV</a>
+                        <a href="<?php echo base_url();?>Sales_report/generate_report_supervisor_excel" class="btn btn-primary waves-effect waves-light" style="color:white;">Download in Excel</a>
+                    </div>
+                </div>
 
 				<div class="col-md-12" id="slideshow">
 					<div class="card" id="slide_show">
@@ -16,6 +24,7 @@
 							<h5>List Off All Supervisor</h5>
 
 						</div>
+						
 
 						<?php
 					
