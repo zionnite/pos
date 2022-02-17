@@ -162,6 +162,8 @@
 											style="display: table-cell;"></th>
 										<th data-breakpoints="xs" class="footable-sortable"
 											style="display: table-cell;"></th>
+										<th data-breakpoints="xs" class="footable-sortable"
+											style="display: table-cell;"></th>
 									</tr>
 								</thead>
 
@@ -225,6 +227,12 @@
 										<td><?php echo $sub_email;?></td>
 										<td><?php echo $sub_phone;?></td>
 										<td><?php echo $date;?></td>
+
+										<td>
+											<a data-toggle="modal" href="#edit_supervisor_<?php echo $id;?>"
+												data-id="<?php echo $id;?>" class="label label-inverse"><i class="fa fa-pen"></i> Edit User</a>
+										</td>
+
 										<td>
 											<a href="javascript:;" id="delete_branch_<?php echo $id;?>"
 												data-id="<?php echo $id;?>" class="label label-danger"><i class="fa fa-trash"></i> Delete</a>
@@ -250,6 +258,139 @@
 											?>
 										</td>
 									</tr>
+
+									<div class="modal fade" id="edit_supervisor_<?php echo $id;?>" tabindex="-1" role="dialog" style="z-index: 1050; display: none;"
+										aria-hidden="true">
+										<div class="modal-dialog modal-lg" role="document">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h4 class="modal-title">Edit Sales Rep</h4>
+
+
+													<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+														<span aria-hidden="true">×</span>
+													</button>
+												</div>
+												<form id="update_supervisor_<?php echo $id;?>" enctype="multipart/form-data">
+													<div class="modal-body">
+
+
+
+													<?php
+														if($user_status =='store_owner'){
+													?>
+														<div class="form-group row">
+															<label class="col-sm-2 col-form-label">Select Store</label>
+															<div class="col-sm-10">
+																<select id="store_id_<?php echo $id;?>" name="store_id" class="form-control" required>
+																	<option value="">Select Store</option>
+																	<?php
+																		($user_status =='store_owner') ? 
+																			$get_store          =$this->Action->get_store($user_id)
+																			:
+																			$get_store			=$this->Action->get_store($store_owner_id);
+																		if(is_array($get_store)){
+																			foreach($get_store as $row){
+																				$store_id           =$row['id'];
+																				$store_name         =$row['store_name'];
+																				$store_name_2       =$row['store_name_2'];
+																		?>
+
+
+																	?>
+																	<option value="<?php echo $store_id;?>"><?php echo $store_name;?></option>
+																	<?php 
+																			}
+																		}
+																	?>
+																</select>
+															</div>
+														</div>
+
+
+														<div class="form-group row">
+															<label class="col-sm-2 col-form-label">Select Branch Store</label>
+															<div class="col-sm-10">
+																<select type="text" id="branch_name_<?php echo $id;?>" name="branch_name" class="form-control" required>
+																	<option value="">Select Branch Store</option>
+
+																</select>
+															</div>
+														</div>
+													<?php 
+														}else{?>
+															<div class="form-group row">
+																<label class="col-sm-2 col-form-label">Select Store</label>
+																<div class="col-sm-10">
+																	<select id="store_id" name="store_id" class="form-control">
+																		<?php
+
+																			$my_store_name		=$this->Action->get_store_name_by_supervisor_id($user_id);
+																			$my_store_id		=$this->Action->get_store_id_by_supervisor_id($user_id);                                                            
+																		?>
+																		<option value="<?php echo $my_store_id;?>"><?php echo $my_store_name;?></option>
+																	</select>
+																</div>
+															</div>
+
+
+															<div class="form-group row">
+																<label class="col-sm-2 col-form-label">Select Branch Store</label>
+																<div class="col-sm-10">
+																<?php
+
+																	$my_brach_name		=$this->Action->get_branch_name_by_supervisor_id($user_id);
+																	$my_brach__id		=$this->Action->get_branch_id_by_supervisor_id($user_id);                                                            
+																	?>
+																	<select type="text" id="branch_name" name="branch_name" class="form-control">
+																		<option value="<?php echo $my_brach__id;?>"><?php echo $my_brach_name;?></option>
+
+																	</select>
+																</div>
+															</div>
+
+													<?php } ?>
+
+
+
+
+														<div class="form-group row">
+															<label class="col-sm-2 col-form-label">Rep. Name</label>
+															<div class="col-sm-10">
+																<input type="text" id="name" name="name" class="form-control" required value="<?php echo $sub_name;?>">
+															</div>
+														</div>
+
+														<div class="form-group row">
+															<label class="col-sm-2 col-form-label">Rep. Email</label>
+															<div class="col-sm-10">
+																<input type="email" id="email" readonly name="email" class="form-control" required value="<?php echo $sub_email;?>">
+															</div>
+														</div>
+
+														<div class="form-group row">
+															<label class="col-sm-2 col-form-label">Rep. Phone</label>
+															<div class="col-sm-10">
+																<input type="number" id="phone" name="phone" class="form-control" required value="<?php echo $sub_phone;?>">
+																<input type="hidden" id="id" name="id" class="form-control" required value="<?php echo $id;?>">
+															</div>
+														</div>
+
+
+
+
+
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Close</button>
+														<input type="submit" class="btn btn-primary waves-effect waves-light"
+															value="Update">
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+
 
 									<script type="text/javascript"
 										src="<?php echo base_url();?>files/bower_components/jquery/dist/jquery.min.js">
@@ -476,6 +617,86 @@
 													});
 											});
 
+										});
+
+									</script>
+
+									<script type="text/javascript">
+										$(document).ready(function () {
+
+											$('#update_supervisor_<?php echo $id;?>').submit(function (e) {
+												e.preventDefault();
+
+												$.ajax({
+													url: '<?php echo base_url();?>Office/edit_sales_rep',
+													type: "post",
+													data: new FormData(this),
+													processData: false,
+													contentType: false,
+													cache: false,
+													async: false,
+													success: function (data) {
+														$('#large-Modal').modal('hide');
+														if (data == 'ok') {
+
+
+															swal({
+																title: "Success",
+																text: "Sales Rep. Detail Updated",
+																icon: "success",
+																closeOnClickOutside: false,
+															});
+
+
+
+															// setInterval(function () {
+															// 	location.reload();
+															// }, 4000);
+
+														} else if (data == 'err') {
+
+															swal({
+																title: "Oops!",
+																text: "Database Could not connect to server!",
+																icon: "info",
+																closeOnClickOutside: false,
+															});
+
+														}else{
+															swal({
+																title: "Oops!",
+																text: data,
+																icon: "info",
+																closeOnClickOutside: false,
+															});
+														}
+													}
+												});
+											});
+
+
+										});
+
+									</script>
+
+
+									<script>
+										$(document).ready(function () {
+											$("#store_id_<?php echo $id;?>").change(function () {
+												var store_id = $('#store_id_<?php echo $id;?>').val();
+												var dataString = 'store_id=' + store_id;
+												//alert(dataString);
+												$.ajax({
+													type: "POST",
+													url: "<?php echo base_url();?>Office/get_store_branch_name",
+													data: dataString,
+													cache: false,
+													success: function (html) {
+														$("#branch_name_<?php echo $id;?>").html(html);
+
+													}
+												});
+											});
 										});
 
 									</script>

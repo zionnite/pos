@@ -1489,4 +1489,22 @@ class Office extends My_Controller {
         
 
     }
+
+    public function edit_sales_rep(){
+        $store_id               =$this->input->post('store_id');
+        $branch_id              =$this->input->post('branch_name');
+        $name                   =$this->input->post('name');
+        $email                  =$this->input->post('email');
+        $phone                  =$this->input->post('phone');
+        $id                     =$this->input->post('id');
+
+        $action    =$this->Action->edit_sales_rep($store_id,$branch_id,$name,$email,$phone,$id);
+        if($action){
+            echo 'ok';
+        }else{
+            echo 'err';
+        }
+        
+
+    }
 }

@@ -116,6 +116,10 @@
 
 										<th data-breakpoints="xs" class="footable-sortable"
 											style="display: table-cell;"></th>
+										<th data-breakpoints="xs" class="footable-sortable"
+											style="display: table-cell;"></th>
+										<th data-breakpoints="xs" class="footable-sortable"
+											style="display: table-cell;"></th>
 									</tr>
 								</thead>
 
