@@ -3672,4 +3672,27 @@ class Action extends My_Model{
 		}
 		return false;
 	}
+
+	public function edit_supervisor($store_id,$branch_id,$name,$email,$phone,$id){
+		$store_owner_id 			=$this->get_store_owner_id_by_store_id($store_id);
+		$store_name					=$this->get_store_name_by_store_id($store_id);
+		$branch_name				=$this->get_branch_name_by_branch_id($branch_id);
+		$data	=array('store_id'=>$store_id,
+					   'store_owner_id'=>$store_owner_id,
+					   'store_name'=>$store_name,
+					   'branch_store_id'=>$branch_id,
+					   'branch_store_name'=>$branch_name,
+					   'name'=>$name,
+					   'phone_no'=>$phone,
+					);
+		$this->db->set($data);
+		$this->db->where('id',$id);
+		$this->db->update('supervisor');
+		if($this->db->affected_rows() > 0){
+
+			
+			return true;
+		}
+		return false;
+	}
 }
