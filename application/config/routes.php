@@ -118,6 +118,7 @@ $route['Store_Owner/view_invoice/(:any)']                             ='Invoice/
 $route['Store_Owner/history']                                         ='Transaction_history/index';
 $route['Store_Owner/filter_transaction/(:any)/(:any)']                ='Transaction_history/filter_transaction/$1/$2';
 $route['Store_Owner/view_product_detail/(:any)']                      ='Office/view_product_detail/$1';
+$route['Store_Owner/view_stat/(:any)/(:any)']                         ='Office/view_stat/$1/$2';
 
 
 

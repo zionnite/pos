@@ -56,7 +56,10 @@
 										<a href="javascript:;" class="label label-danger" id="delete_store"
 											data-store_id="<?php echo $store_id;?>"><i class="fa fa-trash"></i> Delete</a>
 
-										<div class="dropdown-inverse dropdown open">
+										<a href="<?php echo base_url();?>Store_Owner/view_stat/store/<?php echo $store_id;?>" class="label label-warning" >
+											<i class="fa fa-bar-chart-o"></i> View Statistics </a>
+
+										<!-- <div class="dropdown-inverse dropdown open">
 											<a class="label label-inverse dropdown-toggle waves-effect waves-light "
 												type="button" id="dropdown-7" data-toggle="dropdown"
 												aria-haspopup="true" aria-expanded="false">Export</a>
@@ -68,7 +71,7 @@
 												<a id="filter_by_store" class="dropdown-item waves-light waves-effect" href="<?php echo base_url();?>Sales_report/generate_report/excel/store/<?php echo $store_id;?>/0">Excel</a>
 												<a id="filter_by_store" class="dropdown-item waves-light waves-effect" href="<?php echo base_url();?>Sales_report/generate_report/csv/store/<?php echo $store_id;?>/0">CSV</a>
 											</div>
-										</div>
+										</div> -->
 
 									</td>
 								</tbody>

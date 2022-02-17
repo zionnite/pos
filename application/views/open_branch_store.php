@@ -61,6 +61,9 @@
 										<td><?php echo $date;?></td>
 										<td>
 											<a href="javascript:;" id="delete_branch_<?php echo $id;?>" data-branch_id="<?php echo $id;?>" class="label label-danger"><i class="fa fa-trash"></i> Delete</a>
+
+											<a href="<?php echo base_url();?>Store_Owner/view_stat/branch/<?php echo $id;?>" class="label label-warning" >
+												<i class="fa fa-bar-chart-o"></i> View Statistics </a>
 										</td>
 									</tr>
 

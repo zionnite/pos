@@ -1562,4 +1562,27 @@ class Office extends My_Controller {
             echo   'err';
         }
 	}
+
+    public function view_stat($type=NULL,$id=NULL){
+        $this->session_checker->auto_logout();
+      
+        $data['alert']			        =$this->session->flashdata('alert');
+
+        $data['phone_no']         		=$this->session->userdata('phone_no');
+		$data['user_id']         		=$this->session->userdata('user_id');
+		$data['user_name']         		=$this->session->userdata('user_name');
+        $data['email']                  =$this->session->userdata('email');
+        $data['user_status']            =$this->session->userdata('user_status');
+
+        $data['type']                   =$type;
+        $data['dis_id']                 =$id;
+        if($type =='store'){
+
+            $data['content']	    ='view_store_detail';
+        }elseif($type =='branch'){
+            $data['content']	    ='view_branch_detail';
+        }
+        
+		$this->load->view($this->layout, $data);
+    }
 }

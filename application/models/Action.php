@@ -358,6 +358,15 @@ class Action extends My_Model{
 		return false;
 	}
 
+	public function get_my_branch_sales_rep_by_branch_id($branch_id){
+		$this->db->where(array('branch_store_id'=>$branch_id));
+		$query		=$this->db->get('sales_rep');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
+
 	/*Customer*/
 	public function count_customers($search){
 
@@ -2605,9 +2614,28 @@ class Action extends My_Model{
 		return $this->db->from('transaction_history')->count_all_results();
 	}
 
+	public function count_total_transaction_by_admin_branch($store_id){		
+		$this->db->where('branch_id',$store_id);
+		return $this->db->from('transaction_history')->count_all_results();
+	}
+
 	public function count_total_item_sold_by_admin($store_id){
 		
 		$this->db->where('store_id',$store_id);
+	
+		$this->db->select_sum('quantity');
+		$query		=$this->db->get('transaction_history');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return $row['quantity'];
+			}
+		}
+		return 0;
+	}
+
+	public function count_total_item_sold_by_admin_branch($store_id){
+		
+		$this->db->where('branch_id',$store_id);
 	
 		$this->db->select_sum('quantity');
 		$query		=$this->db->get('transaction_history');
@@ -2628,9 +2656,20 @@ class Action extends My_Model{
 		$this->db->where('store_id',$store_id);
 		return $this->db->from('supervisor')->count_all_results();
 	}
+
+	public function count_store_supervisor_by_admin_branch($store_id){
+		$this->db->where('branch_id',$store_id);
+		return $this->db->from('invoice_tbl')->count_all_results();
+	}
+
 	public function count_store_staff_by_admin($store_id){
 		$this->db->where('store_id',$store_id);
 		return $this->db->from('sales_rep')->count_all_results();
+	}
+	public function count_branch_product_out_of_stock_branch($store_id){
+		$this->db->where('branch_id',$store_id);
+		$this->db->where('prod_bunk <=', 0);
+		return $this->db->from('product_tbl')->count_all_results();
 	}
 
 	public function count_total_customers(){

@@ -46,6 +46,13 @@
 					</div>
 				</div>
 
+				<div class="col-md-12" style="margin-bottom:1%;">
+                    <div class="btn-group " role="group" data-toggle="tooltip" data-placement="top" title="" data-original-title="" aria-describedby="">
+                        <a href="<?php echo base_url();?>Sales_report/generate_report_transaction_csv" class="btn btn-primary btn-mini waves-effect waves-light" style="color:white;">Download in CSV</a>
+                        <a href="<?php echo base_url();?>Sales_report/generate_report_transaction_excel" class="btn btn-primary btn-mini waves-effect waves-light" style="color:white;">Download in Excel</a>
+                    </div>
+                </div>
+				
 				<div class="col-md-12" id="slideshow">
 					<div class="card" id="slide_show">
 						<div class="card-header">

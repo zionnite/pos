@@ -1085,15 +1085,11 @@ class Sales_report extends My_Controller{
 			$action 	= $this->Action->get_all_store_owner_customer($user_id) : 
 			$action  	=$this->Action->get_my_store_customer_by_branch_id($store_owner_id,$branch_id);
 
-			$delimiter = ","; 
-			$filename = "list_of_customer_" . date('Y-m-d') . ".csv"; 
-			
-			// Create a file pointer 
-			$f = fopen('php://memory', 'w'); 
+			$fileName = "list_customer_" . date('Y-m-d') . ".xls"; 
 
 			// Set column headers 
 			$fields = array('FULL NAME', 'PHONE NUMBER', 'EMAIL', 'STORE', 'BRANCH ASSIGN', 'CREATED'); 
-			fputcsv($f, $fields, $delimiter); 
+			$excelData = implode("\t", array_values($fields)) . "\n"; 
 			if(is_array($action)){
 				foreach($action as $row){
 					$id				        =$row['id'];
@@ -1112,28 +1108,21 @@ class Sales_report extends My_Controller{
 					$time					=$row['time'];
 
 					$lineData = array($sub_name, $sub_phone, $sub_email, $store_name, $branch_name, $date); 
-					fputcsv($f, $lineData, $delimiter); 
+					array_walk($lineData, array($this,'filterData')); 
+        			$excelData .= implode("\t", array_values($lineData)) . "\n"; 
 				}
 			}else{
-				$lineData = array('No data is available at the moment'); 
-				fputcsv($f, $lineData, $delimiter); 
+				$excelData .= 'No records found...'. "\n"; 
 			}
 
 			
 			
 
-			fseek($f, 0); 
-
-	
-
+			header("Content-Type: application/vnd.ms-excel"); 
+			header("Content-Disposition: attachment; filename=\"$fileName\""); 
 			
-     
-		// Set headers to download file rather than displayed 
-		header('Content-Type: text/csv'); 
-		header('Content-Disposition: attachment; filename="' . $filename . '";'); 
-		
-		//output all remaining data on a file pointer 
-		fpassthru($f); 
+			// Render excel data 
+			echo $excelData; 
 		}
 		exit;
 	}
@@ -1155,15 +1144,11 @@ class Sales_report extends My_Controller{
 			$action 	= $this->Action->get_all_store_owner_supplier($user_id) : 
 			$action  	=$this->Action->get_my_store_supplier_by_branch_id($store_owner_id,$branch_id);
 
-			$delimiter = ","; 
-			$filename = "list_of_supplier_" . date('Y-m-d') . ".csv"; 
-			
-			// Create a file pointer 
-			$f = fopen('php://memory', 'w'); 
+			$fileName = "list_supplier_" . date('Y-m-d') . ".xls"; 
 
 			// Set column headers 
 			$fields = array('FULL NAME', 'PHONE NUMBER', 'EMAIL', 'STORE', 'BRANCH ASSIGN', 'CREATED'); 
-			fputcsv($f, $fields, $delimiter); 
+			$excelData = implode("\t", array_values($fields)) . "\n"; 
 			
 			if(is_array($action)){
 				foreach($action as $row){
@@ -1183,28 +1168,21 @@ class Sales_report extends My_Controller{
 					$time					=$row['time'];
 
 					$lineData = array($sub_name, $sub_phone, $sub_email, $store_name, $branch_name, $date); 
-					fputcsv($f, $lineData, $delimiter); 
+					array_walk($lineData, array($this,'filterData')); 
+       			 	$excelData .= implode("\t", array_values($lineData)) . "\n"; 
 				}
 			}else{
-				$lineData = array('No data is available at the moment'); 
-				fputcsv($f, $lineData, $delimiter); 
+				$excelData .= 'No records found...'. "\n"; 
 			}
 
 			
 			
 
-			fseek($f, 0); 
-
-	
-
+			header("Content-Type: application/vnd.ms-excel"); 
+			header("Content-Disposition: attachment; filename=\"$fileName\""); 
 			
-     
-		// Set headers to download file rather than displayed 
-		header('Content-Type: text/csv'); 
-		header('Content-Disposition: attachment; filename="' . $filename . '";'); 
-		
-		//output all remaining data on a file pointer 
-		fpassthru($f); 
+			// Render excel data 
+			echo $excelData; 
 		}
 		exit;
 	}
@@ -1226,15 +1204,11 @@ class Sales_report extends My_Controller{
 			$action 	= $this->Action->get_all_store_owner_product_in_stock($user_id) : 
 			$action  	=$this->Action->get_my_store_product_in_by_branch_id($store_owner_id,$branch_id);
 
-			$delimiter = ","; 
-			$filename = "list_of_product_in_stock_" . date('Y-m-d') . ".csv"; 
-			
-			// Create a file pointer 
-			$f = fopen('php://memory', 'w'); 
+			$fileName = "List_product_in_stock_" . date('Y-m-d') . ".xls"; 
 
 			// Set column headers 
 			$fields = array('PRODUCT NAME', 'INVENTORY', 'COST PRICE','SELLING PRICE'); 
-			fputcsv($f, $fields, $delimiter); 
+			$excelData = implode("\t", array_values($fields)) . "\n";
 			if(is_array($action)){
 				foreach($action as $row){
 					$prod_name              =$row['prod_name'];
@@ -1243,28 +1217,21 @@ class Sales_report extends My_Controller{
 					$prod_price             =$row['prod_price'];
 
 					$lineData = array($prod_name, $prod_bunk, $prod_cost, $prod_price); 
-					fputcsv($f, $lineData, $delimiter); 
+					array_walk($lineData, array($this,'filterData')); 
+        			$excelData .= implode("\t", array_values($lineData)) . "\n"; 
 				}
 			}else{
-				$lineData = array('No data is available at the moment'); 
-				fputcsv($f, $lineData, $delimiter); 
+				$excelData .= 'No records found...'. "\n";
 			}
 
 			
 			
 
-			fseek($f, 0); 
-
-	
-
+			header("Content-Type: application/vnd.ms-excel"); 
+			header("Content-Disposition: attachment; filename=\"$fileName\""); 
 			
-     
-		// Set headers to download file rather than displayed 
-		header('Content-Type: text/csv'); 
-		header('Content-Disposition: attachment; filename="' . $filename . '";'); 
-		
-		//output all remaining data on a file pointer 
-		fpassthru($f); 
+			// Render excel data 
+			echo $excelData; 
 		}
 		exit;
 	}
@@ -1286,15 +1253,11 @@ class Sales_report extends My_Controller{
 			$action 	= $this->Action->get_all_store_owner_product_out_stock($user_id) : 
 			$action  	=$this->Action->get_my_store_product_out_by_branch_id($store_owner_id,$branch_id);
 
-			$delimiter = ","; 
-			$filename = "list_of_product_out_stock_" . date('Y-m-d') . ".csv"; 
-			
-			// Create a file pointer 
-			$f = fopen('php://memory', 'w'); 
+			$fileName = "list_product_out_of_stock_" . date('Y-m-d') . ".xls"; 
 
 			// Set column headers 
 			$fields = array('PRODUCT NAME', 'INVENTORY', 'COST PRICE','SELLING PRICE'); 
-			fputcsv($f, $fields, $delimiter); 
+			$excelData = implode("\t", array_values($fields)) . "\n"; 
 			if(is_array($action)){
 				foreach($action as $row){
 					$prod_name              =$row['prod_name'];
@@ -1303,29 +1266,20 @@ class Sales_report extends My_Controller{
 					$prod_price             =$row['prod_price'];
 	
 					$lineData = array($prod_name, $prod_bunk, $prod_cost, $prod_price); 
-					fputcsv($f, $lineData, $delimiter); 
+					array_walk($lineData, array($this,'filterData')); 
+        			$excelData .= implode("\t", array_values($lineData)) . "\n"; 
 				}
 			}else{
-				$lineData = array('No data is available at the moment'); 
-				fputcsv($f, $lineData, $delimiter); 
+				$excelData .= 'No records found...'. "\n"; 
 			}
 			
 
 			
+			header("Content-Type: application/vnd.ms-excel"); 
+			header("Content-Disposition: attachment; filename=\"$fileName\""); 
 			
-
-			fseek($f, 0); 
-
-	
-
-			
-     
-		// Set headers to download file rather than displayed 
-		header('Content-Type: text/csv'); 
-		header('Content-Disposition: attachment; filename="' . $filename . '";'); 
-		
-		//output all remaining data on a file pointer 
-		fpassthru($f); 
+			// Render excel data 
+			echo $excelData; 
 		}
 		exit;
 	}
@@ -1347,15 +1301,12 @@ class Sales_report extends My_Controller{
 			$action 	= $this->Action->get_all_store_owner_transaction_history($user_id) : 
 			$action  	=$this->Action->get_my_store_transaction_history_by_branch_id($store_owner_id,$branch_id);
 
-			$delimiter = ","; 
-			$filename = "list_of_transaction_history_" . date('Y-m-d') . ".csv"; 
-			
-			// Create a file pointer 
-			$f = fopen('php://memory', 'w'); 
-
+			$fileName = "list_transaction_" . date('Y-m-d') . ".xls"; 
+		
 			// Set column headers 
 			$fields = array('PRODUCT NAME', 'CUSTOMER NAME', 'QUANTITY','SUB TOTAL','TRANSACTION TYPE','PAYMENT METHOD','DATE CREATED','STORE','BRANCH'); 
-			fputcsv($f, $fields, $delimiter); 
+			$excelData = implode("\t", array_values($fields)) . "\n"; 
+
 			if(is_array($action)){
 				foreach($action as $row){
 					$prod_name              =$row['prod_name'];
@@ -1377,29 +1328,20 @@ class Sales_report extends My_Controller{
 					$branch_name		=$this->Action->get_branch_name_by_branch_id($branch_id);
 	
 					$lineData = array($prod_name, $customer_name, $qty, $sub_total,$trans_type,$trans_method,$date, $store_name, $branch_name); 
-					fputcsv($f, $lineData, $delimiter); 
+					array_walk($lineData, array($this,'filterData')); 
+        			$excelData .= implode("\t", array_values($lineData)) . "\n"; 
 				}
 			}else{
-				$lineData = array('No data is available at the moment'); 
-				fputcsv($f, $lineData, $delimiter); 
+				$excelData .= 'No records found...'. "\n";  
 			}
 			
 
 			
+			header("Content-Type: application/vnd.ms-excel"); 
+			header("Content-Disposition: attachment; filename=\"$fileName\""); 
 			
-
-			fseek($f, 0); 
-
-	
-
-			
-     
-		// Set headers to download file rather than displayed 
-		header('Content-Type: text/csv'); 
-		header('Content-Disposition: attachment; filename="' . $filename . '";'); 
-		
-		//output all remaining data on a file pointer 
-		fpassthru($f); 
+			// Render excel data 
+			echo $excelData; 
 		}
 		exit;
 	}
@@ -1421,15 +1363,11 @@ class Sales_report extends My_Controller{
 			$action 	= $this->Action->generate_product_in_stock_by_params($type,$id);
 		
 
-			$delimiter = ","; 
-			$filename = "list_of_product_in_stock_" . date('Y-m-d') . ".csv"; 
-			
-			// Create a file pointer 
-			$f = fopen('php://memory', 'w'); 
+			$fileName = "list_of_product_in_stock_by_click_filter" . date('Y-m-d') . ".xls"; 
 
 			// Set column headers 
 			$fields = array('PRODUCT NAME', 'INVENTORY', 'COST PRICE','SELLING PRICE'); 
-			fputcsv($f, $fields, $delimiter); 
+			$excelData = implode("\t", array_values($fields)) . "\n"; 
 			if(is_array($action)){
 				foreach($action as $row){
 					$prod_name              =$row['prod_name'];
@@ -1438,28 +1376,18 @@ class Sales_report extends My_Controller{
 					$prod_price             =$row['prod_price'];
 
 					$lineData = array($prod_name, $prod_bunk, $prod_cost, $prod_price); 
-					fputcsv($f, $lineData, $delimiter); 
+					array_walk($lineData, array($this,'filterData')); 
+        			$excelData .= implode("\t", array_values($lineData)) . "\n"; 
 				}
 			}else{
-				$lineData = array('No data is available at the moment'); 
-				fputcsv($f, $lineData, $delimiter); 
+				$excelData .= 'No records found...'. "\n"; 
 			}
 
+			header("Content-Type: application/vnd.ms-excel"); 
+			header("Content-Disposition: attachment; filename=\"$fileName\""); 
 			
-			
-
-			fseek($f, 0); 
-
-	
-
-			
-     
-		// Set headers to download file rather than displayed 
-		header('Content-Type: text/csv'); 
-		header('Content-Disposition: attachment; filename="' . $filename . '";'); 
-		
-		//output all remaining data on a file pointer 
-		fpassthru($f); 
+			// Render excel data 
+			echo $excelData;
 		}
 		exit;
 	}
@@ -1481,15 +1409,10 @@ class Sales_report extends My_Controller{
 			$action 	= $this->Action->generate_product_out_stock_by_params($type,$id);
 		
 
-			$delimiter = ","; 
-			$filename = "list_of_product_in_stock_" . date('Y-m-d') . ".csv"; 
-			
-			// Create a file pointer 
-			$f = fopen('php://memory', 'w'); 
-
+			$fileName = "list_of_product_out_stock_by_click_filter" . date('Y-m-d') . ".xls"; 
 			// Set column headers 
 			$fields = array('PRODUCT NAME', 'INVENTORY', 'COST PRICE','SELLING PRICE'); 
-			fputcsv($f, $fields, $delimiter); 
+			$excelData = implode("\t", array_values($fields)) . "\n"; 
 			if(is_array($action)){
 				foreach($action as $row){
 					$prod_name              =$row['prod_name'];
@@ -1498,28 +1421,19 @@ class Sales_report extends My_Controller{
 					$prod_price             =$row['prod_price'];
 
 					$lineData = array($prod_name, $prod_bunk, $prod_cost, $prod_price); 
-					fputcsv($f, $lineData, $delimiter); 
+					array_walk($lineData, array($this,'filterData')); 
+        			$excelData .= implode("\t", array_values($lineData)) . "\n"; 
 				}
 			}else{
-				$lineData = array('No data is available at the moment'); 
-				fputcsv($f, $lineData, $delimiter); 
+				$excelData .= 'No records found...'. "\n"; 
 			}
 
 			
+			header("Content-Type: application/vnd.ms-excel"); 
+			header("Content-Disposition: attachment; filename=\"$fileName\""); 
 			
-
-			fseek($f, 0); 
-
-	
-
-			
-     
-		// Set headers to download file rather than displayed 
-		header('Content-Type: text/csv'); 
-		header('Content-Disposition: attachment; filename="' . $filename . '";'); 
-		
-		//output all remaining data on a file pointer 
-		fpassthru($f); 
+			// Render excel data 
+			echo $excelData;
 		}
 		exit;
 	}
@@ -1539,15 +1453,11 @@ class Sales_report extends My_Controller{
 
 			$action 	= $this->Action->generate_customer_by_params($type,$id);
 
-			$delimiter = ","; 
-			$filename = "list_of_customer_" . date('Y-m-d') . ".csv"; 
-			
-			// Create a file pointer 
-			$f = fopen('php://memory', 'w'); 
+			$fileName = "list_of_customer_by_filter" . date('Y-m-d') . ".xls";
 
 			// Set column headers 
 			$fields = array('FULL NAME', 'PHONE NUMBER', 'EMAIL', 'STORE', 'BRANCH ASSIGN', 'CREATED'); 
-			fputcsv($f, $fields, $delimiter); 
+			$excelData = implode("\t", array_values($fields)) . "\n"; 
 			if(is_array($action)){
 				foreach($action as $row){
 					$id				        =$row['id'];
@@ -1566,28 +1476,19 @@ class Sales_report extends My_Controller{
 					$time					=$row['time'];
 
 					$lineData = array($sub_name, $sub_phone, $sub_email, $store_name, $branch_name, $date); 
-					fputcsv($f, $lineData, $delimiter); 
+					array_walk($lineData, array($this,'filterData')); 
+        			$excelData .= implode("\t", array_values($lineData)) . "\n";
 				}
 			}else{
-				$lineData = array('No data is available at the moment'); 
-				fputcsv($f, $lineData, $delimiter); 
+				$excelData .= 'No records found...'. "\n";
 			}
 
 			
+			header("Content-Type: application/vnd.ms-excel"); 
+			header("Content-Disposition: attachment; filename=\"$fileName\""); 
 			
-
-			fseek($f, 0); 
-
-	
-
-			
-     
-		// Set headers to download file rather than displayed 
-		header('Content-Type: text/csv'); 
-		header('Content-Disposition: attachment; filename="' . $filename . '";'); 
-		
-		//output all remaining data on a file pointer 
-		fpassthru($f); 
+			// Render excel data 
+			echo $excelData; 
 		}
 		exit;
 	}
@@ -1606,15 +1507,10 @@ class Sales_report extends My_Controller{
 
 			$action 	= $this->Action->generate_supplier_by_params($type,$id); 
 
-			$delimiter = ","; 
-			$filename = "list_of_supplier_" . date('Y-m-d') . ".csv"; 
-			
-			// Create a file pointer 
-			$f = fopen('php://memory', 'w'); 
-
+			$fileName = "list_of_supplier_by_filter" . date('Y-m-d') . ".xls"; 
 			// Set column headers 
 			$fields = array('FULL NAME', 'PHONE NUMBER', 'EMAIL', 'STORE', 'BRANCH ASSIGN', 'CREATED'); 
-			fputcsv($f, $fields, $delimiter); 
+			$excelData = implode("\t", array_values($fields)) . "\n"; 
 			
 			if(is_array($action)){
 				foreach($action as $row){
@@ -1634,28 +1530,19 @@ class Sales_report extends My_Controller{
 					$time					=$row['time'];
 
 					$lineData = array($sub_name, $sub_phone, $sub_email, $store_name, $branch_name, $date); 
-					fputcsv($f, $lineData, $delimiter); 
+					array_walk($lineData, array($this, 'filterData')); 
+        			$excelData .= implode("\t", array_values($lineData)) . "\n"; 
 				}
 			}else{
-				$lineData = array('No data is available at the moment'); 
-				fputcsv($f, $lineData, $delimiter); 
+				$excelData .= 'No records found...'. "\n"; 
 			}
 
 			
-			
-
-			fseek($f, 0); 
-
-	
-
-			
-     
-		// Set headers to download file rather than displayed 
-		header('Content-Type: text/csv'); 
-		header('Content-Disposition: attachment; filename="' . $filename . '";'); 
-		
-		//output all remaining data on a file pointer 
-		fpassthru($f); 
+			header("Content-Type: application/vnd.ms-excel"); 
+			header("Content-Disposition: attachment; filename=\"$fileName\""); 
+			 
+			// Render excel data 
+			echo $excelData; 
 		}
 		exit;
 	}
