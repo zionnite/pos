@@ -330,8 +330,8 @@ class Action extends My_Model{
 		}
 		return false;
 	}
-	public function get_my_store_sales_rep_filter_by_branch_id($user_id,$dis_branch_id){
-		$this->db->where(array('store_owner_id'=>$user_id,'branch_store_id'=>$dis_branch_id));
+	public function get_my_store_sales_rep_filter_by_branch_id($store_id,$dis_branch_id){
+		$this->db->where(array('store_id'=>$store_id,'branch_store_id'=>$dis_branch_id));
 		$query		=$this->db->get('sales_rep');
 		if($query->num_rows() > 0){
 			return $query->result_array();
@@ -2050,7 +2050,23 @@ class Action extends My_Model{
 			}
 			return $this->db->from('transaction_history')->count_all_results();
 
-		}else{
+		}elseif($user_status	=='managger'){
+			
+			if(!empty($keyword)){
+				$this->db->like('invoice', $this->db->escape_like_str($keyword,'both'));
+				$this->db->where('branch_id',$branch_id);
+
+				$this->db->or_like('prod_name', $this->db->escape_like_str($keyword,'both'));
+				$this->db->where('branch_id',$branch_id);
+
+				$this->db->or_like('customer_name', $this->db->escape_like_str($keyword,'both'));
+				$this->db->where('branch_id',$branch_id);
+				
+			}else{
+				$this->db->where('branch_id',$branch_id);
+			}
+			return $this->db->from('transaction_history')->count_all_results();
+		}else{	
 
 			if(!empty($keyword)){
 				$this->db->like('invoice', $this->db->escape_like_str($keyword,'both'));
@@ -2106,7 +2122,22 @@ class Action extends My_Model{
 				$this->db->where('store_id',$store_id);
 				// $this->db->where('branch_id',$branch_id);
 			}
-		}else{
+		}elseif($user_status == 'manager'){
+			if(!empty($keyword)){
+				$this->db->like('invoice', $this->db->escape_like_str($keyword,'both'));
+				$this->db->where('branch_id',$branch_id);
+
+				$this->db->or_like('prod_name', $this->db->escape_like_str($keyword,'both'));
+				$this->db->where('branch_id',$branch_id);
+
+				$this->db->or_like('customer_name', $this->db->escape_like_str($keyword,'both'));
+				$this->db->where('branch_id',$branch_id);
+				
+			}else{
+				$this->db->where('branch_id',$branch_id);
+			}
+		}
+		else{
 			if(!empty($keyword)){
 				$this->db->like('invoice', $this->db->escape_like_str($keyword,'both'));
 				$this->db->where('user_id',$user_id);
@@ -2402,6 +2433,9 @@ class Action extends My_Model{
 			
 		if($user_status == 'store_owner'){
 			$this->db->where('store_owner_id',$store_owner_id);
+		}elseif($user_status =='manager'){
+			
+			$this->db->where('branch_id',$branch_id);
 		}else{
 			$this->db->where('user_id',$user_id);
 			$this->db->where('user_status',$user_status);
@@ -2435,6 +2469,12 @@ class Action extends My_Model{
 			
 		if($user_status == 'store_owner'){
 			$this->db->where('store_owner_id',$store_owner_id);
+			$this->db->where('day',date('d'));
+			$this->db->where('month',date('M'));
+			$this->db->where('year',date('Y'));
+		}elseif($user_status =='manager'){
+			
+			$this->db->where('branch_id',$branch_id);
 			$this->db->where('day',date('d'));
 			$this->db->where('month',date('M'));
 			$this->db->where('year',date('Y'));
@@ -2474,6 +2514,10 @@ class Action extends My_Model{
 			
 		if($user_status == 'store_owner'){
 			$this->db->where('store_owner_id',$store_owner_id);
+
+		}elseif($user_status =='manager'){
+			
+			$this->db->where('branch_id',$branch_id);
 		}else{
 			$this->db->where('user_id',$user_id);
 			$this->db->where('user_status',$user_status);
@@ -3970,19 +4014,19 @@ class Action extends My_Model{
 
 			if(!empty($keyword)){
 				$this->db->like('invoice', $this->db->escape_like_str($keyword,'both'));
-				$this->db->where('store_id',$store_id);
+				$this->db->where('store_owner_id',$store_owner_id);
 				$this->db->where('year',date('Y'));
 				$this->db->where('month',date('M'));
 				$this->db->where('day',date('d'));
 
 				$this->db->or_like('prod_name', $this->db->escape_like_str($keyword,'both'));
-				$this->db->where('store_id',$store_id);
+				$this->db->where('store_owner_id',$store_owner_id);
 				$this->db->where('year',date('Y'));
 				$this->db->where('month',date('M'));
 				$this->db->where('day',date('d'));
 
 				$this->db->or_like('customer_name', $this->db->escape_like_str($keyword,'both'));
-				$this->db->where('store_id',$store_id);
+				$this->db->where('store_owner_id',$store_owner_id);
 				$this->db->where('year',date('Y'));
 				$this->db->where('month',date('M'));
 				$this->db->where('day',date('d'));
@@ -4055,19 +4099,19 @@ class Action extends My_Model{
 		if($user_status == 'store_owner'){
 			if(!empty($keyword)){
 				$this->db->like('invoice', $this->db->escape_like_str($keyword,'both'));
-				$this->db->where('store_id',$store_id);
+				$this->db->where('store_owner_id',$store_owner_id);
 				$this->db->where('year',date('Y'));
 				$this->db->where('month',date('M'));
 				$this->db->where('day',date('d'));
 
 				$this->db->or_like('prod_name', $this->db->escape_like_str($keyword,'both'));
-				$this->db->where('store_id',$store_id);
+				$this->db->where('store_owner_id',$store_owner_id);
 				$this->db->where('year',date('Y'));
 				$this->db->where('month',date('M'));
 				$this->db->where('day',date('d'));
 
 				$this->db->or_like('customer_name', $this->db->escape_like_str($keyword,'both'));
-				$this->db->where('store_id',$store_id);
+				$this->db->where('store_owner_id',$store_owner_id);
 				$this->db->where('year',date('Y'));
 				$this->db->where('month',date('M'));
 				$this->db->where('day',date('d'));
@@ -4081,7 +4125,7 @@ class Action extends My_Model{
 		}else{
 			if(!empty($keyword)){
 				$this->db->like('invoice', $this->db->escape_like_str($keyword,'both'));
-				$this->db->where('user_id',$user_id);
+				// $this->db->where('user_id',$user_id);
 				$this->db->where('branch_id',$branch_id);
 				$this->db->where('user_status',$user_status);
 				$this->db->where('year',date('Y'));
@@ -4089,7 +4133,7 @@ class Action extends My_Model{
 				$this->db->where('day',date('d'));			
 
 				$this->db->or_like('prod_name', $this->db->escape_like_str($keyword,'both'));
-				$this->db->where('user_id',$user_id);
+				// $this->db->where('user_id',$user_id);
 				$this->db->where('branch_id',$branch_id);
 				$this->db->where('user_status',$user_status);
 				$this->db->where('year',date('Y'));
@@ -4097,7 +4141,7 @@ class Action extends My_Model{
 				$this->db->where('day',date('d'));
 
 				$this->db->or_like('customer_name', $this->db->escape_like_str($keyword,'both'));
-				$this->db->where('user_id',$user_id);
+				// $this->db->where('user_id',$user_id);
 				$this->db->where('branch_id',$branch_id);
 				$this->db->where('user_status',$user_status);
 				$this->db->where('year',date('Y'));
@@ -4105,7 +4149,7 @@ class Action extends My_Model{
 				$this->db->where('day',date('d'));
 				
 			}else{
-				$this->db->where('user_id',$user_id);
+				// $this->db->where('user_id',$user_id);
 				$this->db->where('branch_id',$branch_id);
 				$this->db->where('user_status',$user_status);
 				$this->db->where('year',date('Y'));
@@ -4142,21 +4186,21 @@ class Action extends My_Model{
 
 			if(!empty($keyword)){
 				$this->db->like('invoice', $this->db->escape_like_str($keyword,'both'));
-				$this->db->where('store_id',$store_id);
+				$this->db->where('store_owner_id',$store_owner_id);
 				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
 				$this->db->where('date_created <=', date('Y-m-d',strtotime($end_date)));
 
 				$this->db->or_like('prod_name', $this->db->escape_like_str($keyword,'both'));
-				$this->db->where('store_id',$store_id);
+				$this->db->where('store_owner_id',$store_owner_id);
 				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
 				$this->db->where('date_created <=', date('Y-m-d',strtotime($end_date)));
 
 				$this->db->or_like('customer_name', $this->db->escape_like_str($keyword,'both'));
-				$this->db->where('store_id',$store_id);
+				$this->db->where('store_owner_id',$store_owner_id);
 				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
 				$this->db->where('date_created <=', date('Y-m-d',strtotime($end_date)));
 			}else{
-				$this->db->where('store_id',$store_id);
+				$this->db->where('store_owner_id',$store_owner_id);
 				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
 				$this->db->where('date_created <=', date('Y-m-d',strtotime($end_date)));
 			}
@@ -4166,28 +4210,28 @@ class Action extends My_Model{
 
 			if(!empty($keyword)){
 				$this->db->like('invoice', $this->db->escape_like_str($keyword,'both'));
-				$this->db->where('user_id',$user_id);
+				// $this->db->where('user_id',$user_id);
 				$this->db->where('branch_id',$branch_id);
 				$this->db->where('user_status',$user_status);
 				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
 				$this->db->where('date_created <=', date('Y-m-d',strtotime($end_date)));
 
 				$this->db->or_like('prod_name', $this->db->escape_like_str($keyword,'both'));
-				$this->db->where('user_id',$user_id);
+				// $this->db->where('user_id',$user_id);
 				$this->db->where('branch_id',$branch_id);
 				$this->db->where('user_status',$user_status);
 				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
 				$this->db->where('date_created <=', date('Y-m-d',strtotime($end_date)));
 
 				$this->db->or_like('customer_name', $this->db->escape_like_str($keyword,'both'));
-				$this->db->where('user_id',$user_id);
+				// $this->db->where('user_id',$user_id);
 				$this->db->where('branch_id',$branch_id);
 				$this->db->where('user_status',$user_status);
 				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
 				$this->db->where('date_created <=', date('Y-m-d',strtotime($end_date)));
 				
 			}else{
-				$this->db->where('user_id',$user_id);
+				// $this->db->where('user_id',$user_id);
 				$this->db->where('branch_id',$branch_id);
 				$this->db->where('user_status',$user_status);
 				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
@@ -4216,50 +4260,50 @@ class Action extends My_Model{
 		if($user_status == 'store_owner'){
 			if(!empty($keyword)){
 				$this->db->like('invoice', $this->db->escape_like_str($keyword,'both'));
-				$this->db->where('store_id',$store_id);
+				$this->db->where('store_owner_id',$store_owner_id);
 				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
 				$this->db->where('date_created <=', date('Y-m-d',strtotime($end_date)));
 
 				$this->db->or_like('prod_name', $this->db->escape_like_str($keyword,'both'));
-				$this->db->where('store_id',$store_id);
+				$this->db->where('store_owner_id',$store_owner_id);
 				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
 				$this->db->where('date_created <=', date('Y-m-d',strtotime($end_date)));
 
 				$this->db->or_like('customer_name', $this->db->escape_like_str($keyword,'both'));
-				$this->db->where('store_id',$store_id);
+				$this->db->where('store_owner_id',$store_owner_id);
 				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
 				$this->db->where('date_created <=', date('Y-m-d',strtotime($end_date)));
 
 			}else{
-				$this->db->where('store_id',$store_id);
+				$this->db->where('store_owner_id',$store_owner_id);
 				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
 				$this->db->where('date_created <=', date('Y-m-d',strtotime($end_date)));
 			}
 		}else{
 			if(!empty($keyword)){
 				$this->db->like('invoice', $this->db->escape_like_str($keyword,'both'));
-				$this->db->where('user_id',$user_id);
+				// $this->db->where('user_id',$user_id);
 				$this->db->where('branch_id',$branch_id);
 				$this->db->where('user_status',$user_status);
 				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
 				$this->db->where('date_created <=', date('Y-m-d',strtotime($end_date)));		
 
 				$this->db->or_like('prod_name', $this->db->escape_like_str($keyword,'both'));
-				$this->db->where('user_id',$user_id);
+				// $this->db->where('user_id',$user_id);
 				$this->db->where('branch_id',$branch_id);
 				$this->db->where('user_status',$user_status);
 				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
 				$this->db->where('date_created <=', date('Y-m-d',strtotime($end_date)));
 
 				$this->db->or_like('customer_name', $this->db->escape_like_str($keyword,'both'));
-				$this->db->where('user_id',$user_id);
+				// $this->db->where('user_id',$user_id);
 				$this->db->where('branch_id',$branch_id);
 				$this->db->where('user_status',$user_status);
 				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
 				$this->db->where('date_created <=', date('Y-m-d',strtotime($end_date)));
 				
 			}else{
-				$this->db->where('user_id',$user_id);
+				// $this->db->where('user_id',$user_id);
 				$this->db->where('branch_id',$branch_id);
 				$this->db->where('user_status',$user_status);
 				$this->db->where('date_created >=', date('Y-m-d',strtotime($start_date)));
@@ -4300,6 +4344,63 @@ class Action extends My_Model{
 					}
 				}
 			}
+		}
+		return false;
+	}
+
+	public function check_if_my_plan_expire(){
+		$user_status		=$this->session->userdata('user_status');
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		$this->db->where('user_id',$store_owner_id);
+		$query			=$this->db->get('my_plan');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return	$row['status'];
+			}
+		}
+		return false;
+	}
+
+	public function get_current_plan_expiry_date(){
+		$user_status		=$this->session->userdata('user_status');
+
+		($user_status =='store_owner') ? 
+			$store_owner_id = $this->session->userdata('user_id') : 
+			$store_owner_id  =$this->session->userdata('store_owner_id');
+
+		$this->db->where('user_id',$store_owner_id);
+		$query			=$this->db->get('my_plan');
+		if($query->num_rows() > 0){
+			foreach($query->result_array() as $row){
+				return	$row['expire_date'];
+			}
+		}
+		return false;
+	}
+
+	public function get_current_plan_details(){
+		
+		$query			=$this->db->get('my_plan');
+		if($query->num_rows() > 0){
+			return $query->result_array();
+		}
+		return false;
+	}
+
+	public function update_user_plan_details($id,$user_id,$plan_id,$new_status){
+		$data	=array('status'=>$new_status);
+		$this->db->set($data);
+
+		$this->db->where('id',$id);
+		$this->db->where('user_id',$user_id);
+		$this->db->where('plan_id',$plan_id);
+		$this->db->update('my_plan');
+		if($this->db->affected_rows() > 0){
+			return true;
 		}
 		return false;
 	}

@@ -1,4 +1,5 @@
-<table class="table table-striped footable footable-1 footable-paging footable-paging-center breakpoint-lg" style="" id="dataItem">
+<div class="table-responsive">
+	<table class="table table-striped footable footable-1 footable-paging footable-paging-center breakpoint-lg" style="" id="dataItem">
 	<thead>
 		<tr class="footable-header">
 			<th class="footable-sortable footable-first-visible" style="display: table-cell;">
@@ -140,7 +141,7 @@
 	<tfoot>
 		
 	</tfoot>
-</table>
+</table></div>
 
 <?php 
     if(!is_array($get_info)){

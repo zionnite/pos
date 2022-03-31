@@ -30,6 +30,7 @@
 	$total_category						=$this->Action->get_total_category();
 	$get_total_supplier					=$this->Action->get_total_supplier();
 	$get_current_plan					=$this->Action->get_current_plan();
+	$check_if_plan_expired				=$this->Action->check_if_my_plan_expire();
 	
 
 
@@ -262,6 +263,17 @@
                
                 <strong>Current Plan: <?php echo $get_current_plan;?></strong> 
             </div>
+
+			<?php
+				if($check_if_plan_expired =='expire'){
+			?>
+
+			<div class="alert alert-danger background-danger">
+               
+                <strong>Your Plan Has Expired!</strong> 
+				<a href="<?php echo base_url();?>Plans" class="label label-inverse">Make Payment</a>
+            </div>
+			<?php } ?>
 
 			<div class="row">
 				<div class="col-xl-8 col-md-12">

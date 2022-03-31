@@ -41,8 +41,12 @@ class Register extends My_Controller {
 						redirect('Register');
 					}else{
 
+						$get_site_name      	=$this->Admin_db->get_site_name();
+						$get_site_g_name        =$this->Admin_db->get_site_g_name();
+						$get_site_g_pass        =$this->Admin_db->get_site_g_pass();
+
 						$title	='Welcome';
-						$message    ='Hello, '.$full_name.' Welcome to '$get_site_name.', we hope you find everything you are look for!';
+						$message    ='Hello, '.$full_name.' Welcome to '.$get_site_name.', we hope you find everything you are look for!';
 
 
 						$current_domain 		= $_SERVER['SERVER_NAME'];

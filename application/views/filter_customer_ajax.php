@@ -1,3 +1,4 @@
+<div class="table-responsive">
 <table class="table table-striped footable footable-1 footable-paging footable-paging-center breakpoint-lg" style="">
 <thead>
 		<tr class="footable-header">
@@ -141,7 +142,7 @@
 	<tfoot>
 		
 	</tfoot>
-</table>
+</table></div>
 
 <?php 
     if(!is_array($get_info)){

@@ -40,7 +40,15 @@
 						</div>
 					</div>
 				</div>
+				<div class="col-md-12">
+					<a href="javascript:;" id="toggle_calculater" class="label label-danger col-md-1" style="float:right; margin-bottom:1%;">
+						Toggle Calculator
+					</a>
 
+					<div id="cal" style="display:none;">
+						<?php $this->load->view('calculator');?>
+					</div>
+				</div>
 				<div class="col-md-12 dataList" id="dataList">
 					
                         
@@ -259,6 +267,7 @@
 
 
 
+
 <script type="text/javascript" src="<?php echo base_url();?>files/bower_components/jquery/dist/jquery.min.js"></script>
 
 
@@ -303,6 +312,14 @@
     });
 </script>
 
+
+<script>
+	$(document).ready(function(){
+		$('#toggle_calculater').click(function(){
+			$('#cal').toggle();
+		});
+	});
+</script>
 
 
 

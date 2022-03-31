@@ -293,11 +293,9 @@ class Sales_report extends My_Controller{
 			$store_owner_id = $this->session->userdata('user_id') : 
 			$store_owner_id  =$this->session->userdata('store_owner_id');
 
-		if($user_status		=='store_owner'){
-
 			($user_status =='store_owner') ? 
 			$action 	= $this->Action->get_my_store_sales_rep($user_id) : 
-			$action  	=$this->Action->get_my_store_sales_rep_filter_by_branch_id($store_owner_id,$branch_id);
+			$action  	=$this->Action->get_my_store_sales_rep_filter_by_branch_id($store_id,$branch_id);
 
 			$delimiter = ","; 
 			$filename = "list_of_sales_rep_" . date('Y-m-d') . ".csv"; 
@@ -342,13 +340,13 @@ class Sales_report extends My_Controller{
 
 			
      
-		// Set headers to download file rather than displayed 
-		header('Content-Type: text/csv'); 
-		header('Content-Disposition: attachment; filename="' . $filename . '";'); 
+			// Set headers to download file rather than displayed 
+			header('Content-Type: text/csv'); 
+			header('Content-Disposition: attachment; filename="' . $filename . '";'); 
+			
+			//output all remaining data on a file pointer 
+			fpassthru($f); 
 		
-		//output all remaining data on a file pointer 
-		fpassthru($f); 
-		}
 		exit;
 	}
 
@@ -363,9 +361,8 @@ class Sales_report extends My_Controller{
 			$store_owner_id = $this->session->userdata('user_id') : 
 			$store_owner_id  =$this->session->userdata('store_owner_id');
 
-		if($user_status		=='store_owner'){
 
-			($user_status =='store_owner') ? 
+		($user_status =='store_owner') ? 
 			$action 	= $this->Action->get_all_store_owner_customer($user_id) : 
 			$action  	=$this->Action->get_my_store_customer_by_branch_id($store_owner_id,$branch_id);
 
@@ -418,7 +415,7 @@ class Sales_report extends My_Controller{
 		
 		//output all remaining data on a file pointer 
 		fpassthru($f); 
-		}
+		
 		exit;
 	}
 
@@ -433,9 +430,8 @@ class Sales_report extends My_Controller{
 			$store_owner_id = $this->session->userdata('user_id') : 
 			$store_owner_id  =$this->session->userdata('store_owner_id');
 
-		if($user_status		=='store_owner'){
 
-			($user_status =='store_owner') ? 
+		($user_status =='store_owner') ? 
 			$action 	= $this->Action->get_all_store_owner_supplier($user_id) : 
 			$action  	=$this->Action->get_my_store_supplier_by_branch_id($store_owner_id,$branch_id);
 
@@ -489,7 +485,7 @@ class Sales_report extends My_Controller{
 		
 		//output all remaining data on a file pointer 
 		fpassthru($f); 
-		}
+		
 		exit;
 	}
 
@@ -504,7 +500,6 @@ class Sales_report extends My_Controller{
 			$store_owner_id = $this->session->userdata('user_id') : 
 			$store_owner_id  =$this->session->userdata('store_owner_id');
 
-		if($user_status		=='store_owner'){
 
 			($user_status =='store_owner') ? 
 			$action 	= $this->Action->get_all_store_owner_product_in_stock($user_id) : 
@@ -549,7 +544,7 @@ class Sales_report extends My_Controller{
 		
 		//output all remaining data on a file pointer 
 		fpassthru($f); 
-		}
+		
 		exit;
 	}
 
@@ -564,7 +559,6 @@ class Sales_report extends My_Controller{
 			$store_owner_id = $this->session->userdata('user_id') : 
 			$store_owner_id  =$this->session->userdata('store_owner_id');
 
-		if($user_status		=='store_owner'){
 
 			($user_status =='store_owner') ? 
 			$action 	= $this->Action->get_all_store_owner_product_out_stock($user_id) : 
@@ -610,7 +604,7 @@ class Sales_report extends My_Controller{
 		
 		//output all remaining data on a file pointer 
 		fpassthru($f); 
-		}
+		
 		exit;
 	}
 
@@ -625,7 +619,6 @@ class Sales_report extends My_Controller{
 			$store_owner_id = $this->session->userdata('user_id') : 
 			$store_owner_id  =$this->session->userdata('store_owner_id');
 
-		if($user_status		=='store_owner'){
 
 			($user_status =='store_owner') ? 
 			$action 	= $this->Action->get_all_store_owner_transaction_history($user_id) : 
@@ -684,7 +677,7 @@ class Sales_report extends My_Controller{
 		
 		//output all remaining data on a file pointer 
 		fpassthru($f); 
-		}
+		
 		exit;
 	}
 
@@ -700,7 +693,6 @@ class Sales_report extends My_Controller{
 			$store_owner_id = $this->session->userdata('user_id') : 
 			$store_owner_id  =$this->session->userdata('store_owner_id');
 
-		if($user_status		=='store_owner'){
 
 			$action 	= $this->Action->generate_product_in_stock_by_params($type,$id);
 		
@@ -744,7 +736,7 @@ class Sales_report extends My_Controller{
 		
 		//output all remaining data on a file pointer 
 		fpassthru($f); 
-		}
+		
 		exit;
 	}
 
@@ -760,7 +752,6 @@ class Sales_report extends My_Controller{
 			$store_owner_id = $this->session->userdata('user_id') : 
 			$store_owner_id  =$this->session->userdata('store_owner_id');
 
-		if($user_status		=='store_owner'){
 
 			$action 	= $this->Action->generate_product_out_stock_by_params($type,$id);
 		
@@ -804,7 +795,7 @@ class Sales_report extends My_Controller{
 		
 		//output all remaining data on a file pointer 
 		fpassthru($f); 
-		}
+		
 		exit;
 	}
 
@@ -819,7 +810,6 @@ class Sales_report extends My_Controller{
 			$store_owner_id = $this->session->userdata('user_id') : 
 			$store_owner_id  =$this->session->userdata('store_owner_id');
 
-		if($user_status		=='store_owner'){
 
 			$action 	= $this->Action->generate_customer_by_params($type,$id);
 
@@ -872,7 +862,7 @@ class Sales_report extends My_Controller{
 		
 		//output all remaining data on a file pointer 
 		fpassthru($f); 
-		}
+		
 		exit;
 	}
 
@@ -887,7 +877,6 @@ class Sales_report extends My_Controller{
 			$store_owner_id = $this->session->userdata('user_id') : 
 			$store_owner_id  =$this->session->userdata('store_owner_id');
 
-		if($user_status		=='store_owner'){
 
 			$action 	= $this->Action->generate_supplier_by_params($type,$id); 
 
@@ -941,7 +930,7 @@ class Sales_report extends My_Controller{
 		
 		//output all remaining data on a file pointer 
 		fpassthru($f); 
-		}
+		
 		exit;
 	}
 
@@ -1019,11 +1008,10 @@ class Sales_report extends My_Controller{
 			$store_owner_id = $this->session->userdata('user_id') : 
 			$store_owner_id  =$this->session->userdata('store_owner_id');
 
-		if($user_status		=='store_owner'){
 
 			($user_status =='store_owner') ? 
 			$action 	= $this->Action->get_my_store_sales_rep($user_id) : 
-			$action  	=$this->Action->get_my_store_sales_rep_filter_by_branch_id($store_owner_id,$branch_id);
+			$action  	=$this->Action->get_my_store_sales_rep_filter_by_branch_id($store_id,$branch_id);
 
 			$fileName = "list_of_sales_rep" . date('Y-m-d') . ".xls"; 
 
@@ -1064,7 +1052,7 @@ class Sales_report extends My_Controller{
 			
 			// Render excel data 
 			echo $excelData; 
-		}
+		
 		exit;
 	}
 
@@ -1079,9 +1067,8 @@ class Sales_report extends My_Controller{
 			$store_owner_id = $this->session->userdata('user_id') : 
 			$store_owner_id  =$this->session->userdata('store_owner_id');
 
-		if($user_status		=='store_owner'){
 
-			($user_status =='store_owner') ? 
+		($user_status =='store_owner') ? 
 			$action 	= $this->Action->get_all_store_owner_customer($user_id) : 
 			$action  	=$this->Action->get_my_store_customer_by_branch_id($store_owner_id,$branch_id);
 
@@ -1123,7 +1110,7 @@ class Sales_report extends My_Controller{
 			
 			// Render excel data 
 			echo $excelData; 
-		}
+		
 		exit;
 	}
 
@@ -1138,7 +1125,6 @@ class Sales_report extends My_Controller{
 			$store_owner_id = $this->session->userdata('user_id') : 
 			$store_owner_id  =$this->session->userdata('store_owner_id');
 
-		if($user_status		=='store_owner'){
 
 			($user_status =='store_owner') ? 
 			$action 	= $this->Action->get_all_store_owner_supplier($user_id) : 
@@ -1183,7 +1169,7 @@ class Sales_report extends My_Controller{
 			
 			// Render excel data 
 			echo $excelData; 
-		}
+		
 		exit;
 	}
 
@@ -1198,9 +1184,8 @@ class Sales_report extends My_Controller{
 			$store_owner_id = $this->session->userdata('user_id') : 
 			$store_owner_id  =$this->session->userdata('store_owner_id');
 
-		if($user_status		=='store_owner'){
 
-			($user_status =='store_owner') ? 
+		($user_status =='store_owner') ? 
 			$action 	= $this->Action->get_all_store_owner_product_in_stock($user_id) : 
 			$action  	=$this->Action->get_my_store_product_in_by_branch_id($store_owner_id,$branch_id);
 
@@ -1232,7 +1217,7 @@ class Sales_report extends My_Controller{
 			
 			// Render excel data 
 			echo $excelData; 
-		}
+		
 		exit;
 	}
 
@@ -1247,7 +1232,6 @@ class Sales_report extends My_Controller{
 			$store_owner_id = $this->session->userdata('user_id') : 
 			$store_owner_id  =$this->session->userdata('store_owner_id');
 
-		if($user_status		=='store_owner'){
 
 			($user_status =='store_owner') ? 
 			$action 	= $this->Action->get_all_store_owner_product_out_stock($user_id) : 
@@ -1280,7 +1264,7 @@ class Sales_report extends My_Controller{
 			
 			// Render excel data 
 			echo $excelData; 
-		}
+		
 		exit;
 	}
 
@@ -1295,7 +1279,6 @@ class Sales_report extends My_Controller{
 			$store_owner_id = $this->session->userdata('user_id') : 
 			$store_owner_id  =$this->session->userdata('store_owner_id');
 
-		if($user_status		=='store_owner'){
 
 			($user_status =='store_owner') ? 
 			$action 	= $this->Action->get_all_store_owner_transaction_history($user_id) : 
@@ -1342,7 +1325,7 @@ class Sales_report extends My_Controller{
 			
 			// Render excel data 
 			echo $excelData; 
-		}
+		
 		exit;
 	}
 
@@ -1358,7 +1341,6 @@ class Sales_report extends My_Controller{
 			$store_owner_id = $this->session->userdata('user_id') : 
 			$store_owner_id  =$this->session->userdata('store_owner_id');
 
-		if($user_status		=='store_owner'){
 
 			$action 	= $this->Action->generate_product_in_stock_by_params($type,$id);
 		
@@ -1388,7 +1370,7 @@ class Sales_report extends My_Controller{
 			
 			// Render excel data 
 			echo $excelData;
-		}
+		
 		exit;
 	}
 
@@ -1404,7 +1386,6 @@ class Sales_report extends My_Controller{
 			$store_owner_id = $this->session->userdata('user_id') : 
 			$store_owner_id  =$this->session->userdata('store_owner_id');
 
-		if($user_status		=='store_owner'){
 
 			$action 	= $this->Action->generate_product_out_stock_by_params($type,$id);
 		
@@ -1434,7 +1415,7 @@ class Sales_report extends My_Controller{
 			
 			// Render excel data 
 			echo $excelData;
-		}
+		
 		exit;
 	}
 
@@ -1449,7 +1430,6 @@ class Sales_report extends My_Controller{
 			$store_owner_id = $this->session->userdata('user_id') : 
 			$store_owner_id  =$this->session->userdata('store_owner_id');
 
-		if($user_status		=='store_owner'){
 
 			$action 	= $this->Action->generate_customer_by_params($type,$id);
 
@@ -1489,9 +1469,10 @@ class Sales_report extends My_Controller{
 			
 			// Render excel data 
 			echo $excelData; 
-		}
+		
 		exit;
 	}
+
 	public function generate_report_supplier_by_params_excel($type=NULL,$id=NULL){
 		$user_id			=$this->session->userdata('user_id');
 		$user_status		=$this->session->userdata('user_status');
@@ -1503,7 +1484,6 @@ class Sales_report extends My_Controller{
 			$store_owner_id = $this->session->userdata('user_id') : 
 			$store_owner_id  =$this->session->userdata('store_owner_id');
 
-		if($user_status		=='store_owner'){
 
 			$action 	= $this->Action->generate_supplier_by_params($type,$id); 
 
@@ -1543,7 +1523,7 @@ class Sales_report extends My_Controller{
 			 
 			// Render excel data 
 			echo $excelData; 
-		}
+		
 		exit;
 	}
 

@@ -77,12 +77,28 @@ class Admin_db extends My_Model{
 			return FALSE;
 		}
     }
+
+    public function delete_user_from_plan_if_existed($user_id){
+        $this->db->where('user_id',$user_id);
+        $this->db->get('my_plan');
+        if($this->db->affected_rows() > 0){
+            $this->db->where('user_id',$user_id);
+            $this->db->delete('my_plan');
+        }
+        return false;
+    }
     public function select_plan($v_id,$v_plan_id,$v_name,$v_phone,$v_email,$v_amount,$p_tx_ref,$p_trans_id){
+        //delete user, if user exist
+        $this->delete_user_from_plan_if_existed($v_id);
+
+        $date_created       =date('Y-m-d H:i:sa');
+        $expire_date        =date('Y-m-d H:i:sa', strtotime('+1 years'));
         $data   =array('user_id'=>$v_id,
                        'plan_id'=>$v_plan_id,
                        'status'=>'active',
                        'time'=>time(),
-                       'date_created'=>date('Y-m-d H:i:sa'),
+                       'date_created'=>$date_created,
+                       'expire_date'    =>$expire_date,
                        'ref'=>$p_tx_ref,
                        'trans_id'=>$p_trans_id,
                        'amount'=>$v_amount,
@@ -543,6 +559,120 @@ class Admin_db extends My_Model{
         elseif($number <='9'){
     
             return $number ='5';
+        }
+    }
+
+    public function insert_message($sender,$receiver,$message,$title){
+        $data           =array('sender'=>$sender,'reciever'=>$receiver,'title'=>$title,'message'=>$message,'time'=>time(),'date_created'=>date('Y-m-d H:i:sa'));
+        $this->db->set($data);
+        $this->db->insert('messages');
+        if($this->db->affected_rows() > 0){
+            return true;
+        }
+        return false;
+    }
+
+    public function count_my_messages($email){
+        $user_status           =$this->session->userdata('user_status');
+
+     
+            $this->db->where('reciever',$email);
+            return $this->db->from('messages')->count_all_results();
+        
+        
+    }
+
+    public function get_my_messages_limit_by_5($email){
+        $user_status           =$this->session->userdata('user_status');
+        
+            $this->db->where('reciever',$email);
+            $this->db->order_by('id','desc');
+            $this->db->limit(5);
+            $query      =$this->db->get('messages');
+            if($query->num_rows() > 0){
+                return $query->result_array();
+            }
+            return false;
+        
+        
+    }
+    public function get_my_messages($email){
+        $user_status           =$this->session->userdata('user_status');
+        
+        
+            $this->db->where('reciever',$email);
+            $this->db->order_by('id','desc');
+            $this->db->limit(5);
+            $query      =$this->db->get('messages');
+            if($query->num_rows() > 0){
+                return $query->result_array();
+            }
+            return false;
+        
+    }
+
+    public function delete_msg($id){
+        $this->db->where('id',$id);
+        $this->db->delete('messages');
+        if($this->db->affected_rows() > 0){
+            return true;
+        }
+        return false;
+    }
+
+    public function get_user_name($email){
+        $this->db->where('email',$email);
+        $query      =$this->db->get('login_tbl');
+        if($query->num_rows() > 0){
+            foreach($query->result_array() as $row){
+                $user_status        =$row['user_status'];
+
+                if($user_status =='admin'){
+
+                    $this->db->where('email',$email);
+                    $query      =$this->db->get('admin');
+                    if($query->num_rows() > 0){
+                        foreach($query->result_array() as $row){
+                            return $row['user_name'];
+                        }
+                    }
+                    return false;
+
+                }elseif($user_status    =='store_owner'){
+
+                    $this->db->where('email',$email);
+                    $query      =$this->db->get('store_owner');
+                    if($query->num_rows() > 0){
+                        foreach($query->result_array() as $row){
+                            return $row['full_name'];
+                        }
+                    }
+                    return false;
+
+                }elseif($user_status    =='manager'){
+
+                    $this->db->where('email',$email);
+                    $query      =$this->db->get('supervisor');
+                    if($query->num_rows() > 0){
+                        foreach($query->result_array() as $row){
+                            return $row['name'];
+                        }
+                    }
+                    return false;
+                    
+                }elseif($user_status    =='sales_rep'){
+
+                    $this->db->where('email',$email);
+                    $query      =$this->db->get('sales_rep');
+                    if($query->num_rows() > 0){
+                        foreach($query->result_array() as $row){
+                            return $row['name'];
+                        }
+                    }
+                    return false;
+
+                }
+            }
         }
     }
 }

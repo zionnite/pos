@@ -19,6 +19,14 @@ $count_product_out_stock 			=$this->Action->count_total_product_out_of_stock();
 				
 			</li>
 
+			<li class="<?php if($this->uri->segment(1) =='Plans'){echo $active; }?> pcoded-trigger">
+				<a href="<?php echo base_url();?>Plans">
+					<span class="pcoded-micon"><i class="fa fa-bolt"></i></span>
+					<span class="pcoded-mtext">Plan</span>
+				</a>
+				
+			</li>
+
 			<li class="<?php if($this->uri->segment(2) =='open_store'){echo $active; }?>">
 				<a href="<?php echo base_url();?>Store_Owner/open_store">
 					<span class="pcoded-micon"><i class="feather icon-sidebar"></i></span>

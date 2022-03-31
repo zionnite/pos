@@ -38,8 +38,9 @@
                             <div class="form-group row">
 								<label class="col-sm-2 col-form-label">To</label>
 								<div class="col-sm-10">
-									<input type="text" id="email" name="email" readonly class="form-control" required value="<?php echo $sub_email;?>">
-									
+									<input type="text" id="email" readonly class="form-control" required value="<?php echo $sub_email;?>">
+									<input type="hidden" name="email" value="<?php echo $sub_email;?>">
+									<input type="hidden" name="sender" value="<?php echo $sender;?>">
 								</div>
 							</div>
 
@@ -96,7 +97,7 @@
 
 					
 					$.ajax({
-						url: '<?php echo base_url();?>Messages/send_message',
+						url: '<?php echo base_url();?>Messages/send_msg',
 						type: "post",
 						data: new FormData(this),
 						processData: false,

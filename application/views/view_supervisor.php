@@ -82,7 +82,7 @@
 								</div>
 
 							</div>
-
+							<div class="table-responsive">
 							<table id="demo-foo-filtering"
 								class="table table-striped footable footable-1 footable-paging footable-paging-center breakpoint-lg"
 								style="">
@@ -630,6 +630,8 @@
 						}
 					?>
 								</tbody>
+							</table>
+							</div>
 						</div>
 					</div>
 

@@ -75,3 +75,15 @@
 </script>
 
 
+
+<div id="cal" style="display:none;">
+	<?php $this->load->view('calculator_2');?>
+</div>
+
+<script>
+	$(document).ready(function(){
+		$('#toggle_cal').click(function(){
+			$('#cal').toggle();
+		});
+	});
+</script>
